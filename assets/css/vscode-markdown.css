@@ -1,0 +1,159 @@
+/* © 2020 YexuanXiao LICENSE: mysteriouspreserve.com/LICENSE */
+/* define article content styles for vscode markdown. */
+
+p {
+	margin-block-start: 1em;
+}
+
+code {
+	font-family: Roboto Mono, Monaco, courier, SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace !important;
+	vertical-align: middle;
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
+}
+
+.highlight {
+	margin: .5em 0 .5em 0;
+}
+
+table {
+	width: -webkit-fill-available;
+	width: -moz-available;
+}
+
+li {
+	margin-bottom: .5em;
+}
+
+/* fix inline image align */
+
+img {
+	vertical-align: text-bottom;
+	margin: .5em 0;
+}
+
+h2 {
+	font-weight: 650;
+	font-size: 1.7rem;
+	margin: 1em 0 1em 0;
+}
+
+h3 {
+	font-weight: 600;
+	font-size: 1.5rem;
+	margin: .75em 0 .75em 0;
+}
+
+h4 {
+	font-weight: 550;
+	font-size: 1.3rem;
+	margin: .5em 0 .5em 0;
+}
+
+.small {
+	font-size: .9em;
+}
+
+.little {
+	font-size: .8em;
+}
+
+.tiny {
+	font-size: .7em;
+}
+
+.big {
+	font-size: 1.2em;
+}
+
+.large {
+	font-weight: 700;
+	font-size: 1.5rem;
+}
+
+.right {
+	text-align: right;
+}
+
+.copyright {
+	margin: 0 1em;
+	color: #999;
+	font-size: .8em;
+	line-height: 2em;
+}
+
+.center {
+	text-align: center;
+}
+
+.pic-comment, pick {
+	min-width: 20%;
+	min-height: 2em;
+	display: block;
+	padding: .6em;
+	margin: 0 auto;
+	border-bottom: 1px solid #eee;
+	font-size: .8em;
+	color: #999;
+	text-align: center;
+}
+
+q, blockquote {
+	border-left: .25em solid #ddd;
+	background-color: #fff;
+	padding: 0 .5em 0 1em;
+}
+
+ul {
+	list-style-type: none;
+	margin-left: 2em;
+}
+
+ul ul {
+	list-style-type: none;
+}
+
+ul ul ul {
+	list-style-type: none;
+}
+
+.post-category {
+	font-size: .75em;
+	text-align: right;
+	padding: 0 1em;
+}
+
+img[title='canisdark'] {
+	filter: invert(1);
+}
+
+sup[role='doc-noteref'], li[role='doc-endnote'], a[id] {
+	scroll-margin-top: 150px;
+}
+
+.footnote {
+	font-weight: 600;
+}
+
+.footnotes {
+	font-size: .85em;
+	margin: 1em 0;
+}
+
+/* heimu */
+
+.heimu, heimu {
+	background-color: #252525;
+	color: #252525;
+	text-shadow: none;
+	-moz-user-select: text;
+	-webkit-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
+}
+
+.heimu:hover, heimu:hover {
+	color: #FFF;
+}

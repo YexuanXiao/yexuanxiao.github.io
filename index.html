@@ -1,0 +1,30 @@
+---
+layout: default
+title: Home Page
+---
+
+<article>
+	<ul>
+		{% for post in paginator.posts %}
+		<li class="box">
+			<div class="post-text">
+				{% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+				<div>
+					<a class="post-link" href="{{ site.alternateurl }}{{ post.url }}">
+						<h3 class="post-title">
+							{{ post.title | escape }}
+						</h3>
+					</a>
+					<time class="date is-size-7" datetime="{{ page.date }}">
+						{{ post.date | date: date_format }}
+					</time>
+				</div>
+				<p class="post m-4">
+					{{ post.excerpt | strip_html | escape | strip_newlines | remove: "　　" }}
+				</p>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</article>
+{% include pagination.html %}

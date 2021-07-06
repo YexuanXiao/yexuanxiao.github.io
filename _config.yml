@@ -1,0 +1,48 @@
+# Copyright (c) 2016 - 2020 YexuanXiao
+permalink: pretty
+paginate: 6
+paginate_path: "/page/:num"
+excerpt_separator: '<!-- more -->'
+plugins: [jekyll-paginate]
+
+title: M.P.O.
+tagline: Code, Novel, Philosophy
+
+author:
+  name: YexuanXiao
+  email: bizwen@nykz.org
+  github: YexuanXiao
+  twitter: YexuanXiao
+  github: YexuanXiao
+  weibo: xiaoyexuan
+  title: 宅男，菜鸡 Web 前端，C++ 工程师<br>HiFi 退烧中
+  comment: 最喜欢<br>漫画：潘多拉之心<br>动画：魔法少女小圆<br>剧场动画：空之境界
+description: M.P.O. Site
+copyright: M.P.O.
+
+# open live2d
+
+live2d: true
+
+# jekyll and github-page will auto generate url (site.url) using domain or localhost + port
+# alternateurl is placeholder for optional url location
+# keep alternateurl empty, or replace with url when needed, such as sitemap or rss
+url:
+alternateurl:
+
+# Set timezone (Asia/Shanghai)
+timezone: '+0800'
+
+# Valine.
+# You can get your appid and appkey from https://leancloud.app
+# more info please open https://valine.js.org
+valine:
+  enable: true
+  appid:  w15Wts6KIAQqMGHMtD22pCqP-MdYXbMMI
+  appkey: 6dYGhH6K1lIU6nRVEbbcgbwL
+  avatar: # gravatar style
+  placeholder: 在此处留下你的评论 (昵称输入 QQ 号可自动获取头像和昵称) # comment box placeholder
+  guest_info: 昵称,邮件,网址 # custom comment header
+  pageSize: 10 # pagination size
+  recordIP: true # 是否记录评论者IP
+  enableQQ: ture # 是否启用昵称框自动获取QQ昵称和QQ头像, 默认关闭

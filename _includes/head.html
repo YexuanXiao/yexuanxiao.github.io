@@ -1,0 +1,52 @@
+<head>
+	<meta charset="utf-8">
+	<link href="http://gmpg.org/xfn/11" rel="profile">
+	<link href="{{ site.alternateurl }}/assets/manifest.webmanifest" rel="manifest">
+	<meta name="keywords" content="{{ site.tagline }}{% if page.layout == 'post' %}{% assign tags = page.tags %}{% for tag in tags %} ,{{ tag }}{% unless forloop.last %}
+	{% endunless %}{% endfor %}{% endif %}">
+	<meta name="description" content="{{ site.description }}">
+	<meta name="color-scheme" content="dark light">
+	<meta http-equiv="content-security-policy" content="upgrade-insecure-requests">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Style Sheets -->
+	{% include darkmode.html %}
+	<!-- use jsDelivr CDN instead of local file -->
+	<link rel="stylesheet preload" as="style" href="//cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+	<link rel="stylesheet preload" as="style" href="//cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+	<link rel="stylesheet preload" as="style" href="{{ site.alternateurl }}/assets/css/custom.css">
+	<link rel="stylesheet" as="style" href="{{ site.alternateurl }}/assets/fontawesome/localfontawesome.css">
+	{% if page.layout == 'post' %}
+	<link rel="stylesheet preload" as="style" href="{{ site.alternateurl }}/assets/css/extension.css">
+	<link rel="stylesheet preload" as="style" href="{{ site.alternateurl }}/assets/css/syntax.css">
+	<!-- Local Fonts -->
+	<link rel="stylesheet preload" as="style" href="{{ site.alternateurl }}/assets/fonts/OpenSans.css">
+	<link rel="stylesheet preload" as="style" href="{{ site.alternateurl }}/assets/fonts/DroidSans.css">
+	<link rel="stylesheet preload" as="style" href="{{ site.alternateurl }}/assets/fonts/Roboto.css">
+	<link rel="stylesheet preload" as="font" crossorigin="crossorigin" type="font/woff2"
+		href="{{ site.alternateurl }}/assets/fonts/droidsans/v12/SlGVmQWMvZQIdix7AFxXkHNSbQ.woff2">
+	<link rel="stylesheet preload" as="font" crossorigin="crossorigin" type="font/woff2"
+		href="{{ site.alternateurl }}/assets/fonts/roboto/v20/KFOmCnqEu92Fr1Mu4mxK.woff2">
+	{% endif %}
+	<!-- Icon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ site.alternateurl }}/assets/images/apple-touch-icon.png">
+	<link rel="icon" sizes="192x192" href="{{ site.alternateurl }}/assets/images/favicon-192x192.png">
+	<link rel="icon" sizes=512x512" href="{{ site.alternateurl }}/assets/images/favicon-512x512.png">
+	<link rel="shortcut icon" href="{{ site.alternateurl }}/assets/images/favicon.png">
+	<meta name="theme-color" content="#ffffff">
+	<!-- RSS/Atom -->
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ site.alternateurl }}/rss.xml">
+	<!-- Music Player -->
+	<link rel="stylesheet preload" as="style" href="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+	<title>
+		{% if page.title == 'Home Page' %}
+		{{ site.description }} | {{ site.tagline }}
+		{% else %}
+		{{ page.title }} | {{ site.description }}
+		{% endif %}
+	</title>
+	{% if page.layout == 'post' %}
+	{% if page.math == 'true' %}
+	{% include math-tex.html %}
+	{% endif %}
+	{% endif %}
+</head>

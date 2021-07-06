@@ -1,0 +1,42 @@
+---
+layout: page
+title: Categories
+permalink: /categories
+---
+
+<div class="site-page post-text">
+	<article>
+		{% for category in site.categories %}
+		<div class="categories">
+			{% capture category_name %}{{ category | first }}{% endcapture %}
+			<div id="#{{ category_name | slugize }}">
+			</div>
+			<p>
+			</p>
+			<h2 id="{{ category_name }}">
+				{{ category_name }}
+			</h2>
+			<a id="{{ category_name | slugize }}">
+			</a>
+			<ul>
+				{% for post in site.categories[category_name] %}
+				<li class="categories-item">
+					<a href="{{ site.alternateurl }}{{ post.url }}">
+						{{ post.title }}
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% endfor %}
+	</article>
+</div>
+<br>
+<style>
+	.categories-item {
+		font-weight: 500 !important;
+		font-size: 1em !important;
+		margin-left: 2em !important;
+		list-style: none !important;
+	}
+</style>

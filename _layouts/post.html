@@ -1,0 +1,56 @@
+---
+layout: default
+---
+<div class="box">
+	<div class="post-text">
+		<article>
+			<h1 class="post-title is-size-4">
+				{{ page.title }}
+			</h1>
+			<span>
+				<time class="date is-size-7" datetime="{{ page.date }}">
+					{{ page.date | date: "%-d %B, %Y. A %A." }}
+				</time>
+			</span>
+			<div class="post-category">
+				<a href="{{ site.alternateurl }}/categories#{{ page.categories | slugize }}">
+					{{ page.categories }}
+				</a>
+			</div>
+			<hr>
+			<div>
+				{{ content }}
+			</div>
+		</article>
+		<br>
+		<hr>
+		{% for categorie in page.categories %}{% if categorie == 'blog' %}
+		<br>
+		<div align="center">
+			<p>
+				除特殊声明外，本文以
+				<a href="//creativecommons.org/licenses/by-sa/3.0/deed.zh">
+					CC BY-SA 3.0 许可协议
+				</a>
+				提供。
+			</p>
+		</div>
+		<br>
+		<hr>
+		{% endif %}{% endfor %}
+		<br>
+		<div class="post-tags" align="center">
+			{% if post.tags %}
+			{% assign tags = post.tags %}
+			{% else %}
+			{% assign tags = page.tags %}
+			{% endif %}
+			{% for tag in tags %}
+			<a href="{{ site.alternateurl }}/tags#{{ tag }}"># {{ tag }}
+			</a>
+			{% unless forloop.last %} {% endunless %}
+			{% endfor %}
+		</div>
+		{% include post-pagination.html %}
+	</div>
+</div>

@@ -1,0 +1,39 @@
+.fa-icon {
+	width: 25px;
+	height: 25px;
+	background-size: contain;
+	background-repeat: no-repeat
+}
+
+.fa-icon-inline {
+	width: 1em;
+	height: 1em;
+	background-size: contain;
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	display: inline-block
+}
+
+.fa-envelope {
+	background-image: url(/assets/fontawesome/svgs/envelope.svg)
+}
+
+.fa-github {
+	background-image: url(/assets/fontawesome/svgs/github.svg)
+}
+
+.fa-weibo {
+	background-image: url(/assets/fontawesome/svgs/weibo.svg)
+}
+
+.fa-home {
+	background-image: url(/assets/fontawesome/svgs/home.svg)
+}
+
+.fa-balance {
+	background-image: url(/assets/fontawesome/svgs/balance.svg)
+}
+
+.fa-rss {
+	background-image: url(/assets/fontawesome/svgs/rss.svg)
+}

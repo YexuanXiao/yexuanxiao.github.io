@@ -1,0 +1,23 @@
+---
+layout: null
+---
+{
+	"name": "{{ site.title | escape }}",
+	"short_name": "M.P.O.",
+	"description": "{{ site.description | escape }}",
+	"scope": "/",
+	"display": "standalone",
+	"background_color": "#FFFFFF",
+	"theme_color": "#FFFFFF",
+	"icons": [{
+		"src": "/assets/images/favicon-512x512.png",
+		"sizes": "512x512",
+		"type": "image/png",
+		"purpose": "any maskable"
+	}, {
+		"src": "/assets/images/favicon-192x192.png",
+		"sizes": "192x192",
+		"type": "image/png",
+		"purpose": "any maskable"
+	}]
+}

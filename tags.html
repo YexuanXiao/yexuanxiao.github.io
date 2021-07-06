@@ -1,0 +1,63 @@
+---
+layout: page
+title: Tags
+permalink: /tags
+---
+
+<div class="site-page">
+	<article>
+		<div>
+			{% for tag in site.tags %}
+			<span class="post-tags">
+				<a href="#{{ tag | first }}">
+					# {{ tag | first }} : {{ tag | last | size }}
+				</a>
+			</span>
+			{% endfor %}
+		</div>
+		<br>
+		<br>
+		<div class="tags-list">
+			{% for tag in site.tags %}
+			<h2 id="{{ tag | first }}">
+				{{ tag | first }}
+			</h2>
+			<ul>
+				{% for posts in tag %}{% for post in posts %}{% if post.title != null %}
+				<li itemscope>
+					<span>
+						<time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">
+							{{ post.date | date_to_string }}
+						</time>
+					</span>
+					&raquo;
+					<a href="{{ site.alternateurl }}{{ post.url }}">
+						{{ post.title }}
+					</a>
+				</li>
+				{% endif %}{% endfor %}{% endfor %}
+			</ul>
+			{% endfor %}
+		</div>
+	</article>
+</div>
+<style>
+	.tag-list {
+		border: 1px solid #57A3E8;
+		border-radius: 6px;
+		padding: 0 .5em;
+		font-size: .85em;
+		margin-block-start: 0;
+		margin: .75em;
+		text-decoration: none;
+		white-space: nowrap;
+		display: inline-block;
+		text-align: center;
+	}
+
+	.tags-list ul,
+	.tags-list li {
+		margin-left: 1em;
+		list-style-type: none !important;
+	}
+</style>

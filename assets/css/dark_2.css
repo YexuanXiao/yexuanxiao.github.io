@@ -1,0 +1,103 @@
+/* copyright 2020 YexuanXiao under the MIT License */
+
+* {
+	transition: .4s;
+	transition-property: color, opacity, filter, background-color, invert
+}
+
+body {
+	background-color: #000!important
+}
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content li, del, em, p, s, strong, table, th {
+	color: #a6a6a6!important
+}
+
+.aplayer :not(img), .aplayer :not(svg) {
+	filter: invert(1)
+}
+
+.aplayer {
+	background-color: #000!important;
+	color: #999!important
+}
+
+.aplayer .aplayer-info .aplayer-music .aplayer-author {
+	color: #999!important
+}
+
+.box, .card, .tile>.navbar {
+	background-color: #000!important;
+	box-shadow: 0 .5em 1em -.125em rgb(245 245 245 / 10%), 0 0 0 1px rgb(245 245 245 / 2%)!important
+}
+
+.box:hover, .card:hover {
+	box-shadow: 4px 12px 12px rgba(44, 44, 44, .85)!important
+}
+
+.aplayer-pic, .hero.is-dark, .is-info.input, .is-info.textarea, .tile.is-present, code, footer.footer, pre {
+	background-color: #000!important
+}
+
+.navbar-link.is-active, .navbar-link:focus, .navbar-link:focus-within, .navbar-link:hover, .navbar-menu, a.navbar-item.is-active, a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover {
+	background-color: #000!important
+}
+
+.card-header {
+	box-shadow: 0 .125em .25em rgb(245 245 245 / 10%)!important
+}
+
+.post-tags a, .post-tags a:hover, .post-tags a:visited, hr {
+	background-color: rgba(44, 44, 44, .85)!important
+}
+
+body a:hover, body a:visited {
+	color: #00d3b2!important;
+	background-image: none!important;
+	background-color: rgba(195, 195, 195, 0)!important
+}
+
+body a {
+	color: #3298dc!important
+}
+
+img[title=canisdark] {
+	filter: invert(0)!important
+}
+
+.subtitle {
+	color: #4a4a4a!important
+}
+
+::-webkit-input-placeholder {
+	color: #adadad!important
+}
+
+::-moz-placeholder {
+	color: #adadad!important
+}
+
+:-ms-input-placeholder {
+	color: #adadad!important
+}
+
+embed, img, video {
+	filter: grayscale(.15) brightness(.65)!important
+}
+
+.post-text blockquote, .post-text q {
+	border-left: .25em solid #444!important;
+	background-color: #000!important
+}
+
+#veditor {
+	background-image: url(//i.postimg.cc/qqPSXgb9/3.png)!important;
+	background-repeat: no-repeat!important;
+	background-position: right bottom!important;
+	color: #adadad!important;
+	background-size: 5.7em 6.5em!important
+}
+
+#artitalk_main p {
+	color: #000!important
+}

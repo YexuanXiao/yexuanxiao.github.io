@@ -1,0 +1,221 @@
+/* define page layouts, toast, search and footer styles*/
+
+body {
+	max-width: 100%;
+	overflow-x: hidden;
+	overscroll-behavior-y: none
+}
+
+html {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	scroll-behavior: smooth
+}
+
+a {
+	color: #3298dc
+}
+
+img, svg, .fa-icon {
+	pointer-events: none
+}
+
+.main-container {
+	max-width: 1024px;
+	margin: auto
+}
+
+.title>img {
+	width: calc(20% + 200px);
+	height: auto
+}
+
+.nice-title {
+	font-family: Roboto, sans-serif
+}
+
+.nice-text {
+	font-family: "Droid Sans", sans-serif
+}
+
+.post-text {
+	font-family: "Droid Sans", "Segoe UI", SegoeUI, "Microsoft YaHei", 微软雅黑, "Helvetica Neue", Helvetica, Arial, Roboto, RobotoDraft, "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+	margin: .5em
+}
+
+@media screen and (max-width:768px) {
+	.pagination {
+		flex-wrap: nowrap
+	}
+	.pagination-previous, .pagination-next {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap
+	}
+	.pagination-previous, .pagination-next {
+		flex: 1
+	}
+}
+
+.content.nice-text ul {
+	margin: .5em;
+	list-style-type: none
+}
+
+.widget .card {
+	border-radius: 6px
+}
+
+.m-a {
+	margin: auto
+}
+
+.box:hover, .card:hover {
+	box-shadow: 4px 12px 12px rgba(7, 17, 27, 0.15)
+}
+
+/* fix some icon for bulma */
+
+.icon {
+	height: initial;
+	width: initial;
+	vertical-align: middle;
+	display: inline-block
+}
+
+.content ul {
+	margin: 0
+}
+
+/* search */
+
+#search-panel>.box {
+	top: 3em;
+	position: absolute
+}
+
+#search-panel {
+	max-width: 25em;
+	align-items: center;
+	justify-content: flex-start
+}
+
+.menu-list {
+	font-size: 1em;
+	text-align: left;
+	margin: .3em 1em 0 1em;
+	white-space: nowrap
+}
+
+#headpicture {
+	border-radius: 50%;
+	width: 80px;
+	height: auto;
+	padding: .5em
+}
+
+@media screen and (max-width:768px) {
+	#search-panel>.box {
+		left: 0;
+		right: 0
+	}
+	#search-panel {
+		position: initial !important
+	}
+	#search-panel>input {
+		max-width: 15em
+	}
+}
+
+/* navbar float */
+
+@media screen and (max-width:1023px) {
+	.navbar-menu {
+		right: 0;
+		left: 0;
+		position: absolute
+	}
+	.navbar {
+		position: relative
+	}
+	.navbar-brand {
+		padding: 0 .25em
+	}
+}
+
+.content table td, .content table th {
+	border: 0
+}
+
+.tile>.navbar {
+	top: 0px;
+	width: 100%;
+	left: 0px;
+	right: 0px;
+	z-index: 2
+}
+
+.tile>.navbar>a, .navbar-brand>a {
+	padding: 0 .75rem
+}
+
+/* Valine */
+
+.vempty {
+	display: none !important
+}
+
+#veditor {
+	background-image: url(//i.postimg.cc/SKhcqTNC/2.png);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-size: 6em 6.5em
+}
+
+/* fix firefox scroll bar */
+
+.aplayer .aplayer-list ol {
+	scrollbar-width: thin
+}
+
+/* tags */
+
+.card-tags a {
+	border: 1px solid #57A3E8;
+	border-radius: 6px;
+	padding: 0 .5em;
+	line-height: 1.6em;
+	font-size: .8em;
+	margin: .3em;
+	text-decoration: none;
+	white-space: nowrap
+}
+
+.card-tags a:hover, .card-tags a:active {
+	background-color: #f5f5f5;
+	color: #57A3E8
+}
+
+.post-tags a, .post-tags a:hover, .post-tags a:visited {
+	background-color: #f5f5f5;
+	border-bottom: none;
+	padding: 1px 5px 3px 5px;
+	font-size: 1em;
+	margin: 0 .5em 0 .5em;
+	border-radius: 2px;
+	white-space: nowrap;
+	vertical-align: middle
+}
+
+/* process bar */
+
+#progress {
+	position: fixed;
+	left: 0px;
+	height: 2px;
+	background: #00D3B2;
+	transition: 100ms;
+	z-index: 200
+}

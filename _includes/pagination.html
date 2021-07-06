@@ -1,0 +1,23 @@
+<div class="pagination is-centered px-0 py-2">
+	{% if paginator.previous_page %}
+	<a href="{{ site.alternateurl }}{{ paginator.previous_page_path }}" class="pagination-previous">
+		Previous
+	</a>
+	{% else %}
+	<span class="pagination-previous is-left">
+		Previous
+	</span>
+	{% endif %}
+	<span class="pagination-list is-hidden">
+		Page: {{ paginator.page }} of {{ paginator.total_pages }}
+	</span>
+	{% if paginator.next_page %}
+	<a class="pagination-next" href="{{ site.alternateurl }}{{ paginator.next_page_path }}">
+		Next
+	</a>
+	{% else %}
+	<span class="pagination-next">
+		Next
+	</span>
+	{% endif %}
+</div>

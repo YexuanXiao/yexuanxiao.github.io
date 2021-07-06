@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<!-- LICENCE:/LICENSE -->
+<html lang="en-us">
+{% include head.html %}
+	<body>
+		<section class="hero is-dark">
+			<div class="hero-body">
+				<div class="container has-text-centered py-6">
+					<div class="title" ondrag>
+						<img class="my-4" src="{{ site.alternateurl }}/assets/images/svgs/mpo.svg" alt="M.P.O.">
+						<div class="subtitle has-text-weight-semibold is-size-6 has-text-info">
+							Non-Profit, International
+						</div>
+					</div>
+					<h4 class="subtitle is-size-7" id="quote">
+					</h4>
+				</div>
+			</div>
+		</section>
+		<div class="main-container px-2 my-0">
+			<div class="tile is-ancestor is-vertical">
+				<nav class="navbar">
+					<div class="navbar-brand">
+						<a class="icon is-inline-flex" title="home" href="/">
+							<i class="fa fa-icon fa-home" title="Home">
+							</i>
+						</a>
+						<a class="icon is-inline-flex" title="Github" href="//github.com/{{ site.author.github }}">
+							<i class="fa fa-icon fa-github" title="{{ site.author.name }}">
+							</i>
+						</a>
+						<span class="control is-relative is-flex pl-4" id="search-panel">
+							<input class="input is-small is-info m-a mr-2" type="search" placeholder="Find an article">
+							<div class="box">
+								<div class="menu-lebal">
+									<ul>
+									</ul>
+								</div>
+							</div>
+						</span>
+						<div id="navbar-toggle" class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+							<span>
+							</span>
+							<span>
+							</span>
+							<span>
+							</span>
+						</div>
+					</div>
+					<div id="navbarExampleTransparentExample" class="navbar-menu">
+						<div class="navbar-end has-text-info px-3">
+							<a href="{{ site.alternateurl }}/archive" class="navbar-item">
+								Archive
+							</a>
+							<a href="{{ site.alternateurl }}/categories" class="navbar-item">
+								Categories
+							</a>
+							<a href="{{ site.alternateurl }}/artitalk" class="navbar-item">
+								Artitalk
+							</a>
+							<a href="{{ site.alternateurl }}/about" class="navbar-item">
+								About
+							</a>
+						</div>
+					</div>
+				</nav>
+				<div class="tile is-parent">
+					<div class="tile is-8 is-child main">
+						<div class="content p-3">
+							{{ content }}
+						</div>
+					</div>
+					<div class="tile is-4 is-child">
+						<div class="tile is-parent is-vertical sidebar">
+							{% if page.title == 'Home Page' or page.title == 'About' %}
+							<div class="tile is-child widget" id="author">
+								<div class="card">
+									<header class="card-header">
+										<p class="card-header-title nice-title is-size-5 has-text-weight-normal">
+											<a href="{{ site.alternateurl }}">
+												Author
+											</a>
+										</p>
+									</header>
+									<div class="card-content px-3">
+										<div class="content nice-text has-text-centered">
+											<img id="headpicture" src="{{ site.alternateurl }}/assets/images/head.png" alt="head">
+											<p>
+												{{ site.author.name }}
+											</p>
+											<div class="is-size-7">
+												<p>
+													<i class="fa fa-icon-inline fa-envelope" title="Email">
+													</i>
+													<a class="icon" href="mailto:{{ site.author.email }}">
+														{{ site.author.email }}
+													</a>
+												</p>
+												<hr>
+												<p>
+													{{ site.author.title }}
+												</p>
+												<hr>
+												<p>
+													{{ site.author.comment }}
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% if page.layout != 'default' %}
+							<div class="tile is-child widget" id="postbox">
+								<div class="card">
+									<header class="card-header">
+										<p class="card-header-title nice-title is-size-5 has-text-weight-normal">
+											<a href="{{ site.alternateurl }}/archive">
+												Recent Posts
+											</a>
+										</p>
+									</header>
+									<div class="card-content px-3">
+										<div class="content nice-text">
+											<ul>
+												{% for post in site.posts limit:6 %}
+												<li>
+													<a href="{{ site.alternateurl }}{{ post.url }}">
+														{{ post.title }}
+													</a>
+												</li>
+												{% endfor %}
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% if page.title != 'Tags' %}
+							<div class="tile is-child widget" id="tagbox">
+								<div class="card">
+									<header class="card-header">
+										<p class="card-header-title nice-title is-size-5 has-text-weight-normal">
+											<a href="{{ site.alternateurl }}/tags">
+												Tags
+											</a>
+										</p>
+									</header>
+									<div class="card-content px-3">
+										<div class="content nice-text">
+											<div class="tags card-tags">
+												{% for tag in site.tags limit:15 %}
+												<a href="{{ site.alternateurl }}/tags#{{ tag | first }}">
+													# {{ tag | first }}
+												</a>
+												{% endfor %}
+												<a href="{{ site.alternateurl }}/tags">
+													And more...
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							<div class="tile is-child widget">
+								<div class="card is-hidden" id="musicbox">
+									<div class="card-content px-3">
+										<meting-js server="netease" type="album" id="86273" preload="none">
+										</meting-js>
+									</div>
+								</div>
+							</div>
+							<div class="tile is-child widget" id="friends">
+								<div class="card">
+									<header class="card-header">
+										<p class="keep-dark card-header-title nice-title is-size-5 has-text-weight-normal">
+											Friendly Links
+										</p>
+									</header>
+									<div class="card-content px-3">
+										<div class="content nice-text">
+											<ul>
+												<li>
+													<a href="//un.org">
+														United Nation
+													</a>
+												</li>
+												<li>
+													<a href="//microsoft.com">
+														Microsoft
+													</a>
+												</li>
+												<li>
+													<a href="//samsung.com">
+														Samsung
+													</a>
+												</li>
+												<li>
+													<a href="//nasa.gov">
+														NASA
+													</a>
+												</li>
+												<li>
+													<a href="//europa.eu">
+														European Union
+													</a>
+												</li>
+												<li>
+													<a href="//who.int">
+														WHO
+													</a>
+												</li>
+												<li>
+													<a href="//nykz.org">
+														Nykz Island
+													</a>
+												</li>
+												<li>
+													<hr>
+												</li>
+												<li>
+													<a href="//his2nd.life/">
+														His 2nd.Life
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer class="footer px-3 py-6 mt-6">
+			<div class="container my-5 has-text-weight-bold">
+				<div class="content has-text-centered is-family-sans-serif">
+					<p>
+						© 2016 - {{ site.time | date: '%Y' }} {{ site.copyright }} All rights reserved.
+					</p>
+					<p>
+						<a class="icon" title="Github" href="//github.com/{{ site.author.github }}">
+							<i class="fa fa-icon fa-github" title="Github">
+							</i>
+						</a>
+						<a class="icon" title="Weibo" href="//weibo.com/{{ site.author.weibo }}">
+							<i class="fa fa-icon fa-weibo" title="Weibo">
+							</i>
+						</a>
+						<a class="icon" title="Email"
+							href="mailto:{{ site.author.email }}?subject=Feedback&body=Type%20your%20question,%20provide%20error%20or%20feedback%20wrong%20here.">
+							<i class="fa fa-icon fa-envelope" title="Email">
+							</i>
+						</a>
+					</p>
+				</div>
+			</div>
+		</footer>
+		<!-- js -->
+		<script src="/assets/js/custom.js">
+		</script>
+		<script src="//cdn.jsdelivr.net/gh/YexuanXiao/Simple-Jekyll-Search@master/dest/simple-jekyll-search.js">
+		</script>
+		<script defer>
+			// search
+			var sjs = SimpleJekyllSearch({
+				searchInput: document.body.querySelector('#search-panel>input'),
+				resultsContainer: document.body.querySelector('#search-panel ul'),
+				searchResultTemplate: '<li class="menu-list"><a href="{url}">{title}</a></li>',
+				json: '/assets/search.json'
+				})
+			document.body.querySelector('#search-panel>input').addEventListener('keyup', () => {
+				checkInput();
+			});
+			document.body.querySelector('#search-panel>.box').style.setProperty('display', 'none')
+		</script>
+		<script defer>
+			// music box
+			(function () {
+				var element = document.getElementById('musicbox');
+				const config = { childList: true, subtree: true };
+				const observer = new MutationObserver(() => {
+					element.style.setProperty('display', 'block', 'important');
+					observer.disconnect()
+				});
+				observer.observe(element, config);
+				loadScript('//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js', () => {
+					loadScript('//cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js', null)}
+				);
+			})()
+		</script>
+		{% if site.live2d == true %}
+		<script async defer src="/assets/js/live2d.js">
+		</script>
+		{% endif %}
+		{% if site.valine.enable == true and page.layout == 'post' %}
+		<script async defer src="/assets/js/comment.js">
+		</script>
+		{% endif %}
+	</body>
+</html>
