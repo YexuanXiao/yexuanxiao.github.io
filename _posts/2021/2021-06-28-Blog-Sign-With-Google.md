@@ -74,3 +74,5 @@ categories: [blog]
 　　`auth2.currentUser.get()`，这个方法返回一个 googleUser 对象，可以这样用：
 
 　　`var profile = auth2.currentUser.get().getBasicProfile();`
+
+　　你可以参考本站的代码实现一个自定义登录按钮：[comment.js](https://github.com/YexuanXiao/yexuanxiao.github.io/blob/master/assets/js/comment.js)
