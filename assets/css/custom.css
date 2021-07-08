@@ -1,5 +1,10 @@
 /* define page layouts, toast, search and footer styles*/
 
+* {
+	transition: .4s;
+	transition-property: color, opacity, filter, background-color, invert
+}
+
 body {
 	max-width: 100%;
 	overflow-x: hidden;
