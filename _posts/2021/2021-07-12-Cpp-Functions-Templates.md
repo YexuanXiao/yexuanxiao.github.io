@@ -83,7 +83,7 @@ int main()
 	int b = 20;
 	std::cout << Compare(a, b) << std::endl;
 	std::cout << Divis(a, b) << std::endl;
-    std::cout << Minus(a, b) << std::endl;
+	std::cout << Minus(a, b) << std::endl;
 	std::cout << Plus(a, b) << std::endl;
 }
 
@@ -102,7 +102,7 @@ int main()
 template <class T>
 auto Pointer(T &a) -> decltype(&a)
 {
-    return &a;
+	return &a;
 }
 
 int main()
