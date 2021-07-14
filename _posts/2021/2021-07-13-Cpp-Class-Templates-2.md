@@ -130,7 +130,7 @@ public:
 	//friend void show_Id<T1, T2>(Person<T1, T2> &p);
 	template <class T3>
 	friend void show_Id1(T3& p);
-    //friend void show_Id1<>(T3& p); 这句使用 VS2022 编译通过，但是 G++ 提示用法错误。关于空模板参数列表此处存疑，可能是由于 VS2022 不严格
+	//friend void show_Id1<>(T3& p); 这句使用 VS2022 编译通过，但是 G++ 提示用法错误。关于空模板参数列表此处存疑，可能是由于 VS2022 不严格
 };
 
 int main()
