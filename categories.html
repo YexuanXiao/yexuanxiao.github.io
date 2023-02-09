@@ -1,0 +1,23 @@
+---
+layout: page
+title: Categories
+permalink: /categories
+---
+
+{% for category in site.categories %}
+<div class="menu">
+	{% capture category_name %}{{ category | first }}{% endcapture %}
+	<h2 id="{{ category_name | slugize }}" class="menu-lebal pt-4">
+		{{ category_name }}
+	</h2>
+	<ul class="menu-list">
+		{% for post in site.categories[category_name] %}
+		<li>
+			<a href="{{ site.alternateurl }}{{ post.url }}">
+				{{ post.title }}
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endfor %}

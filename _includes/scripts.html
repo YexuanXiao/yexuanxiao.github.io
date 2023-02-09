@@ -1,0 +1,83 @@
+<script>
+	'use strict';
+	function loadStyles(url) {
+		var head = document.querySelector('head');
+		var link = document.createElement('link');
+		link.type = 'text/css';
+		link.rel = 'stylesheet preload';
+		link.as = 'style'
+		link.href = url;
+		head.appendChild(link);
+	}
+	function loadScript(url) {
+		const script = document.createElement('script');
+		script.src = url;
+		script.async = false;
+		document.body.appendChild(script);
+	}
+	// render live2D dialog
+	function render(text) {
+		window.Noire ? window.Noire.Message(text) : console.error("Doesn't exist Noire!");
+	}
+</script>
+<script defer src="/assets/js/components.js">
+</script>
+<script type="module">
+	// search
+	import SimpleJekyllSearch from '//static.mysteriouspreserve.com/Single/Search.js';
+	{
+		const panel = document.getElementById('search-panel');
+		window.Search = new SimpleJekyllSearch({
+			searchInput: panel.querySelector('input'),
+			resultsContainer: panel.querySelector('ul'),
+			searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+			limit: 15,
+		    {% if site.i18n.search.empty %} noResultsText: '{{ site.i18n.search.empty }}', {% endif %}
+	        debounceTime: 750,
+		    json: '{{ site.alternateurl }}/assets/search.json'
+	});
+	panel.querySelector('input').addEventListener('input', () => {
+		checkInput();
+	})
+	panel.classList.remove('is-hidden');
+}
+</script>
+<script type="module">
+	// music box
+	import MetingJSElement from '//static.mysteriouspreserve.com/Single/Meting.js';
+	loadStyles('//static.mysteriouspreserve.com/Single/APlayer.min.css');
+	{
+		if (customElements && !customElements.get('meting-js')) {
+			customElements.define('meting-js', MetingJSElement);
+		}
+		const element = document.getElementById('musicbox');
+		const config = { childList: true, subtree: true };
+		const observer = new MutationObserver(() => {
+			element.classList.remove('is-hidden');
+			observer.disconnect();
+		});
+		observer.observe(element, config);
+	}
+</script>
+<script>
+	// service worker
+	if ('serviceWorker' in navigator) {
+		if (navigator.serviceWorker.controller) {
+			navigator.serviceWorker.addEventListener('controllerchange', () => {
+				showNotification();
+			});
+		}
+		navigator.serviceWorker.register('{{ site.alternateurl }}/sw.js');
+	}
+</script>
+{% if site.live2d.enable == true %}
+<script type="module" src="{{ site.alternateurl }}/assets/js/live2d.js">
+</script>
+{% endif %}
+{% if site.valine.enable == true and page.layout == 'post' %}
+<script>
+	loadScript('//cdn.jsdelivr.net/npm/leancloud-storage@4.12.0/dist/av-min.js');
+	loadScript('//cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js');
+	loadScript('{{ site.alternateurl }}/assets/js/comment.js');
+</script>
+{% endif %}

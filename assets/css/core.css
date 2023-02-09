@@ -1,0 +1,230 @@
+/* define page layouts*/
+
+/* don't delete, will cause mouse wheel can't scroll page when hover on <code>, to replace the default behavior by bulma */
+html {
+	overflow-x: initial;
+	overflow-y: initial
+}
+body {
+	max-width: 100%;
+	user-select: none;
+	overflow-x: hidden;
+	overscroll-behavior-y: none
+}
+a {
+	color: #3298dc
+}
+img, svg {
+	pointer-events: none
+}
+body, button, input, optgroup, select, textarea {
+	font-family: "Helvetica Neue", "Segoe UI", SegoeUI, "Microsoft YaHei", 微软雅黑, Helvetica, Arial, Roboto, "SF Pro SC", "SF Pro Text", "PingFang SC", sans-serif
+}
+.main-container {
+	max-width: 1024px
+}
+#logo {
+	width: calc(20% + 200px);
+	height: auto
+}
+.indent-negative {
+	text-indent: -2em
+}
+.indent-positive {
+	text-indent: 2em
+}
+
+/* fix pagination styles */
+
+.is-hidden-tablet.pagination-previous, .is-hidden-tablet.pagination-next {
+	flex-basis: 0;
+	border-radius: 6px;
+	min-width: 8rem
+}
+.pagination-list.is-hidden-mobile>* {
+	border-radius: 6px;
+	max-width: 4.5rem;
+	flex-grow: 1
+}
+
+/* fix navbar overflow for bulma */
+
+.main-container>.is-ancestor {
+	margin: -.5rem
+}
+@media screen and (max-width:768px) {
+	.main-container>.is-ancestor>.is-parent {
+		padding: 0
+	}
+}
+
+/* add .box:hover, .card:hover box-shadow for bulma */
+
+.box:hover, .card:hover {
+	box-shadow: 4px 12px 12px rgba(7, 17, 27, 0.15)
+}
+
+/* add .widget .card's border radius for bulma */
+
+.widget .card {
+	border-radius: 6px
+}
+
+/* fix list for bulma */
+
+.content li+li {
+	margin-top: 0
+}
+
+/* navbar */
+
+#navbar {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 2
+}
+#navbar-menu>span {
+	display: flex;
+	width: 22em
+}
+@media screen and (max-width:1023px) {
+	#navbar-menu>span {
+		width: 100vw;
+		padding: 0 2em 0 2em;
+		display: block
+	}
+	#navbar-menu {
+		border-radius: 0 0 6px 6px;
+		width: inherit;
+		position: absolute
+	}
+}
+
+/* search */
+
+#search-panel {
+	white-space: nowrap;
+	position: relative
+}
+#search-panel>div {
+	top: 2.7em;
+	position: absolute
+}
+@media screen and (max-width:768px) {
+	#search-panel {
+		position: inherit
+	}
+	#search-panel>div {
+		border-radius: 0 0 6px 6px;
+		top: 3.2em;
+		left: 0;
+		right: 0
+	}
+}
+#search-panel>input {
+	border-radius: 6px
+}
+
+/* Valine */
+
+.vempty {
+	display: none!important
+}
+#veditor {
+	background-image: url(//i.postimg.cc/SKhcqTNC/2.png);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-size: 6em 6.5em
+}
+
+/* fix firefox scroll bar */
+
+.aplayer .aplayer-list ol {
+	scrollbar-width: thin
+}
+
+/* process bar */
+
+#progress {
+	position: fixed;
+	left: 0px;
+	height: 2px;
+	background: #00D3B2;
+	transition: 100ms
+}
+
+/* site page */
+
+.site-page ul {
+	margin-left: 1em;
+	list-style: none
+}
+@media screen and (max-width:768px) {
+	.site-page ul {
+		margin-left: .5em
+	}
+}
+
+/* segoeui and fontawesome */
+
+@font-face {
+	font-family: "segoeweb";
+	src: url("/assets/fonts/segoeweb.woff2") format("woff2");
+	unicode-range: U+0009, U+0020, U+003E-002D, U+E000-E00B, U+1F5CE, U+1F313, U+21A9, U+00A9;
+	font-style: normal;
+	font-weight: normal
+}
+.icon-font, .icon-font:visited {
+	color: #545454
+}
+.sw {
+	display: inline-block;
+	font-family: "segoeweb";
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale
+}
+.sw-document:before {
+	content: "\e001"
+}
+.sw-github:before {
+	content: "\e002"
+}
+.sw-home:before {
+	content: "\e003"
+}
+.sw-rss:before {
+	content: "\e004"
+}
+.sw-weibo:before {
+	content: "\e005"
+}
+.sw-balance:before {
+	content: "\e006"
+}
+.sw-email:before {
+	content: "\e007"
+}
+.sw-tag:before {
+	content: "\e008"
+}
+.sw-tags:before {
+	content: "\e009"
+}
+.sw-search:before {
+	content: "\e00a"
+}
+.sw-twitter:before {
+	content: "\e00b"
+}
+.sw-code:before {
+	content: "\e00c"
+}
+.sw-link:before {
+	content: "\e00d"
+}
+.sw-calender:before {
+	content: "\e00e"
+}

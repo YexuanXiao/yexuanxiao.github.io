@@ -1,0 +1,80 @@
+---
+layout: default
+---
+
+<div class="box">
+	<article class="post-text">
+		<h1 class="has-text-weight-medium is-size-4">
+			{{ page.title | escape }}
+		</h1>
+		<span class="is-size-7">
+			<span class="sw sw-calender mr-1"></span>
+			<time class="date" datetime="{{ page.date | date_to_xmlschema }}">
+				{{ page.date | date: "%B %-d, %Y. A %A" }}
+			</time>
+		</span>
+		<div class="is-size-7 pr-4 is-justify-content-space-between is-flex">
+			<span>
+				{% if site.i18n.number_of_words %}{{ site.i18n.number_of_words }}{% else %}Number of words: {% endif %}{{ content | number_of_words: "auto" }}
+			</span>
+			{% for category in page.categories %}
+			<a href="{{ site.alternateurl }}/categories#{{ page.categoriy | uri_escape }}">
+				{{ category }}
+			</a>
+			{% endfor %}
+		</div>
+		<hr>
+		{{ content | replace: "	", "    " | replace: "#include\<", "#include \<" }}
+	</article>
+	{% if page.update %}
+	<div class="right is-size-7 pt-6">
+		<span>
+			{% if site.i18n.last_modified %}{{ site.i18n.last_modified }}{% else %}Last modified: {% endif %}{{ page.update | date: "%Y-%m-%d" }}
+		</span>
+	</div>
+	{% endif %}
+	<hr>
+	<div class="has-text-centered pt-5">
+		{% for categorie in page.categories %}{% if categorie == 'blog' %}
+		<p class="is-size-7">
+			若无特殊声明，本文以
+			<a href="//creativecommons.org/licenses/by-sa/3.0/deed.zh">
+				CC BY-SA 3.0 许可协议
+			</a>
+			提供。
+		</p>
+		{% endif %}{% if categorie == 'by-talk' %}
+		<p class="is-size-7">
+			若无特殊声明，本文文本内容著作权归本人所有，请向
+			<a href="mailto:{{ site.author.email }}">
+				{{ site.author.email }}
+			</a>
+			申请许可后转载。
+		</p>
+		{% endif %}{% if categorie == 'novel' %}
+		<p class="is-size-7">
+			本文著作权归本人所有，严禁一切形式的转载。
+		</p>
+		{% endif %}{% endfor %}
+		{% if post.tags %}{% assign tags = post.tags %}{% else %}{% assign tags = page.tags %}
+		<div>
+			{% for tag in tags %}
+			<a href="{{ site.alternateurl }}/tags#{{ tag | uri_escape }}" class="tag is-medium is-success is-light mb-2">
+				<span class="sw sw-tag mr-1"></span>
+				{{ tag }}
+			</a>
+			{% endfor %}
+		</div>
+		{% endif %}
+		<p hidden="hidden">
+			本站不欢迎非搜索引擎类，非个人学习类爬虫；严禁将文章直接爬取至其他站点。
+			<br>
+			若看到此条消息，说明你正在访问的网站可能是垃圾二手转载网站。
+			<br>
+			为了获得更好的浏览体验，请访问唯一原始网站：&#x68;&#x74;&#x74;&#x70;&#x73;&#x3A;&#x2F;&#x2F;&#x6D;&#x79;&#x73;&#x74;&#x65;&#x72;&#x69;&#x6F;&#x75;&#x73;&#x70;&#x72;&#x65;&#x73;&#x65;&#x72;&#x76;&#x65;&#x2E;&#x63;&#x6F;&#x6D;&#x2F;
+			<br>
+			本文永久链接：{{ site.url }}{{ page.url }}
+		</p>
+	</div>
+	{% include post-pagination.html %}
+</div>
