@@ -234,7 +234,7 @@ for (let element of document.body.querySelectorAll('div.highlight')) {
 
 
 // fix some missing place
-for (const element of document.body.querySelectorAll('pre>code[class]')) {
+for (let element of document.body.querySelectorAll('pre>code[class]')) {
 	let code = element
 	element = element.parentNode
 	element.style.borderRadius = '0 0 6px 6px'
