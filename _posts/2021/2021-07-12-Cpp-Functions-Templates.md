@@ -89,7 +89,7 @@ int main()
 
 ```
 
-其中 Divis，Compare 和 Minus 函数需要 C++ 14 才能编译，因为 C++ 11 ***不支持返回值的类型推导*** 。
+其中 Divis，Compare 和 Minus 函数需要 C++14 才能编译，因为 C++11 ***不支持返回值的类型推导*** 。
 
 并且 Divis，Compare 和 Minus 函数推导的返回值为 int，Plus 函数的返回值类型 ***依赖于函数声明而不是函数值里的返回语句*** 。
 

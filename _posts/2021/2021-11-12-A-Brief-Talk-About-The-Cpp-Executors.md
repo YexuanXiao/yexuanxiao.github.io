@@ -14,11 +14,11 @@ categories: [blog]
 
 ## 1. Why Executors?
 
-C++ 一直缺乏可用的并发编程的基础设施，而从 C++ 11 以来新引入的基础设施，还有 boost，folly 等第三方库的改进，都有或多或少的问题和一定的局限性。
+C++ 一直缺乏可用的并发编程的基础设施，而从 C++11 以来新引入的基础设施，还有 boost，folly 等第三方库的改进，都有或多或少的问题和一定的局限性。
 
 ### 1.1 `std::async` 并不 async
 
-让时间回到 C++ 11 标准的近代。C++ 11 标准正式引入了统一的多线程设施，如`<thread>`，`<atomic>`, `<mutex>` 和 `<conditional_variable>` 等 low-level 的 building blocks；也引入了发起异步函数调用的接口 `std::async`。可 `std::async` 并不 async。借用 cppreference 上的示例来说明：
+让时间回到 C++11 标准的近代。C++11 标准正式引入了统一的多线程设施，如`<thread>`，`<atomic>`, `<mutex>` 和 `<conditional_variable>` 等 low-level 的 building blocks；也引入了发起异步函数调用的接口 `std::async`。可 `std::async` 并不 async。借用 cppreference 上的示例来说明：
 
 ```cpp
 
@@ -40,13 +40,13 @@ std::async([]{ g(); });
 
 ### 1.2 Future/Promise 模型的演进
 
-[Future/Promise](https://en.wikipedia.org/wiki/Futures_and_promises) 模型是一个经典的并发编程模型，它提供给程序员完整的机制来控制程序的同步和异步。C++ 11 中也引入了 Future/Promise 机制。Future 本质上是我们发起的一个并发操作，而 Promise 本质上则是并发操作的回调。我们可以通过 Future 对象等待该操作和获取操作的结果，而 Promise 对象则负责写入返回值并通知我们。C++ 中典型的 Future/Promise 的实现如下图所示：
+[Future/Promise](https://en.wikipedia.org/wiki/Futures_and_promises) 模型是一个经典的并发编程模型，它提供给程序员完整的机制来控制程序的同步和异步。C++11 中也引入了 Future/Promise 机制。Future 本质上是我们发起的一个并发操作，而 Promise 本质上则是并发操作的回调。我们可以通过 Future 对象等待该操作和获取操作的结果，而 Promise 对象则负责写入返回值并通知我们。C++ 中典型的 Future/Promise 的实现如下图所示：
 
 [![Future/Promise](https://tvax2.sinaimg.cn/large/005ZJ4a1ly1gwbq9nb9oej30ux0a3dhe.jpg "candark")](https://tvax2.sinaimg.cn/large/005ZJ4a1ly1gwbq9nb9oej30ux0a3dhe.jpg)
 
 如图所示，Future 与 Promise 会有指向同一个共享的状态对象 Shared State 的共享指针（`std::shared_ptr` of Shared State），当 Promise 对象接受到返回值或者错误之后，通过条件变量通知另一端等待的 Future 对象。Future 对象则可以通过 Shared State 对象中的状态，来判断接收到回调之后是继续处理业务还是处理错误。由于 C++ 标准中的 Future/Promise 并不能表达任务的前置与后置的依赖关系，该模型很难满足实际的生产环境。
 
-时间来到的当代，也就是 C++ 14 至 C++ 17 的时代，有不少类库试图解决这些问题。例如给予 Future/Promise 表达前置后置依赖的能力（`folly::future`）；能够 Fork 与 Join 的能力（`boost::future`）；还有为 Future/Promise 模型的后置任务，绑定操作 Executor 等。Future/Promise 则改进为如下的实现：
+时间来到的当代，也就是 C++14 至 C++17 的时代，有不少类库试图解决这些问题。例如给予 Future/Promise 表达前置后置依赖的能力（`folly::future`）；能够 Fork 与 Join 的能力（`boost::future`）；还有为 Future/Promise 模型的后置任务，绑定操作 Executor 等。Future/Promise 则改进为如下的实现：
 
 [![Improve](https://tvax2.sinaimg.cn/large/005ZJ4a1ly1gwbqcd6ooyj30ux0ewaav.jpg "candark")](https://tvax2.sinaimg.cn/large/005ZJ4a1ly1gwbqcd6ooyj30ux0ewaav.jpg)
 

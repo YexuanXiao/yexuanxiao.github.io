@@ -14,7 +14,7 @@ categories: [blog]
 
     常见于 C 的 malloc 函数等。
 
-2. C++ 11 开始， **C 风格的类型转换被弃用** ，推荐使用 static_cast 等运算符替换 C 风格的强制类型转换
+2. C++11 开始， **C 风格的类型转换被弃用** ，推荐使用 static_cast 等运算符替换 C 风格的强制类型转换
 
 3. 使用系统 API 时必须遵循其类型，否则极易出现跨平台兼容问题，例如系统 API 使用 long 则必须跟着使用 long，系统 API 使用 time_t 则必须使用 time_t
 

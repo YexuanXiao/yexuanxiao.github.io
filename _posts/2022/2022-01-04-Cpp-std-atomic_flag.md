@@ -6,7 +6,7 @@ tags: [C++,STL,atomic,Standard]
 categories: [blog]
 ---
 
-C++ 11 开始正式加入了多线程库及原子操作，原子操作是无锁并发的基础。所谓原子操作，就是具有原子性的操作：该操作对外不可分割。
+C++11 开始正式加入了多线程库及原子操作，原子操作是无锁并发的基础。所谓原子操作，就是具有原子性的操作：该操作对外不可分割。
 <!-- more -->
 
 ## `std::atomic_flag`
@@ -286,9 +286,9 @@ namespace std
 
 std::atomic_flag 是原子类型的最小概念的实现，默认值为 clear（false）。
 
-在 C++ 20 之前，std::atomic_flag 必须使用 ATOMIC_FLAG_INIT 这个宏进行初始化，但是标准委员会意识到声明 std::atomic_flag 而不进行初始化没有任何意义，并且增加了无效代码，所以 C++ 20 开始，std::atomic_flag 被默认初始化为清除，通过构造函数 (D.25.1)。
+在 C++20 之前，std::atomic_flag 必须使用 ATOMIC_FLAG_INIT 这个宏进行初始化，但是标准委员会意识到声明 std::atomic_flag 而不进行初始化没有任何意义，并且增加了无效代码，所以 C++20 开始，std::atomic_flag 被默认初始化为清除，通过构造函数 (D.25.1)。
 
-C++ 11 后，C++ 20 之前，std::atomic_flag 只有 3 类成员函数，由于 std::atomic_flag 实际上为布尔值，所以这三个函数的参数只有 std::memory_order ，不需要传入参数，因此 std::atomic_flag 是一个非常轻量的标志：
+C++11 后，C++20 之前，std::atomic_flag 只有 3 类成员函数，由于 std::atomic_flag 实际上为布尔值，所以这三个函数的参数只有 std::memory_order ，不需要传入参数，因此 std::atomic_flag 是一个非常轻量的标志：
 
 + bool test(memory_order) ：返回当前值
 + bool test_and_set(memory_order) ：将值设置为 true 并返回先前值
@@ -323,7 +323,7 @@ public:
 
 由于 test_and_set 会返回之前的锁的状态，因此在 while 循环中，只有真正解锁（clear）才会停止循环，由于 test_and_set 具有原子性，所以 test_and_set 并不会破坏锁原本的状态。
 
-遗憾的是，C++ 并发编程实战写于 2018 年并在 2019 年 2 月出版，而 C++ 20 恰好对 std::atomic_flag 做了改进：加入了 wait，notify_one，notify_all 函数，增强了 std::atomic_flag 的功能。
+遗憾的是，C++ 并发编程实战写于 2018 年并在 2019 年 2 月出版，而 C++20 恰好对 std::atomic_flag 做了改进：加入了 wait，notify_one，notify_all 函数，增强了 std::atomic_flag 的功能。
 
 ```cpp
 

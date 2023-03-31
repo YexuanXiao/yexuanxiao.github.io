@@ -6,7 +6,7 @@ tags: [C++, docs]
 categories: [blog]
 ---
 
-std::packaged_task 是 C++ 11 将任务进行包装的一种容器，类似于 std::async，但是 std::package_task 本身并不负责发起一个并行任务，仅仅将任务与期望包装为一个异步 Provider。
+std::packaged_task 是 C++11 将任务进行包装的一种容器，类似于 std::async，但是 std::package_task 本身并不负责发起一个并行任务，仅仅将任务与期望包装为一个异步 Provider。
 
 <!-- more -->
 

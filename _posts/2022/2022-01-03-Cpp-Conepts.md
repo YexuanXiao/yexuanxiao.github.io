@@ -6,13 +6,13 @@ tags: [C++,STL]
 categories: [blog]
 ---
 
-C++ 20 的一项重大特性就是概念。虽然 C++ 98 完成后，概念就作为一个语义出现在 C++ 的用户中，但是直到 2019 年，概念才作为一个完善的特性被加入到标准中。由于 C++ 模板的元编程能力是被发现而不是被发明的，所以模板虽然是图灵完备的，但是作为一种编程语言来说缺乏很多特性，导致其使用非常繁琐。Bjarne Stroustrup 在 2003 年写了一篇文章 [Concept checking – A more abstract complement to type checking](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1510.pdf) 标题就直截了当的阐述了概念的用途：对类型检查的一个更抽象的补充。
+C++20 的一项重大特性就是概念。虽然 C++98 完成后，概念就作为一个语义出现在 C++ 的用户中，但是直到 2019 年，概念才作为一个完善的特性被加入到标准中。由于 C++ 模板的元编程能力是被发现而不是被发明的，所以模板虽然是图灵完备的，但是作为一种编程语言来说缺乏很多特性，导致其使用非常繁琐。Bjarne Stroustrup 在 2003 年写了一篇文章 [Concept checking – A more abstract complement to type checking](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1510.pdf) 标题就直截了当的阐述了概念的用途：对类型检查的一个更抽象的补充。
 
 <!-- more -->
 
 C++ 模板由于其高性能和泛用性，是 C++ 作为编程语言而长盛不衰的重要原因之一。模板的元编程能力被发现后，产生了一大批使用元编程设计的第一方、第三方代码库。C++ 模板得到了蓬勃发展的同时，模板错误信息的问题就随之暴露出来。
 
-Bjarne Stroustrup 对概念的设计确定了如下的目标（虽然 C++ 20 的概念和 2003 年的设计有很大差距，但是设计意图是相同的）：
+Bjarne Stroustrup 对概念的设计确定了如下的目标（虽然 C++20 的概念和 2003 年的设计有很大差距，但是设计意图是相同的）：
 
 >**抽象** <br>
 >本文讨论了如何表达泛型构造对其参数的要求的问题。在 C++ 模板的上下文中，它提出了基于显式声明的使用模板的“概念检查”的概念。与基于函数签名的传统类型检查相比，此概念更抽象、更灵活且更易于表达。提出的概念不仅提供了模板参数要求的精确规范和良好的编译时错误检测，而且还支持模板重载的等效性，同时保持 C++ 模板对编译时评估和内联的支持。
@@ -174,7 +174,7 @@ std::integral auto f(std::integral auto a, std::integral auto b);
 
 ```
 
-概念和 `auto` 共同组成了一个模板约束，并且在 C++ 20 中，`auto` 本身就代表最小限制的约束（除 `void`），意味着以下的代码在 C++ 20 中也成立：
+概念和 `auto` 共同组成了一个模板约束，并且在 C++20 中，`auto` 本身就代表最小限制的约束（除 `void`），意味着以下的代码在 C++20 中也成立：
 
 ```cpp
 
@@ -217,13 +217,13 @@ Abbreviated Function Templates and Constrained Auto
 Concepts: The Future of Generic Programming
 </a>
 <a href="https://blog.csdn.net/audi2/article/details/104551313">
-C++ 20 Concept 语法
+C++20 Concept 语法
 </a>
 <a href="https://ggulgulia.medium.com/c-20-concepts-part-1-the-basics-40f051c72776">
-C++ 20 Concepts: part 1 (the basics)
+C++20 Concepts: part 1 (the basics)
 </a>
 <a href="https://ggulgulia.medium.com/c-20-concepts-part-2-cf18475eb47">
-C++ 20 Concepts: part 2
+C++20 Concepts: part 2
 </a>
 <span>Programming language C++ Sixth edition</span>
 </div>

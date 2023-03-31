@@ -6,7 +6,7 @@ tags: [C++, docs]
 categories: [blog]
 ---
 
-C++ 11 增加了 std::condition_variable 同步原语和 std::this_thread 的 4 个线程控制函数，其实现为编译器黑魔法，可以对线程进行更复杂的控制，而不是仅仅依靠互斥器。
+C++11 增加了 std::condition_variable 同步原语和 std::this_thread 的 4 个线程控制函数，其实现为编译器黑魔法，可以对线程进行更复杂的控制，而不是仅仅依靠互斥器。
 
 <!-- more -->
 

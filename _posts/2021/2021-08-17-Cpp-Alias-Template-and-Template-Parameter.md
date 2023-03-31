@@ -5,7 +5,7 @@ date: "2021-08-17 08:02:00"
 tags: [C++, docs]
 categories: [blog]
 ---
-C++ 的模板是现代 C++ 开发必不可少的一部分。C++ 11 引入了别名模板的特性，使模板嵌套模板能更加方便。
+C++ 的模板是现代 C++ 开发必不可少的一部分。C++11 引入了别名模板的特性，使模板嵌套模板能更加方便。
 
 <!-- more -->
 
@@ -73,7 +73,7 @@ Stack<double> dblStack;
 
 ### 模板的模板参数
 
-C++ 11 提供了一种新的方式：模板的模板参数（Template Template Parameters）：
+C++11 提供了一种新的方式：模板的模板参数（Template Template Parameters）：
 
 ```cpp
 
@@ -166,6 +166,6 @@ int main()
 C++11-17 模板核心知识（十二）—— 模板的模板参数 Template Template Parameters
 </a>
 <span>
-侯捷 C++ 新标准-C++11 / 14
+侯捷 C++ 新标准 - C++11/14
 </span>
 </div>

@@ -5,7 +5,7 @@ date: "2021-09-12 15:50:00"
 tags: [C++, docs]
 categories: [blog]
 ---
-C++ 17 开始，编译器添加了 constexpr if 用于模板的编译期判断，以及 constexpr lambda 用于常量优化。
+C++17 开始，编译器添加了 constexpr if 用于模板的编译期判断，以及 constexpr lambda 用于常量优化。
 
 <!-- more -->
 
@@ -33,7 +33,7 @@ void variadicPrint(T Head, Ts... Tail)
 
 这种写法被称作 SFINAE（Substitution failure is not an error），即编译器对不同重载模板依次匹配，选择最优模板，如果没有最优模板，则认为是错误。
 
-而 C++ 17 引入了 constexpr if 可以将这两个模板合并为一个：
+而 C++17 引入了 constexpr if 可以将这两个模板合并为一个：
 
 ```cpp
 
@@ -49,7 +49,7 @@ void variadicPrint(T head, Ts... tail)
 
 实际上这就是让编译器只在 tail > 0 的时候才递归的展开自身。
 
-C++ 17 开始，当一个常量表达式中允许对其捕获或引入的每个数据成员进行初始化时，lambda表达式可以被声明为constexpr 或在常量表达式中使用（默认constexpr）。
+C++17 开始，当一个常量表达式中允许对其捕获或引入的每个数据成员进行初始化时，lambda表达式可以被声明为constexpr 或在常量表达式中使用（默认constexpr）。
 
 简单来说就是 lambda 可用于 constexpr 的环境中，并且在 constexpr 环境中使用的 lambda 默认 constexpr。
 

@@ -5,7 +5,7 @@ date: "2022-09-02 23:58:00"
 tags: [C++]
 categories: [blog]
 ---
-C++ 11 中增加了关键字 `constexpr`，C++ 20 中增加了关键字 `constinit` 和 `consteval`。其中 `constexpr` 用于声明常量表达式，`consteval` 确保常量求值，`constinit` 用于静态初始化。
+C++11 中增加了关键字 `constexpr`，C++20 中增加了关键字 `constinit` 和 `consteval`。其中 `constexpr` 用于声明常量表达式，`consteval` 确保常量求值，`constinit` 用于静态初始化。
 
 <!-- more -->
 

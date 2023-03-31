@@ -82,7 +82,7 @@ int main()
 
 #### 释放消费顺序 release consume
 
-C++ 17 开始不推荐使用 consume，会自动升级为 acquire。
+C++17 开始不推荐使用 consume，会自动升级为 acquire。
 
 #### 序列一致顺序 sequence consistent
 

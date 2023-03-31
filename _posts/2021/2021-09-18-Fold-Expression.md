@@ -1,19 +1,19 @@
 ---
 layout: post
-title: C++ 17 折叠表达式
+title: C++17 折叠表达式
 date: "2021-09-18 23:15:00"
 tags: [C++, docs]
 categories: [blog]
 ---
-C++ 17 中对可变参数模板的参数包进行了一项改进，即使用折叠表达式（Fold Expression）来简化递归式的“函数调用”，简化了语法。
+C++17 中对可变参数模板的参数包进行了一项改进，即使用折叠表达式（Fold Expression）来简化递归式的“函数调用”，简化了语法。
 
 <!-- more -->
 
-在之前的文章 [C++ 可变参数模板](/blog/2021/08/11/Cpp-Variadic-Template/) 和 [C++ 17 constexpr if 和 constexpr lambda](/blog/2021/09/12/Cpp-17-constexpr-if-and-constexpr-lambda/) 中都有提到过参数包（parameter pack），其中利用参数包实现了一个接收任意数量的参数的 variadicPrint 打印函数，实际上还可以通过折叠表达式进一步简化。
+在之前的文章 [C++ 可变参数模板](/blog/2021/08/11/Cpp-Variadic-Template/) 和 [C++17 constexpr if 和 constexpr lambda](/blog/2021/09/12/Cpp-17-constexpr-if-and-constexpr-lambda/) 中都有提到过参数包（parameter pack），其中利用参数包实现了一个接收任意数量的参数的 variadicPrint 打印函数，实际上还可以通过折叠表达式进一步简化。
 
 使用折叠表达式的前提是使用受支持的 32 个操作符：`+` `-` `*` `/` `%` `^` `&` `|` `=` `<` `>` `<<` `>>` `+=` `-=` `*=` `/=` `%=` `^=` `&=` `|=` `<<=` `>>=` `==` `!=` `<=` `>=` `&&` `||` `,` `.*` `->*`。
 
-C++ 17 的折叠表达式根据标识符的位置分为左折叠和右折叠，根据操作的对象数量分为一元折叠和二元折叠。
+C++17 的折叠表达式根据标识符的位置分为左折叠和右折叠，根据操作的对象数量分为一元折叠和二元折叠。
 
 只有三个运算符允许参数包为空：`&&` `||` 和 `,`，其中`&&` 为 true，`||` 为false，`,` 为 `void()`。
 
@@ -88,7 +88,7 @@ int main()
 
 不过这也存在着非常明显的缺陷：模板参数类型必须为常量，所以必须为 constexpr 类型的变量才可做为模板参数，这极大的限制了这个函数的用途，因为用户自定义类基本都不是 constexpr 的。
 
-C++ 17 添加了 `std::string_view` 来构造一个不需要内存分配的“字符串”，以及 C++ 20 添加了 `std::string` 的 constexpr 构造，因此可以通过此方法通过模板参数输出一个字符串：
+C++17 添加了 `std::string_view` 来构造一个不需要内存分配的“字符串”，以及 C++20 添加了 `std::string` 的 constexpr 构造，因此可以通过此方法通过模板参数输出一个字符串：
 
 ```cpp
 
@@ -163,7 +163,7 @@ void variadicPrint()
 {
     constexpr last = sizeof ...(t) - 1;
     int i = 0;
-    auto wrapper = [i]<class Arg>(Arg arg) mutable // C++ 20
+    auto wrapper = [i]<class Arg>(Arg arg) mutable // C++20
     {
         if (last == i)
         {

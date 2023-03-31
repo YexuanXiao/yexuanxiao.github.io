@@ -73,7 +73,7 @@ vector_base<T, A>::& vector_base<T, A>::operator=(vector_base&& a)
 
 `std::allocator` 是一个无状态的内存分配器，并没有任何数据成员，构造函数等一系列函数也就没实际作用。
 
-C++ 20 的 `std::allocator` 有如下定义（简化） [^2]：
+C++20 的 `std::allocator` 有如下定义（简化） [^2]：
 
 [^2]: 参考 Microsoft STL。
 

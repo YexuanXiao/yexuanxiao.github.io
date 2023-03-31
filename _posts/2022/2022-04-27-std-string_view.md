@@ -5,13 +5,13 @@ date: "2022-04-28 00:36:00"
 tags: [C++]
 categories: [blog]
 ---
-C++ 17 对标准库补充了一些非常使用的容器（C++ 20 起 std::string_view 就不能叫容器了，因为其不持有对象，准确的叫法是视图），`std::string_view` 就是其中之一，`std::string_view` 是个只读的字符串视图，解决了传统 C 字符串的孱弱和减少了额外的 `std::string` 构造。
+C++17 对标准库补充了一些非常使用的容器（C++20 起 std::string_view 就不能叫容器了，因为其不持有对象，准确的叫法是视图），`std::string_view` 就是其中之一，`std::string_view` 是个只读的字符串视图，解决了传统 C 字符串的孱弱和减少了额外的 `std::string` 构造。
 
 <!-- more -->
 
-C++ 17 之前，如果一个函数需要一个常量字符串，参数通常有两个选择：`const char*` 或者 `const std::string&`。前者存在的问题是无法知道长度，后者存在的问题是如果实际传入了字面值，那么还是有潜在的对象构造。
+C++17 之前，如果一个函数需要一个常量字符串，参数通常有两个选择：`const char*` 或者 `const std::string&`。前者存在的问题是无法知道长度，后者存在的问题是如果实际传入了字面值，那么还是有潜在的对象构造。
 
-C++ 17 引入了 `std::string_view` 用于表示字符串常量，彻底取代了传统的字符串字面值，减少了无用的内存分配。`std::string_view` 实际上是 `std::basic_string_view` 的 `char` 特化。
+C++17 引入了 `std::string_view` 用于表示字符串常量，彻底取代了传统的字符串字面值，减少了无用的内存分配。`std::string_view` 实际上是 `std::basic_string_view` 的 `char` 特化。
 
 `std::basic_string_view` 用于任何只需要观测，而不需要修改的情况，同时，为了最大化提高性能，`std::basic_string_view` 持有的字符串不一定以 0 结尾。典型情况为持有已有字符串中的某一段，这意味着 `std::basic_string_view` 能从 C 风格接口中构造，但是不能被传递给一个 C 风格接口。
 

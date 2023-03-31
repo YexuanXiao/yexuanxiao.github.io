@@ -2,32 +2,31 @@
 layout: post
 title: Windows 禁止应用多实例
 date: "2023-03-27 19:28:00"
-tags: [C++]
+tags: [C++,Windows]
 categories: [blog]
 ---
-“简单”研究了一下 Windows 如何禁止应用开启多实例，实际有两个通用方案：使用 `CreateFileW` 在临时文件夹中创建一个独占的文件实现互斥以及使用 `CreateMutexExW` 创建一个独占的具名互斥锁实现互斥；需要监听端口的程序使用 `bind` 时也自带这种效果。这些方法都能实现原子的互斥，我曾经遇到过手速过快导致某些禁止多实例的应用开启多实例的问题，而这些方法能避免此问题。
+“简单”研究了一下 Windows 如何禁止应用开启多实例，实际有两个通用方案：使用 `CreateFileW` 在临时文件夹中创建一个独占的文件实现互斥以及使用 `CreateMutexExW` 创建一个独占的具名互斥锁实现互斥；需要监听端口的程序使用 `bind` 时也自带这种效果，这些方法都能实现原子的互斥。
 
 <!-- more -->
 
-微软实际上推荐使用 `CreateFileW` 在用户文件夹里创建唯一的文件，因为这样可以只禁止单用户多实例不禁止每个月用户有自己实例，但考虑到使用文件的方式会有写入磁盘的开销，并且获得临时文件夹路径的 API 不保证临时文件夹一定可用（这代表可能因此出现其他的失败情景或者需要进一步处理），实际上我选择了一种折衷方案：获得临时文件夹的路径作为具名互斥锁的名字。
+微软实际上推荐使用 `CreateFileW` 在用户临时文件夹里创建唯一的文件，因为这样可以只禁止单用户多实例不禁止每个用户有自己的实例，但考虑到使用文件的方式会创建不必要的文件，并且获得临时文件夹路径的 API 不保证临时文件夹一定可用（这代表可能因此出现其他的失败情景或者需要进一步处理），因此我选择了一种折衷方案：获得临时文件夹的路径作为具名互斥锁的部分名字。
 
 基础代码非常简单：
 
 ```cpp
 
-#include <Windows.h>
-
 // use user's temp folder name as part of mutex name
 // extra name
-constexpr std::wstring_view extra{ L"PlayerWinMutex\0" };
+auto constexpr extra{ L"PlayerWinMutex\0"sv };
+auto a{ signed char{ 0 } };
 // name buffer
-std::array<wchar_t, MAX_PATH + 2 + extra.size() + 1> name;
+auto name{ std::to_array<wchar_t, MAX_PATH + 2 + extra.size() + 1>({}) };
 // get tmp folder, not guaranteed path availablity
 auto length{ GetTempPathW(static_cast<DWORD>(name.size()), &name[0]) };
 // add extra to path
 std::memcpy(&name[length], extra.data(), extra.size() + 1);
 // check mutex is held by another instance, NO NEED TO USE GetLastError
-if (!::CreateMutexExW(NULL, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) {
+if (!::CreateMutexExW(nullptr, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) {
     // do something else,
     // such as print log, notify user or synchroniz with other instance
     ::ExitProcess(1u);
@@ -42,11 +41,11 @@ if (!::CreateMutexExW(NULL, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) {
 ```cpp
 
 // enumerate all direct child windows of desktop
-for (auto pre{ ::FindWindowExW(NULL, NULL, NULL, NULL) };
+for (auto pre{ ::FindWindowExW(nullptr, nullptr, nullptr, nullptr) };
     // return null if at the end
-    pre != NULL;
+    pre != nullptr;
     // pass the pre as the 2nd argument to get next handle
-    pre = ::FindWindowExW(NULL, pre, NULL, NULL))
+    pre = ::FindWindowExW(nullptr, pre, nullptr, nullptr))
 {
     // check if window has the specified property
     // set in MainWindow constructor
@@ -66,10 +65,10 @@ for (auto pre{ ::FindWindowExW(NULL, NULL, NULL, NULL) };
 
 ```cpp
 
-HWND hWnd; // current window's hwnd
+HWND handle; // current window's handle
 
-::SetPropW(hWnd, L"PlayerWinRT", hWnd);
+::SetPropW(handle, L"PlayerWinRT", handle);
 
 ```
 
-原理是通过给窗口设置一个辨识应用的属性（字符串），注意微软的文档有误，`SetPropW` 的第三个参数（属性的值的 HANDLE）为必填，如果该值为 0 会导致 `GetPropW` 返回 0（等同于属性不存在），这里使用当前窗口的 `HWND`，并无实际意义。
+原理是通过给窗口设置一个辨识应用的属性名（字符串），注意微软的文档有误，`SetPropW` 的第三个参数（属性值的 HANDLE）为必填，如果该值为 0 会导致 `GetPropW` 返回 0（等同于属性不存在），这里使用当前窗口的句柄作为属性的值，并无实际意义。

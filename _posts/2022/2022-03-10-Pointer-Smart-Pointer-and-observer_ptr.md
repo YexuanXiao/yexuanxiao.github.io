@@ -96,7 +96,7 @@ void g()
 
 对于迭代和对多个对象（如数组）的非所有权引用，**Range**s 和 **span**s [^2]（我认为）是一个比 **observer_ptr**s 和原始指针混合的更好的解决方案。
 
-[^2]: span 设计与 2015 年的 GSL，在 C++ 17 中成为标准，observer_ptr 设计于 2014 年，本文写于 2018 年，参考之前的文章 [C++ std::span](/blog/2022/01/09/std-span/)
+[^2]: span 设计与 2015 年的 GSL，在 C++17 中成为标准，observer_ptr 设计于 2014 年，本文写于 2018 年，参考之前的文章 [C++ std::span](/blog/2022/01/09/std-span/)
 
 ### 替代
 
