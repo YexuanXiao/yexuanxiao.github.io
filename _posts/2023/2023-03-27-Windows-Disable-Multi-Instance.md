@@ -18,13 +18,14 @@ categories: [blog]
 // use user's temp folder name as part of mutex name
 // extra name
 auto constexpr extra{ L"PlayerWinMutex\0"sv };
-auto a{ signed char{ 0 } };
 // name buffer
 auto name{ std::to_array<wchar_t, MAX_PATH + 2 + extra.size() + 1>({}) };
 // get tmp folder, not guaranteed path availablity
 auto length{ GetTempPathW(static_cast<DWORD>(name.size()), &name[0]) };
 // add extra to path
 std::memcpy(&name[length], extra.data(), extra.size() + 1);
+// mutex name can't contain '\'
+std::replace(&name[0], &name[length], '\\', '/');
 // check mutex is held by another instance, NO NEED TO USE GetLastError
 if (!::CreateMutexExW(nullptr, &name[0], CREATE_MUTEX_INITIAL_OWNER, NULL)) {
     // do something else,
@@ -72,3 +73,5 @@ HWND handle; // current window's handle
 ```
 
 原理是通过给窗口设置一个辨识应用的属性名（字符串），注意微软的文档有误，`SetPropW` 的第三个参数（属性值的 HANDLE）为必填，如果该值为 0 会导致 `GetPropW` 返回 0（等同于属性不存在），这里使用当前窗口的句柄作为属性的值，并无实际意义。
+
+对于 WinUI 3 应用，微软提供了一种“简单”的方法可以阻止多实例：[App Lifecycle](https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/applifecycle).
