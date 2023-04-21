@@ -1,7 +1,7 @@
 ---
 layout: post
 title: C++ 20 CPO 和 Ranges 新算法
-date: "2023-04-16 19:45:00"
+date: "2023-04-18 19:45:00"
 tags: [C++,Windows]
 categories: [blog]
 ---
@@ -128,6 +128,7 @@ find(a.begin(), a.end(), 2);
 
 1. `vector` 在 `std` 命名空间里，因此 ADL 可以找到 `std:find`
 2. `std::find` 作为老 STL 算法，通常要求 `begin` 和 `end` 迭代器有相同类型，而新算法不要求，因此 `std::find` 比 `std::ranges::find` 更特化
+
     同时，`std::ranges::find` 存在 Concepts，更约束，但是特化优于约束
 
 因此如果 `std::ranges::find` 是普通函数，则上述代码会使用 `std::find`。
@@ -138,7 +139,7 @@ find(a.begin(), a.end(), 2);
 
 ### 如何实现 CPO 和 Niebloids
 
-学习如何实现 CPO 和 Niebloids 还是有用的，因为作为库作者很可能需要我们自己提供定制点，但 CPO 和 Niebloids 实际上不能通过 Lambda 实现，原因在[A note on namespace __cpo](https://quuxplusone.github.io/blog/2021/12/07/namespace-cpo/)。
+学习如何实现 CPO 和 Niebloids 还是有用的，因为作为库作者很可能需要我们自己提供定制点，但 CPO 和 Niebloids 实际上不能通过 Lambda 实现，原因在 [A note on namespace __cpo](https://quuxplusone.github.io/blog/2021/12/07/namespace-cpo/)。
 
 当然，实现 CPO 和 Niebloids 并不需要多么复杂，如果你不想要知道原因（除了定制标准和发明 CPO 以外没人需要知道原因），照抄下面的模板即可：
 

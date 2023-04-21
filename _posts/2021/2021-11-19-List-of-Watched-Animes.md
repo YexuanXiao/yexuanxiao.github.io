@@ -14,7 +14,7 @@ categories: [by-talk]
 <script>
 {
     const txtFile = new XMLHttpRequest()
-    txtFile.open('GET', 'https://cdn.jsdelivr.net/gh/YexuanXiao/Sundry@master/list.html', true)
+    txtFile.open('GET', 'https://static.mysteriouspreserve.com/animelist.html', true)
     txtFile.onreadystatechange = () => {
         if (txtFile.readyState === 4) {
             if (txtFile.status === 200) {
