@@ -268,11 +268,11 @@ for (let element of document.body.querySelectorAll('pre>code[class]')) {
 
 // fix sina images
 for (const element of document.body.querySelectorAll('.post-text img')) {
-	if(element.src.includes('sinaimg')) {
-		console.log(element.src)
-		let url = new URL(element.src);
-		url.host = 'snimg.jamyido.top';
-		element.src = url.href;
+	const old = element.src
+	if(old.includes('sinaimg')) {
+		let url = new URL(old);
+		url.protocol = 'http:';
+		element.src = 'https://image.baidu.com/search/down?url=' + url.href;
 	}
 }
 
