@@ -5,19 +5,19 @@ date: "2023-04-19 19:45:00"
 tags: [C++,C]
 categories: [blog]
 ---
-这是 Go 语言现任领队 Russ Cox 在 2021 年写的文章 [Programming Language Memory Models](https://research.swtch.com/plmm) 的翻译。
+这是 Go 语言现任领队 Russ Cox 在 2021 年写的文章 [Programming Language Memory Models](https://research.swtch.com/plmm) 的英文原版的备份。
 
 本文是第二篇，重点阐述了 C++ 和 Java 对内存模型设计的历史，以及 ECMAScript 2017 的初步尝试。
 
 <!-- more -->
 
-# 编程语言内存模型
+# Programming Language Memory Models
 
-（_内存模型，第二部分_）
+\(_[Memory Models](mm), Part 2_\)
 
-发布于 2021 年 7 月 6 日星期二。
+Posted on Tuesday, July 6, 2021.
 
-编程语言内存模型回答了并行程序可以依赖哪些行为在其线程之间共享内存的问题。例如，考虑这个类似 C 语言的程序，其中 `x` 和 `done` 初始值为 0。
+Programming language memory models answer the question of what behaviors parallel programs can rely on to share memory between their threads. For example, consider this program in a C-like language, where both `x` and `done` start out zeroed.
 
 ```c
 
@@ -27,51 +27,49 @@ done = 1;             print(x);
 
 ```
 
-程序尝试将 `x` 中的消息从线程 1 发送到线程 2，使用 `done` 作为消息已准备好接收的信号。如果线程 1 和线程 2 各自在自己的专用处理器上运行，都运行到完成，则此程序是否保证按预期完成并打印 1？编程语言内存模型回答了这个问题和其他类似的问题。
+The program attempts to send a message in `x` from thread 1 to thread 2, using `done` as the signal that the message is ready to be received. If thread 1 and thread 2, each running on its own dedicated processor, both run to completion, is this program guaranteed to finish and print 1, as intended\? The programming language memory model answers that question and others like it.
 
-尽管每种编程语言在细节上有所不同，但基本上所有现代多线程语言（包括 C，C++，Go，Java，JavaScript，Rust 和 Swift）都有一些通用答案：
+Although each programming language differs in the details, a few general answers are true of essentially all modern multithreaded languages, including C, C++, Go, Java, JavaScript, Rust, and Swift:
 
-* 首先，如果 `x` 和 `done` 是普通变量，那么线程 2 的循环可能永远不会停止。常见的编译器优化是在变量首次使用时将其加载到寄存器中，然后尽可能长时间地重用该寄存器以供将来访问该变量。如果线程 2 在线程 1 执行之前将 `done` 复制到寄存器中，则它可能会在整个循环中继续使用该寄存器，而不会注意到线程 1 稍后修改了 `done`。
-* 其次，即使线程 2 的循环确实停止，在观察到 `done == 1` 之后，它仍然可能打印出 `x` 为 0。编译器通常根据优化启发式方法重新排序程序读取和写入，甚至只是基于生成代码时最终遍历哈希表或其他中间数据结构的方式。线程 1 的编译代码可能最终在“完成”而不是“之前”之后写入 `x` ，或者线程 2 的编译代码可能最终在循环之前读取 `x` 。
+* First, if `x` and `done` are ordinary variables, then thread 2's loop may never stop. A common compiler optimization is to load a variable into a register at its first use and then reuse that register for future accesses to the variable, for as long as possible. If thread 2 copies `done` into a register before thread 1 executes, it may keep using that register for the entire loop, never noticing that thread 1 later modifies `done`.
+* Second, even if thread 2's loop does stop, having observed `done` `==` `1`, it may still print that `x` is 0. Compilers often reorder program reads and writes based on optimization heuristics or even just the way hash tables or other intermediate data structures end up being traversed while generating code. The compiled code for thread 1 may end up writing to `x` after `done` instead of `before`, or the compiled code for thread 2 may end up reading `x` before the loop.
 
-在给出程序破坏的原因后，重点是如何修复它。
+Given how broken this program is, the obvious question is how to fix it.
 
-现代语言以 _原子变量_ 或 _原子操作_ 的形式提供特殊功能，以允许程序同步其线程。如果我们使`done`成为原子变量（或使用原子操作，在采用该方法的语言中操作它），那么我们的程序可以保证完成并打印 1。使 `done` 原子具有许多效果：
+Modern languages provide special functionality, in the form of _atomic variables_ or _atomic operations_, to allow a program to synchronize its threads. If we make `done` an atomic variable \(or manipulate it using atomic operations, in languages that take that approach\), then our program is guaranteed to finish and to print 1. Making `done` atomic has many effects:
 
-* 线程 1 编译的代码必须确保对 `x` 的写入已完成，并且在写入 `done` 变得可见之前对其他线程可见。
-* 线程 2 编译的代码必须在循环的每次迭代中（重新）读取 `done`。
-* 线程 2 编译的代码必须在从 `done` 读取后从 `x` 读取。
-* 编译的代码必须执行任何必要的操作来禁用可能重新引入任何这些问题的硬件优化。
+* The compiled code for thread 1 must make sure that the write to `x` completes and is visible to other threads before the write to `done` becomes visible.
+* The compiled code for thread 2 must \(re\)read `done` on every iteration of the loop.
+* The compiled code for thread 2 must read from `x` after the reads from `done`.
+* The compiled code must do whatever is necessary to disable hardware optimizations that might reintroduce any of those problems.
 
-使 `done` 原子化的最终结果是程序按照我们想要的方式运行，成功地将 `x` 中的值从线程 1 传递到线程 2。
+The end result of making `done` atomic is that the program behaves as we want, successfully passing the value in `x` from thread 1 to thread 2.
 
-在原始程序中，在编译器的代码重新排序之后，线程 1 可能在线程 2 读取它的同时写入 `x`。这是一个 _数据竞争_。在修订后的程序中，原子变量  `done` 用于同步对 `x` 的访问：现在线程 1 不可能在线程 2 读取它的同时写入 `x`。该程序 _无数据竞争_。一般来说，现代语言保证无数据争用的程序始终以顺序一致的方式执行，就好像来自不同线程的操作任意但不重新排序地交错到单个处理器上。这是在编程语言上下文中采用的 [硬件内存模型中的 DRF-SC 属性](https://mysteriouspreserve.com/blog/2023/04/19/Hardware-Memory-Model-zh/#drf)。
+In the original program, after the compiler's code reordering, thread 1 could be writing `x` at the same moment that thread 2 was reading it. This is a _data race_. In the revised program, the atomic variable `done` serves to synchronize access to `x`: it is now impossible for thread 1 to be writing `x` at the same moment that thread 2 is reading it. The program is _data-race-free_. In general, modern languages guarantee that data-race-free programs always execute in a sequentially consistent way, as if the operations from the different threads were interleaved, arbitrarily but without reordering, onto a single processor. This is the [DRF-SC property from hardware memory models](hwmm#drf), adopted in the programming language context.
 
-顺便说一句，这些原子变量或原子操作更合适地称为“同步原子”。确实，这些操作在数据库意义上是原子的，允许同时读取和写入，其行为就像按某种顺序顺序运行：普通变量上的竞争在使用原子时不是竞争。但更重要的是，原子同步程序的其余部分，提供一种消除非原子数据竞争的方法。不过，标准术语是简单的“原子”，所以本文也这么使用。除非另有说明，请记住将“原子”理解为“同步原子”。
+As an aside, these atomic variables or atomic operations would more properly be called “synchronizing atomics.” It's true that the operations are atomic in the database sense, allowing simultaneous reads and writes which behave as if run sequentially in some order: what would be a race on ordinary variables is not a race when using atomics. But it's even more important that the atomics synchronize the rest of the program, providing a way to eliminate races on the non-atomic data. The standard terminology is plain “atomic”, though, so that's what this post uses. Just remember to read “atomic” as “synchronizing atomic” unless noted otherwise.
 
-编程语言内存模型指定了程序员和编译器所需内容的确切细节，作为它们之间的契约。上面概述的一般特征基本上适用于所有现代语言，但直到最近，事情才趋于一致：在 2000 年代初期，变化明显更多。即使在今天，不同语言在二阶问题上也存在显着差异，包括：
+The programming language memory model specifies the exact details of what is required from programmers and from compilers, serving as a contract between them. The general features sketched above are true of essentially all modern languages, but it is only recently that things have converged to this point: in the early 2000s, there was significantly more variation. Even today there is significant variation among languages on second-order questions, including:
 
-* 原子变量本身的顺序保证是什么？
-* 一个变量可以被原子操作和非原子操作访问吗？
-* 除了原子之外还有同步机制吗？
-* 是否存在不同步的原子操作？
-* 带有种族的节目有任何保证吗？
+* What are the ordering guarantees for atomic variables themselves\?
+* Can a variable be accessed by both atomic and non-atomic operations\?
+* Are there synchronization mechanisms besides atomics\?
+* Are there atomic operations that don't synchronize\?
+* Do programs with races have any guarantees at all\?
 
-经过一些准备工作后，本文的其余部分将研究不同的语言如何回答这些问题和相关问题，以及它们实现这一目标所采取的路径。本文还强调了这一过程中的许多错误开始，以强调我们仍然在很大程度上了解什么有效，什么无效。
+After some preliminaries, the rest of this post examines how different languages answer these and related questions, along with the paths they took to get there. The post also highlights the many false starts along the way, to emphasize that we are still very much learning what works and what does not.
 
-## [硬件，Litmus 测试，先发生于和 DRF-SC](#hw)
+## [Hardware, Litmus Tests, Happens Before, and DRF-SC](#hw)
 
-在我们了解任何特定语言的详细信息之前，我们需要记住[硬件内存模型](https://mysteriouspreserve.com/blog/2023/04/19/Hardware-Memory-Model-zh/)的经验教训的简要总结。
+Before we get to details of any particular language, a brief summary of lessons from [hardware memory models](hwmm) that we will need to keep in mind.
 
-不同的体系结构允许不同数量的指令重新排序，因此在多个处理器上并行运行的代码可以根据体系结构具有不同的允许结果。黄金标准是[顺序一致性](https://mysteriouspreserve.com/blog/2023/04/19/Hardware-Memory-Model-zh/#sc)，其中任何执行都必须表现得好像在不同处理器上执行的程序只是以某种顺序交错到单个处理器上。该模型对于开发人员来说更容易推理，但目前还没有重要的架构提供它，因为较弱的保证带来了性能提升。
+Different architectures allow different amounts of reordering of instructions, so that code running in parallel on multiple processors can have different allowed results depending on the architecture. The gold standard is [sequential consistency](hwmm#sc), in which any execution must behave as if the programs executed on the different processors were simply interleaved in some order onto a single processor. That model is much easier for developers to reason about, but no significant architecture provides it today, because of the performance gains enabled by weaker guarantees.
 
 It is difficult to make completely general statements comparing different memory models. Instead, it can help to focus on specific test cases, called _litmus tests_. If two memory models allow different behaviors for a given litmus test, this proves they are different and usually helps us see whether, at least for that test case, one is weaker or stronger than the other. For example, here is the litmus test form of the program we examined earlier:
 
-比较不同的内存模型很难做出完全通用的陈述。相反，它可以帮助您专注于特定的测试用例，称为 _litmus 测试_。如果两个记忆模型对于给定的 litmus 测试允许不同的行为，这证明它们是不同的，并且通常可以帮助我们了解至少对于该测试用例，一个模型是否比另一个更弱或更强。例如，这是我们之前检查的程序的 litmus 测试形式：
-
-> _Litmus 测试：消息传递_
+> _Litmus Test: Message Passing_
 >
-> 这个程序能观测到 `r1 = 1`，`r2 = 0` 吗？
+> Can this program see `r1` `=` `1`, `r2` `=` `0`\?
 
 ```c
 
@@ -81,35 +79,35 @@ y = 1                 r2 = x
 
 ```
 
-> 在顺序一致的硬件上：否。
+> On sequentially consistent hardware: no.
 >
-> 在 x86（或其他 TSO）上：否。
+> On x86 \(or other TSO\): no.
 >
-> 在 ARM/POWER 上：_是！_
+> On ARM/POWER: _yes\!_
 >
-> 在任何使用普通变量的现代编译语言中：_是！_
+> In any modern compiled language using ordinary variables: _yes\!_
 
-与上一篇文章一样，我们假设每个示例都以所有共享变量初始值都为 0。名称 `r`_N_ 表示私有存储，如寄存器或函数局部变量；其他名称如 `x` 和 `y` 是不同的、共享的（全局）变量。我们询问在执行结束时是否可以对寄存器进行特定设置。在回答硬件的 litmus 测试时，我们假设没有编译器来重新排序线程中发生的事情：列表中的指令直接转换为提供给处理器执行的汇编指令。
+As in the previous post, we assume every example starts with all shared variables set to zero. The name `r`_N_ denotes private storage like a register or function-local variable; the other names like `x` and `y` are distinct, shared \(global\) variables. We ask whether a particular setting of registers is possible at the end of an execution. When answering the litmus test for hardware, we assume that there's no compiler to reorder what happens in the thread: the instructions in the listings are directly translated to assembly instructions given to the processor to execute.
 
-结果 `r1 = 1`、`r2 = 0` 对应于原始程序的线程 2 完成其循环（`done` 是 `y`），但随后打印 0。在程序操作的任何顺序一致交错中都不可能出现此结果。对于汇编语言版本，在 x86 上不可能打印 0，但由于处理器本身的重新排序优化，在 ARM 和 POWER 等更宽松的体系结构上可以打印 0。在现代语言中，无论底层硬件是什么，编译期间可能发生的重新排序都使得这种结果成为可能。
+The outcome `r1` `=` `1`, `r2` `=` `0` corresponds to the original program's thread 2 finishing its loop \(`done` is `y`\) but then printing 0. This result is not possible in any sequentially consistent interleaving of the program operations. For an assembly language version, printing 0 is not possible on x86, although it is possible on more relaxed architectures like ARM and POWER due to reordering optimizations in the processors themselves. In a modern language, the reordering that can happen during compilation makes this outcome possible no matter what the underlying hardware.
 
-正如我们前面提到的，今天的处理器不是保证顺序一致性，而是保证一个称为[“无数据争用顺序一致性”或 DRF-SC](https://mysteriouspreserve.com/blog/2023/04/19/Hardware-Memory-Model-zh/#drf)（有时也写为 SC-DRF）的属性。保证 DRF-SC 的系统必须定义称为 _同步指令_ 的特定指令，它提供了一种协调不同处理器（相当于线程）的方法。程序使用这些指令在一个处理器上运行的代码与另一个处理器上运行的代码之间创建“先发生于”关系。
+Instead of guaranteeing sequential consistency, as we mentioned earlier, today's processors guarantee a property called [“data-race-free sequential-consistency”, or DRF-SC](hwmm#drf) \(sometimes also written SC-DRF\). A system guaranteeing DRF-SC must define specific instructions called _synchronizing instructions_, which provide a way to coordinate different processors \(equivalently, threads\). Programs use those instructions to create a “happens before” relationship between code running on one processor and code running on another.
 
-例如，这里描述了一个程序在两个线程上的短暂执行；像往常一样，假设每个都位于其自己的专用处理器上：
+For example, here is a depiction of a short execution of a program on two threads; as usual, each is assumed to be on its own dedicated processor:
 
 ![](mem-adve-4.png)
 
-我们在上一篇文章中也看到了这个程序。线程1和线程2执行同步指令 S\(a\)。在程序的这个特定执行中，两条 S\(a\) 指令建立了从线程 1 到线程 2 的 happens-before 关系，因此线程 1 中的 W\(x\) 先发生于线程 2 的 R\(x\)。
+We saw this program in the previous post too. Thread 1 and thread 2 execute a synchronizing instruction S\(a\). In this particular execution of the program, the two S\(a\) instructions establish a happens-before relationship from thread 1 to thread 2, so the W\(x\) in thread 1 happens before the R\(x\) in thread 2.
 
-不同处理器上按 happens-before 排序的两个事件可能同时发生：确切顺序尚不清楚。我们说他们 _并发_ 执行。数据争用是指对变量的写入与对该变量的读取或另一次写入同时执行。提供 DRF-SC 的处理器（现在的所有处理器）保证程序 _没有_ 数据竞争的行为，就像它们在顺序一致的架构上运行一样。这是在现代处理器上编写正确的多线程汇编程序的基本保证。
+Two events on different processors that are _not_ ordered by happens-before might occur at the same moment: the exact order is unclear. We say they execute _concurrently_. A data race is when a write to a variable executes concurrently with a read or another write of that same variable. Processors that provide DRF-SC \(all of them, these days\) guarantee that programs _without_ data races behave as if they were running on a sequentially consistent architecture. This is the fundamental guarantee that makes it possible to write correct multithreaded assembly programs on modern processors.
 
-正如我们之前看到的，DRF-SC也是现代语言所采用的基本保证，使得用高级语言编写正确的多线程程序成为可能。
+As we saw earlier, DRF-SC is also the fundamental guarantee that modern languages have adopted to make it possible to write correct multithreaded programs in higher-level languages.
 
-## [编译器和优化](#compilers)
+## [Compilers and Optimizations](#compilers)
 
-我们已经多次提到，编译器可能会在生成最终可执行代码的过程中对输入程序中的操作重新排序。让我们仔细看看该声明以及其他可能导致问题的优化。
+We have mentioned a couple times that compilers might reorder the operations in the input program in the course of generating the final executable code. Let's take a closer look at that claim and at other optimizations that might cause problems.
 
-人们普遍认为，编译器可以几乎任意地对普通的读取和写入进行重新排序，前提是重新排序不能改变单线程执行时代码的可见行为。例如，考虑以下程序：
+It is generally accepted that a compiler can reorder ordinary reads from and writes to memory almost arbitrarily, provided the reordering cannot change the observed single-threaded execution of the code. For example, consider this program:
 
 ```c
 
@@ -120,17 +118,17 @@ r2 = z
 
 ```
 
-由于 `w`、`x`、`y` 和 `z` 都是不同的变量，因此这四个语句可以按照编译器认为的最佳任何顺序执行。
+Since `w`, `x`, `y`, and `z` are all different variables, these four statements can be executed in any order deemed best by the compiler.
 
-正如我们上面提到的，如此自由地重新排序读取和写入的能力使得普通编译程序的保证至少与 ARM/POWER 宽松内存模型一样弱，因为编译程序无法通过消息传递 litmus 测试。事实上，对已编译程序的保证较弱。
+As we noted above, the ability to reorder reads and writes so freely makes the guarantees of ordinary compiled programs at least as weak as the ARM/POWER relaxed memory model, since compiled programs fail the message passing litmus test. In fact, the guarantees for compiled programs are weaker.
 
-在硬件文章中，我们将一致性作为 ARM/POWER 架构保证的一个例子：
+In the hardware post, we looked at coherence as an example of something that ARM/POWER architectures do guarantee:
 
-> _Litmus 测试：一致性_
+> _Litmus Test: Coherence_
 >
-> 这个程序能观察到 `r1 = 1`, `r2 = 2`, `r3 = 2`, `r4 = 1` 吗？
+> Can this program see `r1` `=` `1`, `r2` `=` `2`, `r3` `=` `2`, `r4` `=` `1`\?
 >
-> （线程 3 能在 `x = 1` 在 `x = 2` 之前，并且线程 4 看到相反的结果吗？）
+> \(Can Thread 3 see `x` `=` `1` before `x` `=` `2` while Thread 4 sees the reverse\?\)
 
 ```c
 
@@ -140,17 +138,17 @@ x = 1          x = 2          r1 = x         r3 = x
 
 ```
 
-> 在顺序一致的硬件上：否。
+> On sequentially consistent hardware: no.
 >
-> 在 x86 上（或其他 TSO）：否。
+> On x86 \(or other TSO\): no.
 >
-> 在 ARM/POWER 上：否。
+> On ARM/POWER: no.
 >
-> 在任何使用普通变量的现代编译语言中： _是！_
+> In any modern compiled language using ordinary variables: _yes\!_
 
-所有现代硬件都保证了一致性，这也可以看作是单个内存位置上操作的顺序一致性。在这个程序中，其中一个写入必须覆盖另一个，整个系统必须同意一个固定顺序。事实证明，由于编译过程中的程序重新排序，现代语言甚至不提供一致性。
+All modern hardware guarantees coherence, which can also be viewed as sequential consistency for the operations on a single memory location. In this program, one of the writes must overwrite the other, and the entire system has to agree about which is which. It turns out that, because of program reordering during compilation, modern languages do not even provide coherence.
 
-假设编译器对线程 4 中的两个读取重新排序，然后指令按以下顺序交错运行：
+Suppose the compiler reorders the two reads in thread 4, and then the instructions run as if interleaved in this order:
 
 ```c
 
@@ -161,11 +159,11 @@ x = 1          x = 2          r1 = x         r3 = x
 
 ```
 
-结果是 `r1 = 1`，`r2 = 2`，`r3 = 2`，`r4 = 1`，这在汇编程序中是不可能的，但在高级语言中是可能的。从这个意义上说，编程语言内存模型都比最宽松的硬件内存模型弱。
+The result is `r1` `=` `1`, `r2` `=` `2`, `r3` `=` `2`, `r4` `=` `1`, which was impossible in the assembly programs but possible in high-level languages. In this sense, programming language memory models are all weaker than the most relaxed hardware memory models.
 
-但还有一些保证。每个人都同意需要提供 DRF-SC，这不允许引入新读取或写入的优化，即使这些优化在单线程代码中有效。
+But there are some guarantees. Everyone agrees on the need to provide DRF-SC, which disallows optimizations that introduce new reads or writes, even if those optimizations would have been valid in single-threaded code.
 
-例如，请考虑以下代码：
+For example, consider this code:
 
 ```c
 
@@ -177,7 +175,7 @@ if (c) {
 
 ```
 
-有一个 `if` 语句，`else` 中有很多代码，而 `if` 主体中只有一个 `x++`。减少分支并完全消除 `if` 主体可能会更“便宜”。我们可以通过在 `if` 之前运行 `x++` 来做到这一点，然后如果我们错了，则在大的 else 主体中使用 `x--` 进行调整。也就是说，编译器可能会考虑将该代码重写为：
+There’s an `if` statement with lots of code in the `else` and only an `x++` in the `if` body. It might be cheaper to have fewer branches and eliminate the `if` body entirely. We can do that by running the `x++` before the `if` and then adjusting with an `x--` in the big else body if we were wrong. That is, the compiler might consider rewriting that code to:
 
 ```c
 
@@ -189,20 +187,19 @@ if (!c) {
 
 ```
 
-这是安全的编译器优化吗？在单线程程序中，是的。在多线程程序中，当 `c` 为 false 时，`x` 与另一个线程共享，否：优化会在 `x` 上引入原始程序中不存在的竞争。
+Is this a safe compiler optimization\? In a single-threaded program, yes. In a multithreaded program in which `x` is shared with another thread when `c` is false, no: the optimization would introduce a race on `x` that was not present in the original program.
 
-此示例源自 Hans Boehm 2004 年的论文中的一个，“[线程不能作为库实现](https://www.hpl.hp.com/techreports/2004/HPL-2004-209.pdf)”，这使得语言不能对多线程执行的语义保持沉默。
+This example is derived from one in Hans Boehm's 2004 paper, “[Threads Cannot Be Implemented As a Library](https://www.hpl.hp.com/techreports/2004/HPL-2004-209.pdf),” which makes the case that languages cannot be silent about the semantics of multithreaded execution.
 
-编程语言内存模型试图准确回答这些问题：哪些优化是允许的，哪些是不允许的。通过研究过去几十年来尝试编写这些模型的历史，我们可以了解哪些有效，哪些无效，并了解事情的发展方向。
+The programming language memory model is an attempt to precisely answer these questions about which optimizations are allowed and which are not. By examining the history of attempts at writing these models over the past couple decades, we can learn what worked and what didn't, and get a sense of where things are headed.
 
-## [原始的 Java 内存模型（1996）](#java96)
+## [Original Java Memory Model \(1996\)](#java96)
 
+Java was the first mainstream language to try to write down what it guaranteed to multithreaded programs. It included mutexes and defined the memory ordering requirements they implied. It also included “volatile” atomic variables: all the reads and writes of volatile variables were required to execute in program order directly in main memory, making the operations on volatile variables behave in a sequentially consistent manner. Finally, Java also specified \(or at least attempted to specify\) the behavior of programs with data races. One part of this was to mandate a form of coherence for ordinary variables, which we will examine more below. Unfortunately, this attempt, in the first edition of the [_Java Language Specification_ \(1996\)](http://titanium.cs.berkeley.edu/doc/java-langspec-1.0.pdf), had at least two serious flaws. They are easy to explain with the benefit of hindsight and using the preliminaries we've already set down. At the time, they were far less obvious.
 
-Java 是第一个尝试写下它对多线程程序的保证的主流语言。它包括互斥体并定义了它们隐含的内存排序要求。它还包括“易失性”原子变量：所有易失性变量的读写都需要直接在主内存中按程序顺序执行，使得对易失性变量的操作以顺序一致的方式表现。最后，Java 还指定了（或至少尝试指定）具有数据竞争的程序的行为。其中一部分是要求普通变量具有某种形式的一致性，我们将在下面详细讨论。不幸的是，这种尝试在[_Java语言规范_（1996）](http://titanium.cs.berkeley.edu/doc/java-langspec-1.0.pdf)第一版中至少有两个严重的问题缺陷。通过事后诸葛亮和使用我们已经设定的预备知识，它们很容易解释。当时，它们远没有那么明显。
+### [Atomics need to synchronize](#atomics)
 
-### [原子需要同步](#atomics)
-
-第一个缺陷是易失性原子变量是非同步的，因此它们无助于消除程序其余部分中的竞争。我们上面看到的消息传递程序的 Java 版本是：
+The first flaw was that volatile atomic variables were non-synchronizing, so they did not help eliminate races in the rest of the program. The Java version of the message passing program we saw above would be:
 
 ```java
 
@@ -215,51 +212,51 @@ done = 1;             print\(x\);
 
 ```
 
-因为 `done` 被声明为易失性，所以保证循环完成：编译器无法将其缓存在寄存器中并导致无限循环。但是，程序不保证打印 1。不禁止编译器重新排序对 `x` 和 `done` 的访问，也不需要禁止硬件执行相同的操作。
+Because `done` is declared volatile, the loop is guaranteed to finish: the compiler cannot cache it in a register and cause an infinite loop. However, the program is not guaranteed to print 1. The compiler was not prohibited from reordering the accesses to `x` and `done`, nor was it required to prohibit the hardware from doing the same.
 
-由于 Java 易失性是非同步原子，因此您无法使用它们来构建新的同步原语。从这个意义上说，原始的 Java 内存模型太弱了。
+Because Java volatiles were non-synchronizing atomics, you could not use them to build new synchronization primitives. In this sense, the original Java memory model was too weak.
 
-### [一致性与编译器优化不兼容](#coherence)
+### [Coherence is incompatible with compiler optimizations](#coherence)
 
-原始的 Java 内存模型也太强大了：强制一致性——一旦线程读取了内存位置的新值，它就不能再读取旧值了——不允许进行基本的编译器优化。之前我们研究了重新排序读取会如何破坏一致性，但您可能会想，好吧，只是不要重新排序读取。这是另一种优化可能会破坏一致性的更微妙的方式：公共子表达式消除。
+The orginal Java memory model was also too strong: mandating coherence—once a thread had read a new value of a memory location, it could not appear to later read the old value—disallowed basic compiler optimizations. Earlier we looked at how reordering reads would break coherence, but you might think, well, just don't reorder reads. Here's a more subtle way coherence might be broken by another optimization: common subexpression elimination.
 
-考虑如下 Java 程序：
+Consider this Java program:
 
 ```java
 
-// p 和 q 可能指向同一个对象，也可能不指向同一个对象。
+// p and q may or may not point at the same object.
 int i = p.x;
-// ...也许此时另一个线程写入 p.x...
+// ... maybe another thread writes p.x at this point ...
 int j = q.x;
 int k = p.x;
 
 ```
 
-在此程序中，公共子表达式消除会注意到 `p.x` 被计算了两次，并将最后一行优化为 `k = i` 。但是，如果 `p` 和 `q` 指向同一个对象，并且另一个线程在读取 `i` 和 `j` 之间写入 `p.x` ，则将旧值 `i` 重用于 `k` 会违反一致性：读入 `i` 时看到旧值，读入 `j` 时看到较新的值，但随后重用 `i` 读入 `k` 时将再次看到旧值。无法优化掉冗余读取会阻碍大多数编译器，使生成的代码变慢。
+In this program, common subexpression elimination would notice that `p.x` is computed twice and optimize the final line to `k = i`. But if `p` and `q` pointed to the same object and another thread wrote to `p.x` between the reads into `i` and `j`, then reusing the old value `i` for `k` violates coherence: the read into `i` saw an old value, the read into `j` saw a newer value, but then the read into `k` reusing `i` would once again see the old value. Not being able to optimize away redundant reads would hobble most compilers, making the generated code slower.
 
-硬件比编译器更容易提供一致性，因为硬件可以应用动态优化：它可以根据给定内存读取和写入序列中涉及的确切地址调整优化路径。相比之下，编译器只能应用静态优化：他们必须提前写出一个指令序列，无论涉及什么地址和值，这个指令序列都是正确的。在该示例中，编译器无法根据 `p` 和 `q` 是否碰巧指向同一对象来轻松更改发生的情况，至少在不为这两种可能性编写代码的情况下不会，从而导致大量的时间和空间开销。编译器对内存位置之间可能的混叠的了解不完整，这意味着实际提供一致性需要放弃基本的优化。
+Coherence is easier for hardware to provide than for compilers because hardware can apply dynamic optimizations: it can adjust the optimization paths based on the exact addresses involved in a given sequence of memory reads and writes. In contrast, compilers can only apply static optimizations: they have to write out, ahead of time, an instruction sequence that will be correct no matter what addresses and values are involved. In the example, the compiler cannot easily change what happens based on whether `p` and `q` happen to point to the same object, at least not without writing out code for both possibilities, leading to significant time and space overheads. The compiler's incomplete knowledge about the possible aliasing between memory locations means that actually providing coherence would require giving up fundamental optimizations.
 
-Bill Pughn 在1999年的论文中指出了这个问题和其他问题 “[修复 Java 内存模型](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.17.7914&rep=rep1&type=pdf)。”
+Bill Pugh identified this and other problems in his 1999 paper “[Fixing the Java Memory Model](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.17.7914&rep=rep1&type=pdf).”
 
-## [新的 Java 内存模型（2004）](#java04)
+## [New Java Memory Model \(2004\)](#java04)
 
-由于这些问题，而且原始的 Java 内存模型即使对于专家来说也很难理解，Pugh 和其他人开始努力为 Java 定义一个新的内存模型。该模型成为 JSR-133，并在 2004 年发布的 Java 5.0 中采用。规范参考文献是“[Java 内存模型](http://rsim.cs.uiuc.edu/Pubs/popl05.pdf)”（2005），作者：Jeremy Manson、Bill Pugh 和 Sarita Adve，其他详细信息请参见 [Manson 博士的论文](https://drum.lib.umd.edu/bitstream/handle/1903/1949/umi-umd-1898.pdf;jsessionid=4A616CD05E44EA7D47B6CF4A91B6F70D?sequence=1)。新模型遵循 DRF-SC 方法：保证无数据竞争的 Java 程序以顺序一致的方式执行。
+Because of these problems, and because the original Java Memory Model was difficult even for experts to understand, Pugh and others started an effort to define a new memory model for Java. That model became JSR-133 and was adopted in Java 5.0, released in 2004. The canonical reference is “[The Java Memory Model](http://rsim.cs.uiuc.edu/Pubs/popl05.pdf)” \(2005\), by Jeremy Manson, Bill Pugh, and Sarita Adve, with additional details in [Manson's Ph.D. thesis](https://drum.lib.umd.edu/bitstream/handle/1903/1949/umi-umd-1898.pdf;jsessionid=4A616CD05E44EA7D47B6CF4A91B6F70D?sequence=1). The new model follows the DRF-SC approach: Java programs that are data-race-free are guaranteed to execute in a sequentially consistent manner.
 
-### [同步原子和其他操作](#sync)
+### [Synchronizing atomics and other operations](#sync)
 
-正如我们之前看到的，要编写一个无数据竞争的程序，程序员需要可以建立“先发生于”边缘的同步操作，以确保一个线程不会同时写入非原子变量，而另一个线程读取或写入它。在 Java 中，主要的同步操作是：
+As we saw earlier, to write a data-race-free program, programmers need synchronization operations that can establish happens-before edges to ensure that one thread does not write a non-atomic variable concurrently with another thread reading or writing it. In Java, the main synchronization operations are:
 
-* 线程的创建先发生于线程中的第一个操作。
-* 对互斥锁 _m_ 的解锁先发生于任何后续对 _m_ 的上锁。
-* 一个对易失性变量 _v_ 的写先发生于任何后续对 _v_ 的读。
+* The creation of a thread happens before the first action in the thread.
+* An unlock of mutex _m_ happens before any subsequent lock of _m_.
+* A write to volatile variable _v_ happens before any subsequent read of _v_.
 
-“后续”是什么意思？Java 定义所有锁定、解锁和易失性变量访问的行为就像它们在某种顺序一致的交错中发生一样，从而对整个程序中的所有这些操作给出总顺序。“后续”是指该总顺序中的稍后。也就是说：锁定、解锁和易失性变量访问的总顺序定义了后续的含义，然后使用特定执行中的 happens-before 边缘定义后续，然后先发生于边缘定义该特定执行是否具有数据争用。如果没有争用，则执行的行为是顺序一致的。
+What does “subsequent” mean\? Java defines that all lock, unlock, and volatile variable accesses behave as if they ocurred in some sequentially consistent interleaving, giving a total order over all those operations in the entire program. “Subsequent” means later in that total order. That is: the total order over lock, unlock, and volatile variable accesses defines the meaning of subsequent, then subsequent defines which happens-before edges are created by a particular execution, and then the happens-before edges define whether that particular execution had a data race. If there is no race, then the execution behaves in a sequentially consistent manner.
 
-易失性访问必须像在存在某些总排序一样运行，这意味着在 [存储缓冲区 litmus 测试](https://mysteriouspreserve.com/blog/2023/04/19/Hardware-Memory-Model-zh/#x86) 中，不能以 `r1 = 0` 和 `r2 = 0` 结束：
+The fact that the volatile accesses must act as if in some total ordering means that in the [store buffer litmus test](hwmm#x86), you can’t end up with `r1` `=` `0` and `r2` `=` `0`:
 
-> _Litmus 测试：储存缓冲区_
+> _Litmus Test: Store Buffering_
 >
-> 这个程序能观测到 `r1` `=` `0`, `r2` `=` `0` 吗？
+> Can this program see `r1` `=` `0`, `r2` `=` `0`\?
 
 ```java
 
@@ -269,38 +266,38 @@ r1 = y                r2 = x
 
 ```
 
-> 在顺序一致的硬件上：否。
+> On sequentially consistent hardware: no.
 >
-> 在 x86（或其他 TSO）：_是！_
+> On x86 \(or other TSO\): _yes\!_
 >
-> 在 ARM/POWER：_是！_
+> On ARM/POWER: _yes\!_
 >
-> 在 Java 中使用 volatiles：否。
+> On Java using volatiles: no.
 
-在 Java 中，对于易失变量 `x` 和 `y`，读取和写入不能重新排序：一个写入必须排在第二个位置，第二个写入之后的读取必须看到第一个写入。如果我们没有顺序一致的要求——比如说，如果易失性只需要连续——那么这两个读取可能会错过写入。
+In Java, for volatile variables `x` and `y`, the reads and writes cannot be reordered: one write has to come second, and the read that follows the second write must see the first write. If we didn’t have the sequentially consistent requirement—if, say, volatiles were only required to be coherent—the two reads could miss the writes.
 
-这里有一个重要但微妙的点：所有同步操作的总顺序与 happens-before 的关系是分开的。在程序中的每个锁定、解锁或易失性变量访问之间，在一个方向或另一个方向上存在一个 happens-before 边缘 _不是_ 真的：你只能从写入到观察写入的读取获得一个 happens-before 边缘。例如，不同互斥锁的锁定和解锁在它们之间没有 happens-before 边缘，不同变量的易失性访问也没有，即使这些操作必须共同表现得像遵循单个顺序一致的交错一样。
+There is an important but subtle point here: the total order over all the synchronizing operations is separate from the happens-before relationship. It is _not_ true that there is a happens-before edge in one direction or the other between every lock, unlock, or volatile variable access in a program: you only get a happens-before edge from a write to a read that observes the write. For example, a lock and unlock of different mutexes have no happens-before edges between them, nor do volatile accesses of different variables, even though collectively these operations must behave as if following a single sequentially consistent interleaving.
 
-### [程序的竞争语义](#racy)
+### [Semantics for racy programs](#racy)
 
-DRF-SC 仅保证程序的行为顺序一致，没有数据竞争。与原始模型一样，新的 Java 内存模型定义了有竞争的程序的行为，原因如下：
+DRF-SC only guarantees sequentially consistent behavior to programs with no data races. The new Java memory model, like the original, defined the behavior of racy programs, for a number of reasons:
 
-* 支持 Java 的一般安全和安全保证。
-* 使程序员更容易发现错误。
-* 使攻击者更难利用问题，因为竞争可能造成的损害更加有限。
-* 让程序员更清楚地了解他们的程序是做什么的。
+* To support Java’s general security and safety guarantees.
+* To make it easier for programmers to find mistakes.
+* To make it harder for attackers to exploit problems, because the damage possible due to a race is more limited.
+* To make it clearer to programmers what their programs do.
 
-新模型不再依赖于连续性，而是重用了先发生于关系（已经用于确定程序是否有竞争）来决定竞争读取和写入的结果。
+Instead of relying on coherence, the new model reused the happens-before relation \(already used to decide whether a program had a race at all\) to decide the outcome of racing reads and writes.
 
-Java 的具体规则是，对于字大小或更小的变量，读取变量（或字段） _x_ 必须看到通过对 _x_ 的单个写入来存储的值。对 _x_ 的写入可以通过读取 _r_ 来观察，前提是 _r_ 不会在 _w_ 之前发生。这意味着 _r_ 可以观察在 _r_ 之前发生的写入（但也不会在 _r_ 之前被覆盖），并且可以观察与 _r_ 竞争的写入。
+The specific rules for Java are that for word-sized or smaller variables, a read of a variable \(or field\) _x_ must see the value stored by some single write to _x_. A write to _x_ can be observed by a read _r_ provided _r_ does not happen before _w_. That means _r_ can observe writes that happen before _r_ \(but that aren’t also overwritten before _r_\), and it can observe writes that race with _r_.
 
-以这种方式使用先发生于，结合同步原子（volatiles）可以建立新的先发生于边缘，是对原始 Java 内存模型的重大改进。它为程序员提供了更有用的保证，并且最终允许大量重要的编译器优化。这项工作仍然是今天 Java 的内存模型。也就是说，它仍然不太正确：这种试图使用先发生于定义竞争程序的语义存在问题。
+Using happens-before in this way, combined with synchronizing atomics \(volatiles\) that could establish new happens-before edges, was a major improvement over the original Java memory model. It provided more useful guarantees to the programmer, and it made a large number of important compiler optimizations definitively allowed. This work is still the memory model for Java today. That said, it’s also still not quite right: there are problems with this use of happens-before for trying to define the semantics of racy programs.
 
-### [先发生于不排除不连续](#incoherence)
+### [Happens-before does not rule out incoherence](#incoherence)
 
-使用先发生于定义程序语义的第一个问题与连续性有关（再次！）。（下面的例子取自 Jaroslav Ševčík 和David Aspinall 的论文，“[关于 Java 内存模型中程序转换的有效性](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.112.1790&rep=rep1&type=pdf)” \(2007\)。）
+The first problem with happens-before for defining program semantics has to do with coherence \(again\!\). \(The following example is taken from Jaroslav Ševčík and David Aspinall's paper, “[On the Validity of Program Transformations in the Java Memory Model](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.112.1790&rep=rep1&type=pdf)” \(2007\).\)
 
-这是一个包含三个线程的程序。假设已知线程 1 和线程 2 在线程 3 开始之前完成。
+Here’s a program with three threads. Let’s assume that Thread 1 and Thread 2 are known to finish before Thread 3 starts.
 
 ```java
 
@@ -317,9 +314,9 @@ unlock(m1)            unlock(m2)
 
 ```
 
-线程 1 在持有互斥锁 `m1` 时写入 `x = 1`。线程 2 在持有互斥锁 `m2` 的同时写入 `x = 2`。这些是不同的互斥体，所以两者写竞争。但是，只有线程 3 读取 `x`，并且在获取两个互斥体后读取。读入 `r1` 可以观测到任一写入：两者都先发生于它，并且都不会明确覆盖另一个。通过相同的参数，读入`r2` 可以观测到任一写入。但严格来说，Java 内存模型中没有任何内容表明两个读取必须一致：从技术上讲，`r1` 和 `r2` 可以读取不同的 `x` 值。也就是说，该程序可以以 `r1` 和 `r2` 结束，保持不同的值。当然，没有真正的实现会产生不同的 `r1` 和 `r2`。互斥意味着这两个读取之间不会发生写入。它们必须获得相同的值。但是内存模型 _允许_ 不同的读取这一事实表明，它在某些技术方面并没有精确地描述真正的 Java 实现。
+Thread 1 writes `x` `=` `1` while holding mutex `m1`. Thread 2 writes `x` `=` `2` while holding mutex `m2`. Those are different mutexes, so the two writes race. However, only thread 3 reads `x`, and it does so after acquiring both mutexes. The read into `r1` can read either write: both happen before it, and neither definitively overwrites the other. By the same argument, the read into `r2` can read either write. But strictly speaking, nothing in the Java memory model says the two reads have to agree: technically, `r1` and `r2` can be left having read different values of `x`. That is, this program can end with `r1` and `r2` holding different values. Of course, no real implementation is going to produce different `r1` and `r2`. Mutual exclusion means there are no writes happening between those two reads. They have to get the same value. But the fact that the memory model _allows_ different reads shows that it is, in a certain technical way, not precisely describing real Java implementations.
 
-情况变得更糟。如果我们在两个读取之间再添加一个指令 `x = r1` 怎么办：
+The situation gets worse. What if we add one more instruction, `x` `=` `r1`, between the two reads:
 
 ```java
 
@@ -337,19 +334,19 @@ unlock(m1)            unlock(m2)
 
 ```
 
-现在，很明显，读取的 `r2 = x` 必须使用 `x = r1` 写入的值，因此程序必须在 `r1` 和 `r2` 中获得相同的值。现在保证两个值 `r1` 和 `r2` 相等。
+Now, clearly the `r2` `=` `x` read must use the value written by `x` `=` `r1`, so the program must get the same values in `r1` and `r2`. The two values `r1` and `r2` are now guaranteed to be equal.
 
-这两个程序之间的差异意味着我们对编译器有问题。看到 `r1 = x` 后跟 `x = r1` 的编译器可能希望删除第二个赋值，这“显然”是多余的。但是这种“优化”将第二个程序（必须在 `r1` 和 `r2` 中看到相同的值）更改为第一个程序，从技术上讲，该程序的 `r1` 可以与 `r2` 不同。因此，根据 Java 内存模型，这种优化在技术上是无效的：它改变了程序的含义。需要明确的是，这种优化不会改变在你能想象到的任何真实 JVM 上执行的 Java 程序的含义。但不知何故，Java 内存模型不允许这样做，这表明还有更多需要说的。
+The difference between these two programs means we have a problem for compilers. A compiler that sees `r1` `=` `x` followed by `x` `=` `r1` may well want to delete the second assignment, which is “clearly” redundant. But that “optimization” changes the second program, which must see the same values in `r1` and `r2`, into the first program, which technically can have `r1` different from `r2`. Therefore, according to the Java Memory Model, this optimization is technically invalid: it changes the meaning of the program. To be clear, this optimization would not change the meaning of Java programs executing on any real JVM you can imagine. But somehow the Java Memory Model doesn’t allow it, suggesting there’s more that needs to be said.
 
-有关此示例和其他示例的详细信息，参见 Ševčík 和 Aspinall 的论文
+For more about this example and others, see Ševčík and Aspinall's paper.
 
-## [先发生于不排除因果关系](#acausality)
+## [Happens-before does not rule out acausality](#acausality)
 
-最后一个例子被证明是一个简单的问题。这是一个更难的问题。考虑这个 litmus 测试，使用普通的（非易失性）Java 变量：
+That last example turns out to have been the easy problem. Here’s a harder problem. Consider this litmus test, using ordinary \(not volatile\) Java variables:
 
-> _Litmus 测试：凭空而来的竞争值_
+> _Litmus Test: Racy Out Of Thin Air Values_
 >
-> 这个程序能观测到 `r1 = 42` 和 `r2 = 42` 吗？
+> Can this program see `r1` `=` `42`, `r2` `=` `42`\?
 
 ```java
 
@@ -361,17 +358,17 @@ y = r1                x = r2
 
 > \(Obviously not\!\)
 
-该程序中的所有变量都像往常一样从 0 开始，然后该程序在一个线程中有效地运行 `y = x`，在另一个线程中运行 `x = y`。`x` 和 `y` 最终会是 42 吗？在现实生活中，显然不是。但为什么不呢？事实证明，内存模型不允许此结果。
+All the variables in this program start out zeroed, as always, and then this program effectively runs `y` `=` `x` in one thread and `x` `=` `y` in the other thread. Can `x` and `y` end up being 42\? In real life, obviously not. But why not\? The memory model turns out not to disallow this result.
 
-假设假设 `r1 = x` 确实读取了 42。然后 `y = r1 `会将 42 写入 `y`，然后赛车 `r2 = y` 可以读到 42，导致 `x = r2` 将 42 写入 `x`，并且用（因此可以通过）原始 `r1 = x` 来写竞争，似乎证明了最初的假设。在这个例子中，42 被称为空气值，因为它在没有任何理由的情况下出现，但随后用循环逻辑证明自己。如果内存在当前 0 之前一直保持 42，并且硬件错误地推测它仍然是 42，该怎么办？这种猜测可能会成为一个自我实现的预言。在[Spectre 和相关攻击](https://spectreattack.com/) 显示硬件推测是多么激进之前，这个论点似乎更牵强。即便如此，没有硬件以这种方式发明空气值。
+Suppose hypothetically that “`r1` `=` `x`” did read 42. Then “`y` `=` `r1`” would write 42 to `y`, and then the racing “`r2` `=` `y`” could read 42, causing the “`x` `=` `r2`” to write 42 to `x`, and that write races with \(and is therefore observable by\) the original “`r1` `=` `x`,” appearing to justify the original hypothetical. In this example, 42 is called an out-of-thin-air value, because it appeared without any justification but then justified itself with circular logic. What if the memory had formerly held a 42 before its current 0, and the hardware incorrectly speculated that it was still 42\? That speculation might become a self-fulfilling prophecy. \(This argument seemed more far-fetched before [Spectre and related attacks](https://spectreattack.com/) showed just how aggressively hardware speculates. Even so, no hardware invents out-of-thin-air values this way.\)
 
-很明显，该程序不能以 `r1` 和 `r2` 设置为 42 结束，但先发生于本身并不能解释为什么这不会发生。这再次表明存在一定的不完整性。新的 Java 内存模型花费了大量时间解决这种不完整性，稍后会讨论。
+It seems clear that this program cannot end with `r1` and `r2` set to 42, but happens-before doesn’t by itself explain why this can’t happen. That suggests again that there’s a certain incompleteness. The new Java Memory Model spends a lot of time addressing this incompleteness, about which more shortly.
 
-这个程序有一个竞争——`x` 和 `y` 的读取与其他线程中的写入竞争——所以我们可能会认为这是一个不正确的程序。但这里有一个没有数据竞争的版本：
+This program has a race—the reads of `x` and `y` are racing against writes in the other threads—so we might fall back on arguing that it's an incorrect program. But here is a version that is data-race-free:
 
-> _Litmus 测试：没有竞争的空气值_
+> _Litmus Test: Non-Racy Out Of Thin Air Values_
 >
-> 这个程序能观测到 `r1 = 42` 和 `r2 = 42` 吗？
+> Can this program see `r1` `=` `42`, `r2` `=` `42`\?
 
 ```java
 
@@ -382,17 +379,17 @@ if (r1 == 42)         if (r2 == 42)
 
 ```
 
-> （显然不能！）
+> \(Obviously not\!\)
 
-由于 `x` 和 `y` 从 0 开始，任何顺序一致的执行都不会执行写入，因此该程序没有写入，因此没有竞争。然而，再一次，单独先发生于并不排除这样一种可能性，假设 `r1 = x` 看到不完全写竞争，然后根据该假设，条件最终都为真，`x` 和 `y` 最后都是 42。这是另一种空气值，但这次是在一个没有竞争的程序中。任何保证 DRF-SC 的模型都必须保证该程序在末尾只看到所有零，但先发生于并没有解释原因。
+Since `x` and `y` start out zero, any sequentially consistent execution is never going to execute the writes, so this program has no writes, so there are no races. Once again, though, happens-before alone does not exclude the possibility that, hypothetically, `r1` `=` `x` sees the racing not-quite-write, and then following from that hypothetical, the conditions both end up true and `x` and `y` are both 42 at the end. This is another kind of out-of-thin-air value, but this time in a program with no race. Any model guaranteeing DRF-SC must guarantee that this program only sees all zeros at the end, yet happens-before doesn't explain why.
 
-Java 内存模型花费了很多文字，我不会深入这些词来试图排除这些非因果假设。不幸的是，五年后，Sarita Adve 和 Hans Boehm 对这项工作有这样的看法：
+The Java memory model spends a lot of words that I won’t go into to try to exclude these kinds of acausal hypotheticals. Unfortunately, five years later, Sarita Adve and Hans Boehm had this to say about that work:
 
-> 以一种不禁止其他所需优化的方式禁止这种因果关系违规被证明是非常困难的。...经过许多提案和五年的激烈辩论，目前的模式被批准为最好的折衷方案。...不幸的是，这个模型非常复杂，已知有一些令人惊讶的行为，并且最近被证明有一个错误。
+> Prohibiting such causality violations in a way that does not also prohibit other desired optimizations turned out to be surprisingly difficult. … After many proposals and five years of spirited debate, the current model was approved as the best compromise. … Unfortunately, this model is very complex, was known to have some surprising behaviors, and has recently been shown to have a bug.
 
-（Adve 和 Boehm, “[内存模型：重新思考并行语言和硬件的案例](https://cacm.acm.org/magazines/2010/8/96610-memory-models-a-case-for-rethinking-parallel-languages-and-hardware/fulltext),” August 2010）
+\(Adve and Boehm, “[Memory Models: A Case For Rethinking Parallel Languages and Hardware](https://cacm.acm.org/magazines/2010/8/96610-memory-models-a-case-for-rethinking-parallel-languages-and-hardware/fulltext),” August 2010\)
 
-## [C++11 内存模型（2011）](#cpp)
+## [C++11 Memory Model \(2011\)](#cpp)
 
 Let’s put Java to the side and examine C++. Inspired by the apparent success of Java's new memory model, many of the same people set out to define a similar memory model for C++, eventually adopted in C++11. Compared to Java, C++ deviated in two important ways. First, C++ makes no guarantees at all for programs with data races, which would seem to remove the need for much of the complexity of the Java model. Second, C++ provides three kinds of atomics: strong synchronization \(“sequentially consistent”\), weak synchronization \(“acquire/release”, coherence-only\), and no synchronization \(“relaxed”, for hiding races\). The relaxed atomics reintroduced all of Java's complexity about defining the meaning of what amount to racy programs. The result is that the C++ model is more complicated than Java's yet less helpful to programmers.
 
