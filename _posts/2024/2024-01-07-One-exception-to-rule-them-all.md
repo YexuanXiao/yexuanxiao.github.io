@@ -89,7 +89,3 @@ status_code 在 Dauglas 的提案中是允许任意大小的，但能用于 Herb
 捕获时，首先解引用捕获的期待对象的 domain 对象的指针，然后调用 domain 的比较函数判断期待和目标的 domain 是否相等，如果返回 true，即期待 domain 能处理目标 domain 的错误，进行第二步，判断期待和目标是否表示一个错误，如果是一个错误，那么进入当前 catch 块，如果不等，那么进入下一个 catch 块。
 
 由于判断 domain 是否相等是独立的步骤，因此当一次判断返回 false 时，可以跳过所有期待 domain 是当前期待 domain 的 catch 块。
-
-作者：萧叶轩
-Email：<bizwen@nykz.org>
-本文系原创，以[CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/deed.zh)许可协议提供
