@@ -99,7 +99,7 @@ template <const auto&... T>
 void variadicPrint() {
     ((std::cout << T), ...) << std::endl;
 }
-constexpr auto a = "aaa"sv; // 注意，a 必须是具有静态生命周期的常量表达式
+constexpr auto a = "aaa"sv; // 注意，a 必须是具有静态储存期的常量表达式
 int main() { variadicPrint<a>(); }
 
 
