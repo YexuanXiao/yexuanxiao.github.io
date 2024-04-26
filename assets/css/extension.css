@@ -16,10 +16,10 @@
 	border-radius: 6px
 }
 .post-text code {
-	font-family: segoeweb, Operator Mono, Cascadia Code, Roboto Mono, Monaco, SFMono-Regular, Liberation Mono, Menlo, monospace!important;
+	font-family: Operator Mono, Cascadia Code, Roboto Mono, SFMono-Regular, "Noto Sans Mono", Liberation Mono, Menlo, monospace;
 	vertical-align: baseline;
 	user-select: text;
-	font-size: .75em
+	font-size: .85em
 }
 .post-text code.language-plaintext {
 	user-select: none
