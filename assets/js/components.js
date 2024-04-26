@@ -204,7 +204,7 @@ function bra2Full(language) {
 
 for (let element of document.body.querySelectorAll('div.highlight')) {
 	element = element.parentNode
-	element.className = `${element.className} message is-small is-primary mt-3 mb-0`
+	element.className = `${element.className} message is-primary mt-3 mb-0`
 	element.style.borderRadius = '6px'
 	let header = document.createElement('div')
 	header.className = 'message-header'
@@ -239,7 +239,7 @@ for (let element of document.body.querySelectorAll('pre>code[class]')) {
 	element = element.parentNode
 	element.style.borderRadius = '0 0 6px 6px'
 	let father = document.createElement('div')
-	father.className = 'message is-small is-primary mt-3 mb-0'
+	father.className = 'message is-primary mt-3 mb-0'
 	father.style.borderRadius = '6px'
 	let header = document.createElement('div')
 	header.className = 'message-header'
