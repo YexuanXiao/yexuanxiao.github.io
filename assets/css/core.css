@@ -181,7 +181,7 @@ body, button, input, optgroup, select, textarea {
 .sw {
 	display: inline-block;
 	font-family: "segoeweb";
-	font-size: inherit;
+	font-size: .85em;
 	text-rendering: auto;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale
