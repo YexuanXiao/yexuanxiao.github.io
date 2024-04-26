@@ -18,7 +18,7 @@ img, svg {
 	pointer-events: none
 }
 body, button, input, optgroup, select, textarea {
-	font-family: "Segoe UI", "Microsoft YaHei UI", "SF Pro Text", "SF Pro SC", "Samsung Sans", "Noto Sans CJK", "Noto Sans", sans-serif
+	font-family: Segoe UI, Microsoft YaHei UI, SF Pro Text, SF Pro SC, Samsung Sans, Noto Sans, sans-serif
 }
 .main-container {
 	max-width: 1024px
