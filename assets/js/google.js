@@ -25,6 +25,9 @@ if (window.gapi !== undefined) {
 			mail.dispatchEvent(new CustomEvent('change'));
 			signgoogle.addEventListener('click', () => {
 				gapi.auth2.getAuthInstance().signOut();
+				signgoogle.innerText = 'Google 登录';
+				nick.value = '';
+				main.value = '';
 			});
 		}
 		// set an asynchronous delay for the function to execute after init auth2
