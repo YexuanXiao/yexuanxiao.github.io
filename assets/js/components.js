@@ -30,7 +30,7 @@ for (const element of document.querySelectorAll('.navbar-burger')) {
 			}
 		}
 	}
-	txtFile.send(null)
+	txtFile.send()
 }
 
 // darkmode method
@@ -69,16 +69,13 @@ function closeMenu(x) {
 	const navbarBurger = document.body.querySelector('#navbar>span>.navbar-burger')
 	const navbarToggle = document.body.querySelector('#navbar-menu')
 	try {
-		if (x === 0) {
+		if (x === 0)
 			searchMenu.classList.add('is-hidden')
-		} else if (x === 1) {
+		else if (x === 1)
 			searchMenu.classList.remove('is-hidden')
-		} else if (x === 2) {
-			navbarBurger.classList.remove('is-active')
-			navbarToggle.classList.remove('is-active')
-		} else {
-			console.assert(false, `The value of ${x} is undefined.`)
-		}
+        // else
+		navbarBurger.classList.remove('is-active')
+		navbarToggle.classList.remove('is-active')
 	} catch (err) {
 		console.warn('Element is not ready.')
 	}
@@ -89,11 +86,10 @@ function checkInput() {
 	closeMenu(2)
 	const inputValue = document.body.querySelector('#search-panel>input').value
 	render(`{% if site.i18n.l2dmessage.search %}{{ site.i18n.l2dmessage.search }}{% else %}Searching{% endif %} ${inputValue} ...`)
-	if (!inputValue) {
+	if (!inputValue)
 		closeMenu(0)
-	} else {
+	else
 		closeMenu(1)
-	}
 }
 
 // tap blank area to close search menu and navbar
