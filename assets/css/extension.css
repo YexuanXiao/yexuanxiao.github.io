@@ -17,7 +17,6 @@
 }
 .post-text code {
 	font-family: Operator Mono, Cascadia Code, Noto Sans Mono, Roboto Mono, SFMono-Regular, Liberation Mono, Menlo, monospace;
-	vertical-align: baseline;
 	user-select: text;
 	font-size: .85em
 }
