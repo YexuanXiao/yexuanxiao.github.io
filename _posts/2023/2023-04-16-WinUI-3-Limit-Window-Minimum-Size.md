@@ -27,7 +27,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     }
     return ::CallWindowProcW(reinterpret_cast<WNDPROC>(old_proc.load(std::memory_order_acquire)), hWnd, uMsg, wParam, lParam);
 }
-void RegistWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window) {
+void InitializeWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window) {
     old_proc.store(
         ::SetWindowLongPtrW(GetHandleFromWindow(window), GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&WindowProc)),
         std::memory_order_release);
@@ -39,4 +39,4 @@ void RegistWindowMinSize(winrt::Microsoft::UI::Xaml::Window const& window) {
 
 之所以强调 **历史提交** 是因为它已经被删了，PowerToys 目前实际上也没有这个特性。
 
-用法很简单，把 362 和 170 改成自己想要的宽和高即可，然后调用 `RegistWindowMinSize`，由于其是一个 workaround，所以这个方法实际上不怎么好用，因为依赖一个全局变量，假设你想要限制不同窗口有不同的最小大小，则行不通，不过如果你的应用和 UWP 一样使用单一窗口则还算可用。
+用法很简单，把 362 和 170 改成自己想要的宽和高即可，然后调用 `InitializeWindowMinSize`。不过这本身是 workaround，所以这个方法实际上不怎么好用，因为依赖一个全局变量，假设你想要限制不同窗口有不同的最小大小，则行不通，不过如果你的应用和 UWP 一样使用单一窗口则还算可用。
