@@ -214,7 +214,7 @@ for (let element of document.body.querySelectorAll('div.highlight')) {
 	let code = element.querySelector('.highlight')
 	code.firstChild.style.borderRadius = '0 0 6px 6px'
 	code.firstChild.style.lineHeight = '1.15em'
-	code.firstChild.style.paddingLeft = '1.5em'
+	code.firstChild.style.padding = '0 1.5em'
 	let button = document.createElement('span')
 	button.className = 'sw sw-document'
 	header.appendChild(button)
@@ -237,7 +237,7 @@ for (let element of document.body.querySelectorAll('pre>code[class]')) {
 	element = element.parentNode
 	element.style.borderRadius = '0 0 6px 6px'
 	element.style.lineHeight = '1.15em'
-	element.style.paddingLeft = '1.5em'
+	element.style.padding = '0 1.5em'
 	let father = document.createElement('div')
 	father.className = 'message is-primary mt-3 mb-0'
 	father.style.borderRadius = '6px'
