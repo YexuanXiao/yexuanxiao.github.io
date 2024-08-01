@@ -17,6 +17,9 @@ categories: [blog]
 
 Posted on Tuesday, June 29, 2021.
 
+* toc
+{:toc}
+
 ## [Introduction: A Fairy Tale, Ending](#introduction)
 
 A long time ago, when everyone wrote single-threaded programs, one of the most effective ways to make a program run faster was to sit back and do nothing. Optimizations in the next generation of hardware and the next generation of compilers would make the program run exactly as before, just faster. During this fairy-tale period, there was an easy test for whether an optimization was valid: if programmers couldn't tell the difference \(except for the speedup\) between the unoptimized and optimized execution of a valid program, then the optimization was valid. That is, _valid optimizations do not change the behavior of valid programs._

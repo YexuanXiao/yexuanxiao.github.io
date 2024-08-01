@@ -147,17 +147,17 @@ protected:
     // 根据自定义类型的成员变量类型，定义一些内置的std::formatter对象
     formatter<string, char> string_formatter;
 public:
-    using _BaseClass = _Formatter_base<fs::path, char, std::_Basic_format_arg_type::_Custom_type>;
+    using BaseClass = _Formatter_base<fs::path, char, std::_Basic_format_arg_type::_Custom_type>;
     // 直接借用了基类的parse，无实际作用
-    using _ParseContext = basic_format_parse_context<char>;
-    _ParseContext::iterator parse(_ParseContext& parse_ctx)
+    using ParseContext = basic_format_parse_context<char>;
+    ParseContext::iterator parse(ParseContext& parse_ctx)
     { // parse用于解析格式化符
-        return _BaseClass::parse(parse_ctx);
+        return BaseClass::parse(parse_ctx);
     }
-    using _FormatContext = basic_format_context<back_insert_iterator<_Fmt_buffer<char>>, char>;
-    _FormatContext::iterator format(const fs::path& val, _FormatContext& format_ctx) noexcept
+    using FormatContext = basic_format_context<back_insert_iterator<std::_Fmt_buffer<char>>, char>;
+    FormatContext::iterator format(const fs::path& val, FormatContext& format_ctx) noexcept
     { // format负责具体输出
-        back_insert_iterator<_Fmt_buffer<char>> itor = format_ctx.out();
+        back_insert_iterator<std::_Fmt_buffer<char>> itor = format_ctx.out();
         itor = string_formatter.format(val.string(), format_ctx);
         return itor;
     }

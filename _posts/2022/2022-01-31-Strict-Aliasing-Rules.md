@@ -138,9 +138,9 @@ X* make_x() {
 
 未定义行为发生在对 `p->a` 和 `p->b` 的赋值上，`malloc` 仅仅申请了一块内存空间，并没有在该内存空间上构造对象，所以不存在对象 `*p`，也就不能执行 `p->a` 和 `p->b`。
 
-改写的方法是使用 placement new [^1]：
+改写的方法是使用布置 new [^1]：
 
-[^1]: placement new 的使用参见之前的文章 [C++ new 和 delete](/blog/2021/08/23/new-and-delete/)。
+[^1]: 布置 new 的使用参见之前的文章 [C++ new 和 delete](/blog/2021/08/23/new-and-delete/)。
 
 ```cpp
 

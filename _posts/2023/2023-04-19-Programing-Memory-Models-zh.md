@@ -17,6 +17,9 @@ categories: [blog]
 
 Posted on Tuesday, July 6, 2021.
 
+* toc
+{:toc}
+
 Programming language memory models answer the question of what behaviors parallel programs can rely on to share memory between their threads. For example, consider this program in a C-like language, where both `x` and `done` start out zeroed.
 
 ```c

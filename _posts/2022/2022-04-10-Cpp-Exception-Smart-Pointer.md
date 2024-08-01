@@ -6,7 +6,7 @@ tags: [C++]
 categories: [blog]
 ---
 
-之前的文章[C++ 异常 - 类和异常](/blog/2022/04/07/C++-Exception-class-and-RAII/)讲述了 C++ 的异常机制，但是单纯学会异常处理的概念和语法是完全不够用的，大部分人对于异常的了解就止步于此了。认识的不足会导致对异常存在非常大的误解。本文从异常出发，讲述如何使用 C++11 引入的 `std::unique_ptr` 和 `std::shared_ptr` 两种智能指针如何解决一部分的异常安全问题。
+之前的文章[C++ 异常 - 类和异常](/blog/2022/04/07/C++-Exception-class-and-RAII/)讲述了 C++ 的异常机制，但是单纯学会异常处理的概念和语法是完全不够用的，大部分人对于异常的了解就止步于此了。认识的不足会导致对异常存在非常大的误解。本文从异常出发，讲述 C++11 引入的 `std::unique_ptr` 和 `std::shared_ptr` 两种智能指针如何解决一部分的异常安全问题。
 
 <!-- more -->
 
@@ -16,14 +16,15 @@ categories: [blog]
 2. 本文
 3. [C++ 异常 - 资源管理](/blog/2022/06/18/Cpp-Exception-Resource-Management/)
 4. [C++ 异常 - 容器和 std::vector](/blog/2022/04/07/Cpp-Exception-Container-and-std-vector/)
+5. [C++ 异常 - 守卫](/blog/2024/07/29/Cpp-Exception-Guards/)
 
 ### 智能指针基础
 
 #### `std::unique_ptr`
 
-顾名思义，`std::unique_ptr` 是一种独占所有权的指针容器，实际上就是一个异常安全的 Handle 类模板，独占效果实际上是使用移动来实现的。
+顾名思义，`std::unique_ptr` 是一种独占所有权的指针容器，实际上就是一个异常安全的 Handle 类模板，独占效果是使用移动来实现的。
 
-由于 `std::unique` 具有有副作用的析构函数，所以可以保证发生异常时资源不泄露：
+由于 `std::unique_ptr` 通过析构函数无条件的释放内存，所以可以保证发生异常时资源不泄露。
 
 之前的文章 [C++ 异常 - 类和异常](/blog/2022/04/07/C++-Exception-Class-and-RAII/) 提到了异常导致内存泄漏放的一个案例：
 
@@ -31,8 +32,8 @@ categories: [blog]
 
 void foo(){
     int* a = new int{}; // 此对象在诱因发生时出现内存泄漏
-    int* b = new int{};// 内存泄漏诱因
-    delete a; // 若b的内存分配失败，则此语句不会被执行
+    int* b = new int{}; // 内存泄漏诱因
+    delete a;           // 若 b的内存分配失败，则此语句不会被执行
     delete b;
 }
 
@@ -79,9 +80,7 @@ void foo(){
 
 其中 `void` 是返回值，由于 `unique_ptr` 的删除器是放在析构函数里运行的，所以返回值无意义； `int*` 是函数参数，表示删除器接受一个 `int` 的指针。
 
-此处使用了 lambda 作为删除器，`[](int* p) { delete p; }` 这个 lambda 能转换为函数类型为 `void(int*)` 的函数。
-
-此前我们提到过，如果要保证异常安全，就不要在函数内使用 `new`，应该使用 `std::unique_ptr`。
+此处使用了 lambda 作为删除器，`[](int* p) { delete p; }` 这个 lambda 能转换为函数类型 `void(int*)` 的函数指针。
 
 `std::unique_ptr` 不能拷贝，只能移动：
 
@@ -95,7 +94,7 @@ void foo(){
 
 ```
 
-可以以值或者右值引用的 `std::unique_ptr` 为参数（作用相同，不过建议使用右值引用，更清晰）：
+可以以值或者右值引用的 `std::unique_ptr` 为参数，它们的作用是相同的：
 
 ```cpp
 
@@ -170,7 +169,7 @@ void foo(){
 
 ```
 
-`std::make_shared` 会先申请出足够的内存，再进行 placement new，这样就可以只有一次动态内存分配。
+`std::make_shared` 会先申请出足够的内存，再进行布置t new，这样就可以只有一次动态内存分配。
 
 `std::shared_ptr` 还支持移动拷贝和移动赋值，使用移动的优点是快速，因为不需要增加引用计数，但是需要注意，移动一个 `std::shared_ptr` 只代表将之前的 `std::shared_ptr` 让出来。移动一个 `std::shared_ptr` 和拷贝并无本质区别。
 
@@ -194,7 +193,7 @@ foo(std::unique_ptr<X>(new X), std::unique_ptr<Y>(new Y));
 
 ```
 
-这是一个函数调用表达式，问题在于，C++ 没有规定函数调用表达式中，以何种顺序计算调用过程中需要用到的值，所以 `new X` 和 `new Y` 可能发生在构造 `unique_ptr<X>` 之前，因为此时没有 `unique_ptr<X>` 被构造，所以第二个 `new` 表达式若抛出异常，则第一个 `new` 表达式发生内存泄漏。
+这是一个函数调用表达式，问题在于，C++ 17 之前没有规定函数调用表达式中，以何种顺序计算调用过程中需要用到的值，所以 `new X` 和 `new Y` 可能发生在构造 `unique_ptr<X>` 之前，因为此时没有 `unique_ptr<X>` 被构造，所以第二个 `new` 表达式若抛出异常，则第一个 `new` 表达式发生内存泄漏。
 
 改进的方法是使用 `std::make_unique`：
 
@@ -270,9 +269,9 @@ std::shared_ptr
 std::unique_ptr
 </a>
 <span>
-C++ Primer 第五版
+《C++ Primer》第五版
 </span>
 <span>
-C++ 程序设计语言 第四版
+《C++ 程序设计语言》第四版
 </span>
 </div>
