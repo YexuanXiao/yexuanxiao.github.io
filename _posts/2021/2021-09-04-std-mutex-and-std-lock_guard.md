@@ -44,7 +44,7 @@ public:
     threadsafe_stack(const threadsafe_stack &other)
     {
         std::lock_guard<std::mutex> lock(other.m);
-        data = other.data; // 1 在构造函数体中的执行拷贝构造，这个拷贝实际上是 STL 内置的 stack（dqueue）的拷贝而完成的
+        data = other.data; // 1 在构造函数体中的执行复制构造，这个复制实际上是 STL 内置的 stack（dqueue）的复制而完成的
     }
     threadsafe_stack &operator=(const threadsafe_stack &) = delete; // 禁止对栈的赋值，但是或许可以右值引用
     void push(T new_value)

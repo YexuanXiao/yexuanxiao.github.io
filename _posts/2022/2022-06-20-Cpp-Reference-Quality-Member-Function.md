@@ -118,7 +118,7 @@ int main()
 
 默认来说，`lambda` 不指定返回值就会使用 `auto` 类型推断——那么也就是返回 `std::string`。因此，`cs | views::transform(...)` 的结果是一个元素类型（`range_reference_t`）为 `std::string` 的 Range。不是 `std::string&` 哦！prvalue `std::string` 组成的 Range！
 
-既然是 `prvalue`，那么只不过相当于是临时生成的右值，必然不可能真正排序—— `ranges::sort` 只不过是把返回的拷贝出来的 `std::string` 排序了一遍，`vector` 中的原始对象完全没动，上面的例子输出的还是 z d b c。
+既然是 `prvalue`，那么只不过相当于是临时生成的右值，必然不可能真正排序—— `ranges::sort` 只不过是把返回的复制出来的 `std::string` 排序了一遍，`vector` 中的原始对象完全没动，上面的例子输出的还是 z d b c。
 
 。。。
 

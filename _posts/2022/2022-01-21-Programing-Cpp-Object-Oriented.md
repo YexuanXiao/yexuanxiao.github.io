@@ -300,7 +300,7 @@ Expr::Expr(const std::string& op, Expr a, Expr b) {
 }
 
 Expr::Expr(const Expr& e) {
-    node = e.node; // 由于表达式是使用指针形成的树状结构，若不提供完整的结构化拷贝，则必须采用引用计数
+    node = e.node; // 由于表达式是使用指针形成的树状结构，若不提供完整的结构化复制，则必须采用引用计数
     ++node->count; // 由于该函数是利用已有表达式构造新的表达式，且已有表达式内含节点指针，则该指针被两个表达式共享
 }
 
@@ -554,7 +554,7 @@ Query operator|(const Query& lhs, const Query& rhs) {
 
 QueryResult OrQuery::eval(const TextQuery& text) const {
 	auto right = rhs.eval(text), left = lhs.eval(text);
-	auto lines = make_shared<set<vsize_t>>(left.begin(), left.end()); // 拷贝左侧运算结果
+	auto lines = make_shared<set<vsize_t>>(left.begin(), left.end()); // 复制左侧运算结果
 	lines->insert(right.begin(), right.end()); // 加上右侧运算结果，并集
 	return QueryResult(rep(), lines, left.get_text());
 }

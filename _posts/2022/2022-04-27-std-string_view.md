@@ -35,7 +35,7 @@ std::basic_string_view& operator=( const basic_string_view& view ) noexcept = de
 
 实际上 `std::basic_string_view` 还可以从 `std::basic_string` 构造，因为 `std::basic_string` 实现了到 `std::basic_string_view` 的类型转换运算的重载。
 
-由于 `std::basic_string_view` 不实际持有对象，即 `std::basic_string_view` 不管理对象的生命周期，所以需要注意悬垂引用问题：不能从一个将亡的 `std::basic_string` 构造一个 `std::basic_string_view`。`std::basic_string_view` 没有实现移动，因为 `std::basic_string_view` 的拷贝就是天生的移动。
+由于 `std::basic_string_view` 不实际持有对象，即 `std::basic_string_view` 不管理对象的生命周期，所以需要注意悬垂引用问题：不能从一个将亡的 `std::basic_string` 构造一个 `std::basic_string_view`。`std::basic_string_view` 没有实现移动，因为 `std::basic_string_view` 的复制就是天生的移动。
 
 `std::basic_string_view` 支持随机访问容器的大部分操作，但是是只读的。同时还支持如下操作：
 
