@@ -70,4 +70,4 @@ template<class T> void foo(T&& t){ std::forward<T>(t); }
 
 ```
 
-`std::forward` 分别提供 `T&&` 和 `T&` 的重载，返回 `T&&`，那么当 `foo` 的实参是右值，就会匹配 `std::forward<int>(int&&)`，返回 `int&&` 也就是右值；实参是左值，`T` 是 `int&`，就会匹配`std::forward<int&>(int&)`，返回值由 `int& &&` “折叠为” `int&`，也就是返回左值。
+`std::forward` 分别提供 `T&&` 和 `T&` 的重载，返回 `T&&`，那么当 `foo` 的实参是右值，就会匹配 `std::forward<int>(int&&)`，返回 `int&&` 也就是右值；实参是左值，`T` 是 `int&`，就会匹配 `std::forward<int&>(int&)`，返回值由 `int& &&` “折叠为” `int&`，也就是返回左值。
