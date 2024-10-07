@@ -254,7 +254,7 @@ r1 = x         r2 = x
 >
 > 在 x86 TSO 模型: 否（x86 TSO 论文中的例子）
 
-为了解决这些问题，Owens _et_ _al_. [提出了 x86-TSO 模型](https://www.cl.cam.ac.uk/~pes20/weakmemory/x86tso-paper.tphols.pdf)，基于早期的 [SPARCv8 TSO 模型](https://research.swtch.com/sparcv8.pdf)。当时他们声称“据我们所知，x86-TSO 是合理的，足够强大可以在其上编程，并且与供应商的意图大致一致。”几个月后，Intel 和 AMD 发布了新的手册，广泛采用了这个模型。
+为了解决这些问题，Owens 等人 [提出了 x86-TSO 模型](https://www.cl.cam.ac.uk/~pes20/weakmemory/x86tso-paper.tphols.pdf)，基于早期的 [SPARCv8 TSO 模型](https://research.swtch.com/sparcv8.pdf)。当时他们声称“据我们所知，x86-TSO 是合理的，足够强大可以在其上编程，并且与供应商的意图大致一致。”几个月后，Intel 和 AMD 发布了新的手册，广泛采用了这个模型。
 
 看起来所有的 Intel 处理器从一开始就实现了 x86-TSO，即使花了十年的时间 Intel 才决定承诺这一点。回顾过去，很明显 Intel 和 AMD 的架构师在如何写一个内存模型的问题上挣扎着，既要为未来的处理器优化留出空间，又要为编译器编写者和汇编语言程序员提供有用的保证。“强到需要但不更强”是一个很难平衡的行为。
 
