@@ -33,8 +33,8 @@ Here is a simple example program in a C-like language. In this program and in al
 ```c
 
 // Thread 1           // Thread 2
-x = 1;                while\(done == 0\) \{ /\* loop \*/ \}
-done = 1;             print\(x\);
+x = 1;                while(done == 0) { /* loop */ }
+done = 1;             print(x);
 
 ```
 
@@ -65,8 +65,8 @@ Earlier I asked whether this program can print 0:
 ```c
 
 // Thread 1           // Thread 2
-x = 1;                while\(done == 0\) \{ /\* loop \*/ \}
-done = 1;             print\(x\);
+x = 1;                while(done == 0) { /* loop */ }
+done = 1;             print(x);
 
 ```
 

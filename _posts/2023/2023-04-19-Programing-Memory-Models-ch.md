@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Programming Language Memory Models
+title: 编程语言内存模型
 date: "2023-04-19 19:45:00"
 tags: [C++,C]
 categories: [blog]
@@ -67,8 +67,6 @@ done = 1;             print(x);
 在我们了解任何特定语言的详细信息之前，我们需要记住[硬件内存模型](https://mysteriouspreserve.com/blog/2023/04/19/Hardware-Memory-Model-zh/)的经验教训的简要总结。
 
 不同的体系结构允许不同数量的指令重新排序，因此在多个处理器上并行运行的代码可以根据体系结构具有不同的允许结果。黄金标准是[顺序一致性](https://mysteriouspreserve.com/blog/2023/04/19/Hardware-Memory-Model-zh/#sc)，其中任何执行都必须表现得好像在不同处理器上执行的程序只是以某种顺序交错到单个处理器上。该模型对于开发人员来说更容易推理，但目前还没有重要的架构提供它，因为较弱的保证带来了性能提升。
-
-It is difficult to make completely general statements comparing different memory models. Instead, it can help to focus on specific test cases, called _litmus tests_. If two memory models allow different behaviors for a given litmus test, this proves they are different and usually helps us see whether, at least for that test case, one is weaker or stronger than the other. For example, here is the litmus test form of the program we examined earlier:
 
 比较不同的内存模型很难做出完全通用的陈述。相反，它可以帮助您专注于特定的测试用例，称为 _litmus 测试_。如果两个记忆模型对于给定的 litmus 测试允许不同的行为，这证明它们是不同的，并且通常可以帮助我们了解至少对于该测试用例，一个模型是否比另一个更弱或更强。例如，这是我们之前检查的程序的 litmus 测试形式：
 
@@ -159,8 +157,8 @@ x = 1          x = 2          r1 = x         r3 = x
 
 // Thread 1    // Thread 2    // Thread 3    // Thread 4
                                              // \(reordered\)
-\(1\) x = 1                     \(2\) r1 = x     \(3\) r4 = x
-               \(4\) x = 2      \(5\) r2 = x     \(6\) r3 = x
+(1) x = 1                     (2) r1 = x     (3) r4 = x
+               (4) x = 2      (5) r2 = x     (6) r3 = x
 
 ```
 
@@ -213,8 +211,8 @@ int x;
 volatile int done;
 
 // Thread 1           // Thread 2
-x = 1;                while\(done == 0\) \{ /\* loop \*/ \}
-done = 1;             print\(x\);
+x = 1;                while(done == 0) { /* loop */ }
+done = 1;             print(x);
 
 ```
 
@@ -397,26 +395,29 @@ Java 内存模型花费了很多文字，我不会深入这些词来试图排除
 
 ## [C++11 内存模型（2011）](#cpp)
 
-Let’s put Java to the side and examine C++. Inspired by the apparent success of Java's new memory model, many of the same people set out to define a similar memory model for C++, eventually adopted in C++11. Compared to Java, C++ deviated in two important ways. First, C++ makes no guarantees at all for programs with data races, which would seem to remove the need for much of the complexity of the Java model. Second, C++ provides three kinds of atomics: strong synchronization \(“sequentially consistent”\), weak synchronization \(“acquire/release”, coherence-only\), and no synchronization \(“relaxed”, for hiding races\). The relaxed atomics reintroduced all of Java's complexity about defining the meaning of what amount to racy programs. The result is that the C++ model is more complicated than Java's yet less helpful to programmers.
+让我们把 Java 放在一边，来看看 C++。受到 Java 新内存模型显而易见的成功的启发，许多相同的人着手为 C++ 定义了一个类似的内存模型，并最终在 C++11 中被采纳。与 Java 相比，C++ 在两个重要方面有所不同。首先，C++ 对具有数据竞争的程序不做任何保证，这似乎消除了 Java 模型中的许多复杂性。其次，C++ 提供了三种原子操作：强同步（“顺序一致”）、弱同步（“获取/释放”，连续一致）和无同步（“宽松”，用于隐藏竞争）。宽松原子操作重新引入了 Java 在定义竞态程序意义方面的所有复杂性。结果是，C++ 模型比 Java 的更复杂，但对程序员却更少有帮助。
 
-C++11 also defined atomic fences as an alternative to atomic variables, but they are not as commonly used and I'm not going to discuss them.
+C++11 还定义了原子围栏作为原子变量的替代品，但它们不那么常用，我也不打算讨论它们。
 
-### [DRF-SC or Catch Fire](#fire)
+### [DRF-SC 和 Catch Fire](#fire)
 
-Unlike Java, C++ gives no guarantees to programs with races. Any program with a race anywhere in it falls into “[undefined behavior](https://blog.regehr.org/archives/213).” A racing access in the first microseconds of program execution is allowed to cause arbitrary errant behavior hours or days later. This is often called “DRF-SC or Catch Fire”: if the program is data-race free it runs in a sequentially consistent manner, and if not, it can do anything at all, including catch fire.
+与Java不同，C++对有数据竞争的程序不提供任何保证。任何在其中任何地方存在竞争的程序都属于“[未定义行为]((https://blog.regehr.org/archives/213))”。在程序执行的头几微秒内的竞争访问可能会在数小时或数天后导致任意的错误行为。这通常被称为“DRF-SC 或 Catch Fire”：如果程序没有数据竞争，它会以顺序一致的方式运行；如果有数据竞争，它可能会做任何事情，包括 Catch Fire。
 
-For a longer presentation of the arguments for DRF-SC or Catch Fire, see Boehm, “[Memory Model Rationales](http://open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2176.html#undefined)” \(2007\) and Boehm and Adve, “[Foundations of the C++ Concurrency Memory Model](https://www.hpl.hp.com/techreports/2008/HPL-2008-56.pdf)” \(2008\).
+有关 DRF-SC 或 Catch Fire 的论点的更长篇幅展示，请参见 Boehm, “[Memory Model Rationales](http://open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2176.html#undefined)” \(2007\) 以及 Boehm 和 Adve, “[Foundations of the C++ Concurrency Memory Model](https://www.hpl.hp.com/techreports/2008/HPL-2008-56.pdf)” \(2008\).
 
-Briefly, there are four common justifications for this position:
+简要来说，这个观点有四个常见的理由：
 
-* C and C++ are already rife with undefined behavior, corners of the language where compiler optimizations run wild and users had better not wander or else. What's the harm in one more\?
-* Existing compilers and libraries were written with no regard to threads, breaking racy programs in arbitrary ways. It would be too difficult to find and fix all the problems, or so the argument goes, although it is unclear how those unfixed compilers and libraries are meant to cope with relaxed atomics.
-* Programmers who really know what they are doing and want to avoid undefined behavior can use the relaxed atomics.
-* Leaving race semantics undefined allows an implementation to detect and diagnose races and stop execution.
+* C 和 C++ 中已经充斥着未定义行为，语言的角落里编译器优化四处横行，用户最好不要随意涉足。多一个未定义行为又有何妨？
 
-Personally, the last justification is the only one I find compelling, although I observe that it is possible to say “race detectors are allowed” without also saying “one race on an integer can invalidate your entire program.”
+* 现有的编译器和库在编写时没有考虑到线程，以任意方式破坏竞争程序。找到并修复所有问题太困难了，这就是他们的论点，尽管尚不清楚这些未修复的编译器和库将如何应对松散原子操作。
 
-Here is an example from “Memory Model Rationales” that I think captures the essence of the C++ approach as well as its problems. Consider this program, which refers to a global variable `x`.
+* 真的知道自己在做什么并想避免未定义行为的程序员可以使用松散原子操作。
+
+* 将竞争语义留作未定义允许实现检测并诊断竞争，并停止执行。
+
+我个人认为，最后一个理由是唯一有说服力的，尽管我观察到可以说“允许竞争检测器”而不必同时说“在整数上的一个竞争可以使整个程序无效”。
+
+以下是“内存模型原理”中的一个例子，我认为它很好地捕捉了 C++ 方法的本质及其问题。考虑这个引用全局变量 `x` 的程序。
 
 ```cpp
 
@@ -436,13 +437,13 @@ if (i < 2) {
 
 ```
 
-The claim is that a C++ compiler might be holding `i` in a register but then need to reuse the registers if the code at label `foo` is complex. Rather than spill the current value of `i` to the function stack, the compiler might instead decide to load `i` a second time from the global `x` upon reaching the switch statement. The result is that, halfway through the `if` body, `i` `<` `2` may stop being true. If the compiler did something like compiling the `switch` into a computed jump using a table indexed by `i`, that code would index off the end of the table and jump to an unexpected address, which could be arbitrarily bad.
+声称 C++ 编译器可能会将 `i` 保存在寄存器中，但如果标签 `foo` 处的代码很复杂，则需要重用寄存器。与其将当前值的 `i` 溢出到函数栈中，编译器可能会决定在到达 `switch` 语句时从全局 `x` 中第二次加载 `i`。结果是在 `if` 主体的中途，`i < 2` 可能不再为真。如果编译器做了一些事情，比如使用由 `i` 索引的表将 `switch` 编译为计算跳转，则该代码将从表的末尾索引并跳转到意外的地址，这可能会任意糟糕。
 
-From this example and others like it, the C++ memory model authors conclude that any racy access must be allowed to cause unbounded damage to the future execution of the program. Personally, I conclude instead that in a multithreaded program, compilers should not assume that they can reload a local variable like `i` by re-executing the memory read that initialized it. It may well have been impractical to expect existing C++ compilers, written for a single-threaded world, to find and fix code generation problems like this one, but in new languages, I think we should aim higher.
+从这个例子和其他类似的例子中，C++ 内存模型的作者得出结论，任何有竞争的访问都必须被允许对程序未来的执行造成无限的损害。个人而言，我认为在多线程程序中，编译器不应假设它们可以通过重新执行初始化它的内存读取来重新加载像i这样的局部变量。期望为单线程世界编写的现有 C++ 编译器找到并修复像这样的代码生成问题可能是不切实际的，但在新语言中，我认为我们应该设定更高的目标。
 
-### [Digression: Undefined behavior in C and C++](#ub)
+### [题外话：C 和 C++ 未定义的行为](#ub)
 
-As an aside, the C and C++ insistence on the compiler's ability to behave arbitrarily badly in response to bugs in programs leads to truly ridiculous results. For example, consider this program, which was a topic of discussion [on Twitter in 2017](https://twitter.com/andywingo/status/903577501745770496):
+顺便说一句，C 和 C++ 坚持编译器能够任意地表现得糟糕以响应程序中的错误，这导致了真正荒谬的结果。例如，考虑这个程序，这是一个在 [2017 年在 Twitter](https://twitter.com/andywingo/status/903577501745770496) 讨论的话题：
 
 ```cpp
 
@@ -466,15 +467,15 @@ int main() {
 
 ```
 
-If you were a modern C++ compiler like Clang, you might think about this program as follows:
+如果您是像 Clang 这样的现代 C++ 编译器，则可以按如下方式考虑此程序：
 
-* In `main`, clearly `Do` is either null or `EraseAll`.
-* If `Do` is `EraseAll`, then `Do()` is the same as `EraseAll()`.
-* If `Do` is null, then `Do()` is undefined behavior, which I can implement however I want, including as `EraseAll()` unconditionally.
-* Therefore I can optimize the indirect call `Do()` down to the direct call `EraseAll()`.
-* I might as well inline `EraseAll` while I'm here.
+* 在 `main` 中，显然 `Do` 要么是 null，要么是 `EraseAll`。
+* 如果 `Do` 是 `EraseAll`，那么 `Do()` 和 `EraseAll()` 是一样的。
+* 如果 `Do` 为 null，则 `Do()` 是未定义的行为，我可以随心所欲地实现它，包括无条件地实现 `EraseAll()`。
+* 因此，我可以将间接调用 `Do()` 优化为直接调用 `EraseAll()`。
+* 我还不如在这里内联 `EraseAll`。
 
-The end result is that Clang optimizes the program down to:
+最终结果是 Clang 将程序优化为：
 
 ```cpp
 
@@ -484,49 +485,50 @@ int main() {
 
 ```
 
-You have to admit: next to this example, the possibility that the local variable `i` might suddenly stop being less than 2 halfway through the body of `if` `(i` `<` `2)` does not seem out of place.
+你不得不承认：在这个例子旁边，本地变量 `i` 可能会在 `if` `(i` `<` `2)` 的主体中途突然不再小于 2 的可能性看起来并不奇怪。
 
-In essence, modern C and C++ compilers assume no programmer would dare attempt undefined behavior. A programmer writing a program with a bug\? _[Inconceivable\!](https://www.youtube.com/watch?v=qhXjcZdk5QQ)_
+从本质上来说，现代的 C 和 C++ 编译器假设没有程序员敢于尝试未定义行为。一个程序员写了一个带有错误的程序\？ _[难以置信\!](https://www.youtube.com/watch?v=qhXjcZdk5QQ)_
 
-Like I said, in new languages I think we should aim higher.
+就像我说的，在新语言中，我认为我们应该有更高的目标。
 
-### [Acquire/release atomics](#acqrel)
+### [获得/释放原子](#acqrel)
 
-C++ adopted sequentially consistent atomic variables much like \(new\) Java’s volatile variables \(no relation to C++ volatile\). In our message passing example, we can declare `done` as
+C++ 采用了与（新的）Java 的 volatile 变量（与 C++ 的 volatile 无关）非常相似的顺序一致性原子变量。在我们的消息传递示例中，我们可以将 `done` 声明为
+
 
 `atomic<int> done;`
 
-and then use `done` as if it were an ordinary variable, like in Java. Or we can declare an ordinary `int` `done;` and then use
+然后像在Java中一样，将 `done` 当作普通变量使用。或者我们可以声明一个普通的 `int` `done;` 然后使用
 
 `atomic_store(&done, 1);`
 
-and
+和
 
 `while(atomic_load(&done) == 0) { /* loop */ }`
 
-to access it. Either way, the operations on `done` take part in the sequentially consistent total order on atomic operations and synchronize the rest of the program.
+以访问它。无论哪种方式，对 `done` 的操作都会参与原子操作的顺序一致顺序，并同步程序的其余部分。
 
-C++ also added weaker atomics, which can be accessed using `atomic_store_explicit` and `atomic_load_explicit` with an additional memory ordering argument. Using `memory_order_seq_cst` makes the explicit calls equivalent to the shorter ones above.
+C++ 还添加了较弱的原子操作，可以使用附加内存排序参数的 `atomic_store_explicit` 和 `atomic_load_explicit` 进行访问。使用 `memory_order_seq_cst` 使显式调用等同于上面的简短调用。
 
-The weaker atomics are called acquire/release atomics, in which a release observed by a later acquire creates a happens-before edge from the release to the acquire. The terminology is meant to evoke mutexes: release is like unlocking a mutex, and acquire is like locking that same mutex. The writes executed before the release must be visible to reads executed after the subsequent acquire, just as writes executed before unlocking a mutex must be visible to reads executed after later locking that same mutex.
+较弱的原子称为 acquire/release 原子，其中后 acquire 观察到的释放会在 release 到 acquire 之间创建先发生边缘。这个术语是为了唤起互斥锁： release 就像解锁一个互斥锁，而 acquire 就像锁定同一个互斥锁。在释放之前执行的写入必须对后续 acquire 之后执行的读取可见，就像在解锁互斥锁之前执行的写入必须对稍后锁定同一互斥锁后执行的读取可见一样。
 
-To use the weaker atomics, we could change our message-passing example to use
+要使用较弱的原子，我们可以将消息传递示例更改为使用
 
 `atomic_store(&done, 1, memory_order_release);`
 
-and
+和
 
 `while(atomic_load(&done, memory_order_acquire) == 0) { /* loop */}`
 
-and it would still be correct. But not all programs would.
+它仍然是正确的。但并非所有项目都会如此。
 
-Recall that the sequentially consistent atomics required the behavior of all the atomics in the program to be consistent with some global interleaving—a total order—of the execution. Acquire/release atomics do not. They only require a sequentially consistent interleaving of the operations on a single memory location. That is, they only require coherence. The result is that a program using acquire/release atomics with more than one memory location may observe executions that cannot be explained by a sequentially consistent interleaving of all the acquire/release atomics in the program, arguably a violation of DRF-SC\!
+回想一下，顺序一致的原子要求程序中所有原子的行为与执行的某种全局交错（总顺序）一致。acquire/release 原子则不会。它们只需要在单个内存位置上按顺序一致地交错操作。也就是说，它们只需要连贯性。结果是，使用具有多个内存位置的 acquire/release 原子的程序可能会观察到无法通过程序中所有 acquire/release 原子的顺序一致交错来解释的执行，这可以说是违反了 DRF-SC！
 
-To show the difference, here’s the store buffer example again:
+为了显示差异，这里再次是 store buffer 示例：
 
-> _Litmus Test: Store Buffering_
+> _Litmus 测试：存储缓冲_
 >
-> Can this program see `r1` `=` `0`, `r2` `=` `0`\?
+> 这个程序能看到 `r1` `=` `0`, `r2` `=` `0` 吗？
 
 ```cpp
 
@@ -536,25 +538,28 @@ r1 = y                r2 = x
 
 ```
 
-> On sequentially consistent hardware: no.
+> 在顺序一致的硬件上：否。
 >
-> On x86 \(or other TSO\): _yes\!_
+> 在 x86 \(或其他 TSO\): _yes\!_
 >
-> On ARM/POWER: _yes\!_
+> 在 ARM/POWER: _yes\!_
 >
-> On Java \(using volatiles\): no.
+> 在 Java \(使用 volatiles\): no.
 >
-> On C++11 \(sequentially consistent atomics\): no.
+> 在 C++11 \(顺序一致原子\): no.
 >
-> On C++11 \(acquire/release atomics\): _yes\!_
+> 在 C++11 \(acquire/release 原子\): _yes\!_
 
-The C++ sequentially consistent atomics match Java's volatile. But the acquire-release atomics impose no relationship between the orderings for `x` and the orderings for `y`. In particular, it is allowed for the program to behave as if `r1` `=` `y` happened before `y` `=` `1` while at the same time `r2` `=` `x` happened before `x` `=` `1`, allowing `r1` `=` `0`, `r2` `=` `0` in contradiction of whole-program sequential consistency. These probably exist only because they are free on x86.
+C++ 的顺序一致原子操作与 Java 的 volatile 相匹配。但是获取-释放原子操作在 `x` 的顺序和 `y` 的顺序之间不施加任何关系。特别是，程序可以表现得好像 `r1`=`y` 发生在 `y`=`1` 之前，而与此同时 `r2`=`x` 发生在 `x`=`1` 之前，允许 `r1`=`0`，`r2`=`0`，这与整个程序的顺序一致性相矛盾。这些可能仅仅存在于 x86 上，因为它们是免费的。
 
-Note that, for a given set of specific reads observing specific writes, C++ sequentially consistent atomics and C++ acquire/release atomics create the same happens-before edges. The difference between them is that some sets of specific reads observing specific writes are disallowed by sequentially consistent atomics but allowed by acquire/release atomics. One such example is the set that leads to `r1` `=` `0`, `r2` `=` `0` in the store buffering case.
 
-### [A real example of the weakness of acquire/release](#cond)
+请注意，对于给定的一组特定读取观察特定写入，C++ 顺序一致原子操作和 C++ 获取/释放原子操作会创建相同的前发生边。它们之间的区别在于，一些特定读取观察特定写入的集合在顺序一致原子操作中是不允许的，但在获取/释放原子操作中是允许的。一个这样的例子是在存储缓冲情况下导致 `r1`=`0`，`r2`=`0` 的集合。
 
-Acquire/release atomics are less useful in practice than atomics providing sequential consistency. Here is an example. Suppose we have a new synchronization primitive, a single-use condition variable with two methods `Notify` and `Wait`. For simplicity, only a single thread will call `Notify` and only a single thread will call `Wait`. We want to arrange for `Notify` to be lock-free when the other thread is not yet waiting. We can do this with a pair of atomic integers:
+
+### [获取/释放弱点的真实示例](#cond)
+
+获取/释放原子操作在实践中不如提供顺序一致性的原子操作有用。这里有一个例子。假设我们有一个新的同步原语，一个只有两个方法 `Notify` 和 `Wait` 的单次使用条件变量。为简便起见，只有一个线程调用 `Notify`，另一个线程调用 `Wait`。我们希望当另一个线程尚未等待时，`Notify` 可以无锁操作。我们可以使用一对原子整数来实现：
+
 
 ```cpp
 
@@ -581,21 +586,21 @@ void Cond::wait() {
 
 ```
 
-The important part about this code is that `notify` sets `done` before checking `waiting`, while `wait` sets `waiting` before checking `done`, so that concurrent calls to `notify` and `wait` cannot result in `notify` returning immediately and `wait` sleeping. But with C++ acquire/release atomics, they can. And they probably would only some fraction of time, making the bug very hard to reproduce and diagnose. \(Worse, on some architectures like 64-bit ARM, the best way to implement acquire/release atomics is as sequentially consistent atomics, so you might write code that works fine on 64-bit ARM and only discover it is incorrect when porting to other systems.\)
+这段代码的重要部分在于 `notify` 在检查 `waiting` 之前设置 `done`，而 `wait` 在检查 `done` 之前设置 `waiting`，以确保 `notify` 和 `wait` 的并发调用不会导致 `notify` 立即返回而 `wait` 进入睡眠状态。但是在 C++ 获取/释放原子操作中，它们可以。而且它们可能只会在某些时间内发生，使得这个 bug 非常难以重现和诊断。（更糟的是，在一些架构（比如 64-bit ARM）中，最好将获取/释放原子操作实现为顺序一致的原子操作，所以你可能会编写在 64-bit ARM 上运行良好的代码，但在移植到其他系统时才发现它是不正确的。）
 
-With this understanding, “acquire/release” is an unfortunate name for these atomics, since the sequentially consistent ones do just as much acquiring and releasing. What's different about these is the loss of sequential consistency. It might have been better to call these “coherence” atomics. Too late.
+根据这种理解，“acquire/release” 对于这些原子来说是一个不幸的名字，因为顺序一致的 atomic 执行同样多的获取和释放。这些不同的是失去了顺序一致性。将这些称为“相干”原子可能更好。太迟了。
 
-### [Relaxed atomics](#relaxed)
+### [宽松原子](#relaxed)
 
-C++ did not stop with the merely coherent acquire/release atomics. It also introduced non-synchronizing atomics, called relaxed atomics \(`memory_order_relaxed`\). These atomics have no synchronizing effect at all—they create no happens-before edges—and they have no ordering guarantees at all either. In fact, there is no difference between a relaxed atomic read/write and an ordinary read/write except that a race on relaxed atomics is not considered a race and cannot catch fire.
+C++ 并没有止步于仅仅连贯的 acquire/release 原子。它还引入了非同步原子，称为宽松原子（`memory_order_relaxed`）。这些原子根本没有同步效应 — 它们不会创建先发生边 — 而且它们也根本没有排序保证。事实上，宽松原子读/写和普通读/写之间没有区别，只是松弛原子上的争用不被视为争用，不会 Catch Fire。
 
-Much of the complexity of the revised Java memory model arises from defining the behavior of programs with data races. It would be nice if C++'s adoption of DRF-SC or Catch Fire—effectively disallowing programs with data races—meant that we could throw away all those strange examples we looked at earlier, so that the C++ language spec would end up simpler than Java's. Unfortunately, including the relaxed atomics ends up preserving all those concerns, meaning the C++11 spec ended up no simpler than Java's.
+修订后的 Java 内存模型的大部分复杂性来自于定义具有数据争用的程序的行为。如果 C++ 采用 DRF-SC 或 Catch Fire（有效地禁止具有数据争用的程序），这意味着我们可以扔掉我们之前看到的所有那些奇怪的例子，这样 C++ 语言规范就会比 Java 的规范更简单，那就太好了。不幸的是，包含松散的原子最终保留了所有这些关注点，这意味着 C++11 规范最终并不比 Java 的规范简单。
 
-Like Java's memory model, the C++11 memory model also ended up incorrect. Consider the data-race-free program from before:
+与 Java 的内存模型一样，C++11 内存模型最终也不正确。考虑前面的 data-race-free 程序：
 
-> _Litmus Test: Non-Racy Out Of Thin Air Values_
+> _Litmus 测试：非 Racy Out Of Thin Air 值_
 >
-> Can this program see `r1` `=` `42`, `r2` `=` `42`\?
+> 这个程序能看到 `r1` `=` `42`, `r2` `=` `42` 吗？
 
 ```cpp
 
@@ -606,65 +611,66 @@ if (r1 == 42)         if (r2 == 42)
 
 ```
 
-> \(Obviously not\!\)  
+> （当然不！）
 >   
-> C++11 \(ordinary variables\): no.
+> C++11（普通变量）：否
 >
-> C++11 \(relaxed atomics\): _yes\!_
+> C++11（宽松原子）：是！_
 
-In their paper “[Common Compiler Optimisations are Invalid in the C11 Memory Model and what we can do about it](https://fzn.fr/readings/c11comp.pdf)” \(2015\), Viktor Vafeiadis and others showed that the C++11 specification guarantees that this program must end with `x` and `y` set to zero when `x` and `y` are ordinary variables. But if `x` and `y` are relaxed atomics, then, strictly speaking, the C++11 specification does not rule out that `r1` and `r2` might both end up 42. \(Surprise\!\)
+在他们的论文“[Common Compiler Optimisations are Invalid in the C11 Memory Model and what we can do about it](https://fzn.fr/readings/c11comp.pdf)”（2015 年）中，Viktor Vafeiadis 等人表明，C++11 规范保证，当 `x` 和 `y` 是普通变量时，该程序必须以 `x` 和 `y` 设置为零结束。但是，如果 `x` 和 `y` 是松散原子变量，那么严格来说，C++11 规范并不排除 `r1` 和 `r2` 最终都变成 42 的可能性。（惊喜！）
 
-See the paper for the details, but at a high level, the C++11 spec had some formal rules trying to disallow out-of-thin-air values, combined with some vague words to discourage other kinds of problematic values. Those formal rules were the problem, so C++14 dropped them and left only the vague words. Quoting the rationale for removing them, the C++11 formulation turned out to be “both insufficient, in that it leaves it largely impossible to reason about programs with `memory_order_relaxed`, and seriously harmful, in that it arguably disallows all reasonable implementations of `memory_order_relaxed` on architectures like ARM and POWER.”
+有关详细信息，请参阅论文，但在高级别上，C++11 规范有一些正式的规则，试图禁止凭空值，并结合一些模糊的词来阻止其他类型的有问题的值。这些正式规则是问题所在，因此 C++14 放弃了它们，只留下了模糊的单词。引用删除它们的理由，C++11 公式被证明是“既不够的，因为它在很大程度上不可能用 `memory_order_relaxed` 来推理程序，而且非常有害，因为它可以说不允许在 ARM 和 POWER 等架构上所有合理的 `memory_order_relaxed` 实现。
 
-To recap, Java tried to exclude all acausal executions formally and failed. Then, with the benefit of Java's hindsight, C++11 tried to exclude only some acausal executions formally and also failed. C++14 then said nothing formal at all. This is not going in the right direction.
+回顾一下，Java 尝试正式排除所有非因果执行，但失败了。然后，凭借 Java 的后见之明，C++11 试图正式地仅排除一些非因果执行，但同样失败了。然后 C++14 根本没有说任何正式的话。这并没有朝着正确的方向发展。
 
-In fact, a paper by Mark Batty and others from 2015 titled “[The Problem of Programming Language Concurrency Semantics](https://www.cl.cam.ac.uk/~jp622/the_problem_of_programming_language_concurrency_semantics.pdf)” gave this sobering assessment:
+事实上，Mark Batty 和其他人在 2015 年的一篇题为 “[The Problem of Programming Language Concurrency Semantics](https://www.cl.cam.ac.uk/~jp622/the_problem_of_programming_language_concurrency_semantics.pdf)” 给出了这个发人深省的评价：
 
-> Disturbingly, 40+ years after the first relaxed-memory hardware was introduced \(the IBM 370/158MP\), the field still does not have a credible proposal for the concurrency semantics of any general-purpose high-level language that includes high-performance shared-memory concurrency primitives.
+> 令人不安的是，在第一个宽松内存硬件 （IBM 370/158MP）推出 40+ 年后，该领域仍然没有针对任何包含高性能共享内存并发原语的通用高级语言的并发语义提出可信的提议。
 
-Even defining the semantics of weakly-ordered _hardware_ \(ignoring the complications of software and compiler optimization\) is not going terribly well. A paper by Sizhuo Zhang and others in 2018 titled “[Constructing a Weak Memory Model](https://arxiv.org/abs/1805.07886)” recounted more recent events:
+即使在定义弱排序_硬件_（忽略软件和编译器优化的复杂性）语义时，情况也不是很顺利。2018 年，Sizhuo Zhang 等人发表的论文“[Constructing a Weak Memory Model](https://arxiv.org/abs/1805.07886)”记述了更近期的事件：
 
-> Sarkar _et_ _al_. published an operational model for POWER in 2011, and Mador-Haim et al. published an axiomatic model that was proven to match the operational model in 2012. However, in 2014, Alglave _et_ _al_. showed that the original operational model, as well as the corresponding axiomatic model, ruled out a newly observed behavior on POWER machines. For another instance, in 2016, Flur _et_ _al_. gave an operational model for ARM, with no corresponding axiomatic model. One year later, ARM released a revision in their ISA manual explicitly forbidding behaviors allowed by Flur's model, and this resulted in another proposed ARM memory model. Clearly, formalizing weak memory models empirically is error-prone and challenging.
 
-The researchers who have been working to define and formalize all of this over the past decade are incredibly smart, talented, and persistent, and I don't mean to detract from their efforts and accomplishments by pointing out inadequacies in the results. I conclude from those simply that this problem of specifying the exact behavior of threaded programs, even without races, is incredibly subtle and difficult. Today, it seems still beyond the grasp of even the best and brightest researchers. Even if it weren't, a programming language definition works best when it is understandable by everyday developers, without the requirement of spending a decade studying the semantics of concurrent programs.
+> Sarkar 在 2011 年发布了 POWER 的操作模型，Mador-Haim 等人在 2012 年发布了一个公理模型，该模型被证明与操作模型相匹配。然而，在 2014 年，Alglave 等人表明原始操作模型以及相应的公理模型排除了在 POWER 机器上新观察到的行为。再举一个例子，在 2016 年，Flur 等人给出了 ARM 的操作模型，没有相应的公理模型。一年后，ARM 在其 ISA 手册中发布了一个修订版，明确禁止 Flur 模型允许的行为，这导致了另一个提议的 ARM 内存模型。显然，根据经验将弱内存模型形式化容易出错且具有挑战性。
 
-## [C, Rust and Swift Memory Models](#crust)
+在过去十年中，一直致力于定义和规范这一切的研究人员非常聪明、有才华和坚持不懈，我并不是要通过指出结果中的不足来贬低他们的努力和成就。我从这些中得出的结论是，即使没有争用，指定线程程序的确切行为的问题也非常微妙和困难。今天，即使是最优秀和最聪明的研究人员似乎也无法理解它。即使不是这样，当日常开发人员能够理解时，由编程语言定义效果最好，而无需花费十年时间研究并发程序的语义。
 
-C11 adopted the C++11 memory model as well, making it the C/C++11 memory model.
+## [C, Rust 和 Swift 内存模型](#crust)
 
-[Rust 1.0.0 in 2015](https://doc.rust-lang.org/std/sync/atomic/) and [Swift 5.3 in 2020](https://github.com/apple/swift-evolution/blob/master/proposals/0282-atomics.md) both adopted the C/C++ memory model in its entirety, with DRF-SC or Catch Fire and all the atomic types and atomic fences.
+C11 也采用了 C++11 内存模型，使其成为 C/C++11 内存模型。
 
-It is not surprising that both of these languages adopted the C/C++ model, since they are built on a C/C++ compiler toolchain \(LLVM\) and emphasize close integration with C/C++ code.
+[Rust 1.0.0 于 2015 年](https://doc.rust-lang.org/std/sync/atomic/) 和 [Swift 5.3 于 2020 年](https://github.com/apple/swift-evolution/blob/master/proposals/0282-atomics.md) 都完全采用了 C/C++ 内存模型，包括 DRF-SC 或 Catch Fair 以及所有原子类型和原子围栏。
 
-## [Hardware Digression: Efficient Sequentially Consistent Atomics](#sc)
+这两种语言都采用了 C/C++ 模型也就不足为奇了，因为它们都是基于 C/C++ 编译器工具链（LLVM）构建的，并强调与 C/C++ 代码的紧密集成。
 
-Early multiprocessor architectures had a variety of synchronization mechanisms and memory models, with varying degrees of usability. In this diversity, the efficiency of different synchronization abstractions depended on how well they mapped to what the architecture provided. To construct the abstraction of sequentially consistent atomic variables, sometimes the only choice was to use barriers that did more and were far more expensive than strictly necessary, especially on ARM and POWER.
+## [硬件题外话：高效的顺序一致性原子](#sc)
 
-With C, C++, and Java all providing this same abstraction of sequentially consistent synchronizing atomics, it behooves hardware designers to make that abstraction efficient. The ARMv8 architecture \(both 32- and 64-bit\) introduced `ldar` and `stlr` load and store instructions, providing a direct implementation. In a talk in 2017, Herb Sutter [claimed that IBM had approved him saying](https://youtu.be/KeLBd2EJLOU?t=3432) that they intended future POWER implementations to have some kind of more efficient support for sequentially consistent atomics as well, giving programmers “less reason to use relaxed atomics.” I can't tell whether that happened, although here in 2021, POWER has turned out to be much less relevant than ARMv8.
+早期的多处理器架构具有多种同步机制和内存模型，具有不同程度的可用性。在这种多样性中，不同同步抽象的效率取决于它们与架构提供的内容的映射程度。为了构建顺序一致的原子变量的抽象，有时唯一的选择是使用比绝对必要的更多且成本更高的屏障，尤其是在 ARM 和 POWER 上。
 
-The effect of this convergence is that sequentially consistent atomics are now well understood and can be efficiently implemented on all major hardware platforms, making them a good target for programming language memory models.[](#javascript)
+随着 C、C++ 和 Java 都提供了相同的顺序一致同步原子抽象，硬件设计师有必要使这种抽象高效。ARMv8 架构（包括 32 位和 64 位）引入了 `ldar` 和 `stlr` 加载和存储指令，提供了直接的实现。在 2017 年的一次演讲中，Herb Sutter [声称 IBM 已批准他这样说](https://youtu.be/KeLBd2EJLOU?t=3432)，他们打算在未来的 POWER 实现中也提供某种更高效的顺序一致原子支持，给程序员“更少的理由使用松散原子”。我不知道这是否发生了，尽管到 2021 年，POWER 似乎已经变得比 ARMv8 不那么重要。
 
-## [JavaScript Memory Model \(2017\)](#javascript)
+这种收敛的效果是，顺序一致的原子现在已经被很好地理解，并且可以在所有主要硬件平台上有效地实现，使它们成为编程语言内存模型的良好目标。[](#javascript)
 
-You might think that JavaScript, a notoriously single-threaded language, would not need to worry about a memory model for what happens when code runs in parallel on multiple processors. I certainly did. But you and I would be wrong.
+## [JavaScript 内存模型 \(2017\)](#javascript)
 
-JavaScript has web workers, which allow running code in another thread. As originally conceived, workers only communicated with the main JavaScript thread by explicit message copying. With no shared writable memory, there was no need to consider issues like data races. However, ECMAScript 2017 \(ES2017\) added the `SharedArrayBuffer` object, which lets the main thread and workers share a block of writable memory. Why do this\? In an [early draft of the proposal](https://github.com/tc39/ecmascript_sharedmem/blob/master/historical/Spec_JavaScriptSharedMemoryAtomicsandLocks.pdf), the first reason listed is compiling multithreaded C++ code to JavaScript.
+您可能会认为 JavaScript（一种众所周知的单线程语言）不需要担心内存模型，当代码在多个处理器上并行运行时会发生什么。我当然知道。但你我都错了。
 
-Of course, having shared writable memory also requires defining atomic operations for synchronization and a memory model. JavaScript deviates from C++ in three important ways:
+JavaScript 有 web workers，允许在另一个线程中运行代码。最初设想的情况下，workers 仅通过显式消息复制与主 JavaScript 线程通信。由于没有共享的可写内存，因此不需要考虑数据竞争等问题。然而，ECMAScript 2017（ES2017）添加了 `SharedArrayBuffer` 对象，使主线程和 workers 可以共享一块可写内存。为什么要这样做？在[提案的早期草案](https://github.com/tc39/ecmascript_sharedmem/blob/master/historical/Spec_JavaScriptSharedMemoryAtomicsandLocks.pdf)中，列出的第一个原因是将多线程 C++ 代码编译为 JavaScript。
 
-* First, it limits the atomic operations to just sequentially consistent atomics. Other atomics can be compiled to sequentially consistent atomics with perhaps a loss in efficiency but no loss in correctness, and having only one kind simplifies the rest of the system.
+当然，拥有共享的可写内存还需要定义用于同步的原子操作和内存模型。JavaScript 在三个重要方面与 C++ 不同：
 
-* Second, JavaScript does not adopt “DRF-SC or Catch Fire.” Instead, like Java, it carefully defines the possible results of racy accesses. The rationale is much the same as Java, in particular security. Allowing a racy read to return any value at all allows \(arguably encourages\) implementations to return unrelated data, which could lead to [leaking private data at run time](https://github.com/tc39/ecmascript_sharedmem/blob/master/DISCUSSION.md#races-leaking-private-data-at-run-time).
+* 首先，它将原子操作限制为仅按顺序一致的原子。其他原子可以编译为顺序一致的原子，可能会降低效率，但不会降低正确性，并且只有一种可以简化系统的其余部分。
 
-* Third, in part because JavaScript provides semantics for racy programs, it defines what happens when atomic and non-atomic operations are used on the same memory location, as well as when the same memory location is accessed using different-sized accesses.
+* 其次，JavaScript 不采用 “DRF-SC 或 Catch Fire”。相反，它像 Java 一样，仔细定义了竞争访问的可能结果。理由与 Java 非常相似，特别是安全性。允许竞争读取返回任何值（可以说是鼓励）实现返回不相关的数据，这可能导致[在运行时泄漏私人数据](https://github.com/tc39/ecmascript_sharedmem/blob/master/DISCUSSION.md#races-leaking-private-data-at-run-time)。
 
-Precisely defining the behavior of racy programs leads to the usual complexities of relaxed memory semantics and how to disallow out-of-thin-air reads and the like. In addition to those challenges, which are mostly the same as elsewhere, the ES2017 definition had two interesting bugs that arose from a mismatch with the semantics of the new ARMv8 atomic instructions. These examples are adapted from Conrad Watt _et_ _al_.'s 2020 paper “[Repairing and Mechanising the JavaScript Relaxed Memory Model](https://www.cl.cam.ac.uk/~jp622/repairing_javascript.pdf).”
+* 第三，部分原因是 JavaScript 为竞争的程序提供了语义，它定义了当对同一内存位置使用原子和非原子操作时，以及当使用不同大小的访问访问同一内存位置时会发生什么。
 
-As we noted in the previous section, ARMv8 added `ldar` and `stlr` instructions providing sequentially consistent atomic load and store. These were targeted to C++, which does not define the behavior of any program with a data race. Unsurprisingly, then, the behavior of these instructions in racy programs did not match the expectations of the ES2017 authors, and in particular it did not satisfy the ES2017 requirements for racy program behavior.
+精确定义竞争程序的行为会导致松散内存语义的常见复杂性，以及如何禁止 out-of-air 读取等。除了这些挑战（与其他地方基本相同）之外，ES2017 定义还存在两个有趣的错误，这些错误是由于与新 ARMv8 原子指令的语义不匹配而引起的。这些例子改编自 Conrad Watt 等人 2020 年的论文“[修复和机械化 JavaScript 松弛记忆模型”](https://www.cl.cam.ac.uk/~jp622/repairing_javascript.pdf)”。
 
-> _Litmus Test: ES2017 racy reads on ARMv8_
+正如我们在上一节中提到的，ARMv8 添加了 `ldar` 和 `stlr` 指令，提供顺序一致的原子加载和存储。这些是针对 C++ 的，它不定义任何具有数据竞争的程序的行为。因此，不出所料，这些指令在竞争程序中的行为不符合 ES2017 作者的期望，特别是它不符合 ES2017 对竞争程序行为的要求。
+
+> _Litmus 测试：ES2017 在 ARMv8 上读取_
 >
-> Can this program \(using atomics\) see `r1` `=` `0`, `r2` `=` `1`\?
+> 这个程序（使用原子）可以看到 `r1` `=` `0`, `r2` `=` `1` 吗？
 
 ```js
 
@@ -675,25 +681,25 @@ r1 = y                x = 2 (non-atomic)
 
 ```
 
-> C++: yes \(data race, can do anything at all\).
+> C++：是（数据竞争，可以做任何事）
 >
-> Java: the program cannot be written.
+> Java：无法编写程序。
 >
-> ARMv8 using `ldar`/`stlr`: yes.
+> ARMv8 使用 `ldar` 和 `stlr`：是
 >
-> ES2017: _no\!_ \(contradicting ARMv8\)
+> ES2017: _否！_（与 ARMv8 相矛盾）
 
-In this program, all the reads and writes are sequentially consistent atomics with the exception of `x` `=` `2`: thread 1 writes `x` `=` `1` using an atomic store, but thread 2 writes `x` `=` `2` using a non-atomic store. In C++, this is a data race, so all bets are off. In Java, this program cannot be written: `x` must either be declared `volatile` or not; it can't be accessed atomically only sometimes. In ES2017, the memory model turns out to disallow `r1` `=` `0`, `r2` `=` `1`. If `r1` `=` `y` reads 0, thread 1 must complete before thread 2 begins, in which case the non-atomic `x` `=` `2` would seem to happen after and overwrite the `x` `=` `1`, causing the atomic `r2` `=` `x` to read 2. This explanation seems entirely reasonable, but it is not the way ARMv8 processors work.
+在这个程序中，所有的读取和写入都是顺序一致的原子操作，除了 `x` `=` `2`：线程 1 使用原子存储写入 `x` `=` `1`，但线程 2 使用非原子存储写入 `x` `=` `2`。在 C++ 中，这是数据竞争，所以一切都无法预料。在 Java 中，这个程序是不能写的：`x` 要么被声明为 `volatile`，要么不是；它不能只在某些时候以原子方式访问。在 ES2017 中，内存模型禁止 `r1` `=` `0`，`r2` `=` `1`。如果 `r1` `=` `y` 读取 0，线程 1 必须在线程 2 开始之前完成，在这种情况下，非原子的 `x` `=` `2` 似乎发生在并覆盖 `x` `=` `1` 之后，使得原子 `r2` `=` `x` 读取 2。这种解释看起来完全合理，但这不是 ARMv8 处理器的工作方式。
 
-It turns out that, for the equivalent sequence of ARMv8 instructions, the non-atomic write to `x` can be reordered ahead of the atomic write to `y`, so that this program does in fact produce `r1` `=` `0`, `r2` `=` `1`. This is not a problem in C++, since the race means the program can do anything at all, but it is a problem for ES2017, which limits racy behaviors to a set of outcomes that does not include `r1` `=` `0`, `r2` `=` `1`.
+事实证明，对于等效的 ARMv8 指令序列，非原子写入 `x` 可以在原子写入 `y` 之前重新排序，因此该程序实际上会产生 `r1` `=` `0`，`r2` `=` `1`。这在 C++ 中不是问题，因为竞争意味着程序可以做任何事情，但在 ES2017 中是一个问题，它将竞争行为限制在一组结果中，不包括 `r1` `=` `0`，`r2` `=` `1`。
 
-Since it was an explicit goal of ES2017 to use the ARMv8 instructions to implement the sequentially consistent atomic operations, Watt _et_ _al_. reported that their suggested fixes, slated to be included in the next revision of the standard, would weaken the racy behavior constraints just enough to allow this outcome. \(It is unclear to me whether at the time “next revision” meant ES2020 or ES2021.\)
+由于 ES2017 的一个明确目标是使用 ARMv8 指令来实现顺序一致的原子操作，Watt 等人报告说，他们建议的修正将在标准的下一个修订版中包括，预计会削弱竞争行为约束，使其刚好允许这种结果。（我不确定当时“下一个修订版”是指 ES2020 还是 ES2021。）
 
-Watt _et_ _al_.'s suggested changes also included a fix to a second bug, first identified by Watt, Andreas Rossberg, and Jean Pichon-Pharabod, wherein a data-race-free program was _not_ given sequentially consistent semantics by the ES2017 specification. That program is given by:
+Watt 等人建议的更改还包括修复第二个错误，该错误由 Watt、Andreas Rossberg 和 Jean Pichon-Pharabod 首次发现，其中一个无数据竞争的程序在 ES2017 规范中 _没有_ 被赋予顺序一致的语义。该程序如下：
 
-> _Litmus Test: ES2017 data-race-free program_
+> _Litmus 测试：ES2017 无数据竞争程序_
 >
-> Can this program \(using atomics\) see `r1` `=` `1`, `r2` `=` `2`\?
+> 这个程序（使用原子）可以看到 `r1` `=` `1`, `r2` `=` `2` 吗？
 
 ```js
 
@@ -706,38 +712,38 @@ x = 1                 x = 2
 
 ```
 
-> On sequentially consistent hardware: no.
+> 在顺序一致的硬件上：否。
 >
-> C++: I'm not enough of a C++ expert to say for sure.(Actually, no.)
+> C++：我不是 C++ 专家，无法肯定地说。（实际上，否。）
 >
-> Java: the program cannot be written.
+> Java：无法编写程序。
 >
-> ES2017: _yes\!_ \(violating DRF-SC\).
+> ES2017： _是！_ （与 DRF-SC 矛盾）。
 
-In this program, all the reads and writes are sequentially consistent atomics with the exception of `r2` `=` `x`, as marked. This program is data-race-free: the non-atomic read, which would have to be involved in any data race, only executes when `r1` `=` `1`, which proves that thread 1's `x` `=` `1` happens before the `r1` `=` `x` and therefore also before the `r2` `=` `x`. DRF-SC means that the program must execute in a sequentially consistent manner, so that `r1` `=` `1`, `r2` `=` `2` is impossible, but the ES2017 specification allowed it.
+在这个程序中，所有的读取和写入都是顺序一致的原子操作，除了标记的 `r2` `=` `x`。该程序是无数据竞争的：非原子读取（必须涉及任何数据竞争）仅在 `r1` `=` `1` 时执行，这证明了线程 1 的 `x` `=` `1` 发生在 `r1` `=` `x` 之前，因此也发生在 `r2` `=` `x` 之前。DRF-SC 意味着程序必须以顺序一致的方式执行，因此 `r1` `=` `1`，`r2` `=` `2` 是不可能的，但 ES2017 规范允许它。
 
-The ES2017 specification of program behavior was therefore simultaneously too strong \(it disallowed real ARMv8 behavior for racy programs\) and too weak \(it allowed non-sequentially consistent behavior for race-free programs\). As noted earlier, these mistakes are fixed. Even so, this is yet another reminder about how subtle it can be to specify the semantics of both data-race-free and racy programs exactly using happens-before, as well as how subtle it can be to match up language memory models with the underlying hardware memory models.
+因此，ES2017 对程序行为的规范同时过强（它不允许真实的 ARMv8 行为在竞争程序中发生）和过弱（它允许无竞争程序的非顺序一致行为）。如前所述，这些错误已经被修正。即便如此，这再次提醒我们，如何准确地使用前发生来指定无数据竞争和竞争程序的语义是多么微妙，以及如何使语言内存模型与底层硬件内存模型相匹配是多么微妙。
 
-It is encouraging that at least for now JavaScript has avoided adding any other atomics besides the sequentially consistent ones and has resisted “DRF-SC or Catch Fire.” The result is a memory model valid as a C/C++ compilation target but much closer to Java.
+令人鼓舞的是，至少目前 JavaScript 避免了添加顺序一致的原子之外的任何其他原子，并抵制了“DRF-SC 或 Catch Fire”。结果是一个内存模型，可以作为 C/C++ 有效编译目标，但更接近 Java。
 
-## [Conclusions](#conclusions)
+## [结论](#conclusions)
 
-Looking at C, C++, Java, JavaScript, Rust, and Swift, we can make the following observations:
+看看 C、C++、Java、JavaScript、Rust 和 Swift，我们可以做出以下观察：
 
-* They all provide sequentially consistent synchronizing atomics for coordinating the non-atomic parts of a parallel program.
-* They all aim to guarantee that programs made data-race-free using proper synchronization behave as if executed in a sequentially consistent manner.
-* Java resisted adding weak \(acquire/release\) synchronizing atomics until Java 9 introduced `VarHandle`. JavaScript has avoided adding them as of this writing.
-* They all provide a way for programs to execute “intentional” data races without invalidating the rest of the program. In C, C++, Rust, and Swift, that mechanism is relaxed, non-synchronizing atomics, a special form of memory access. In Java, that mechanism is either ordinary memory access or the Java 9 `VarHandle` “plain” access mode. In JavaScript, that mechanism is ordinary memory access.
-* None of the languages have found a way to formally disallow paradoxes like out-of-thin-air values, but all informally disallow them.
+* 它们都提供了顺序一致的同步原子，用于协调并行程序的非原子部分。
+* 它们都旨在保证使用适当的同步实现无数据争用的程序的行为就像以顺序一致的方式执行一样。
+* Java 直到 Java 9 引入 `VarHandle` 才引入了弱（获取/释放）同步原子操作。截至本文撰写时，JavaScript 一直避免添加它们。
+* 它们都为程序提供了一种执行“有意”数据竞争的方法，而不会使程序的其余部分无效。在 C、C++、Rust 和 Swift 中，该机制是松散的、非同步的原子操作，这是一种特殊形式的内存访问。在 Java 中，该机制要么是普通内存访问，要么是 Java 9 `VarHandle` “plain” 访问模式。在 JavaScript 中，该机制是普通内存访问。
+* 没有一种语言找到一种方法来正式禁止像 out-of-air 值这样的悖论，但都非正式地不允许它们。
 
-Meanwhile, processor manufacturers seem to have accepted that the abstraction of sequentially consistent synchronizing atomics is important to implement efficiently and are starting to do so: ARMv8 and RISC-V both provide direct support.
+与此同时，处理器制造商似乎已经接受了顺序一致同步原子的抽象对于高效实现很重要，并且正在开始这样做：ARMv8 和 RISC-V 都提供了直接支持。
 
-Finally, a truly immense amount of verification and formal analysis work has gone into understanding these systems and stating their behaviors precisely. It is particularly encouraging that Watt _et_ _al_. were able in 2020 to give a formal model of a significant subset of JavaScript and use a theorem prover to prove correctness of compilation to ARM, POWER, RISC-V, and x86-TSO.
+最后，为了理解这些系统并准确陈述它们的行为，已经进行了真正的大量验证和正式分析工作。特别令人鼓舞的是，Watt 等人能够在 2020 年给出 JavaScript 重要子集的正式模型，并使用定理证明器来证明 ARM、POWER、RISC-V 和 x86-TSO 编译的正确性。
 
-Twenty-five years after the first Java memory model, and after many person-centuries of research effort, we may be starting to be able to formalize entire memory models. Perhaps, one day, we will also fully understand them.
+在第一个 Java 内存模型诞生 25 年后，经过几个世纪人力的研究工作，我们可能开始能够将整个内存模型正式化。也许，有一天，我们也会完全理解他们。
 
-The next post in this series is “[Updating the Go Memory Model](gomm).”
+本系列的下一篇文章是 “[更新 Go 内存模型](https://research.swtch.com/gomm)。”
 
-## [Acknowledgements](#acknowledgements)
+## [致谢](#acknowledgements)
 
-This series of posts benefited greatly from discussions with and feedback from a long list of engineers I am lucky to work with at Google. My thanks to them. I take full responsibility for any mistakes or unpopular opinions.
+这一系列的文章从与我很幸运在 Google 共事的一长串工程师的讨论和反馈中受益匪浅。我感谢他们。我对任何错误或不受欢迎的观点承担全部责任。

@@ -157,8 +157,8 @@ Suppose the compiler reorders the two reads in thread 4, and then the instructio
 
 // Thread 1    // Thread 2    // Thread 3    // Thread 4
                                              // \(reordered\)
-\(1\) x = 1                     \(2\) r1 = x     \(3\) r4 = x
-               \(4\) x = 2      \(5\) r2 = x     \(6\) r3 = x
+(1) x = 1                     (2) r1 = x     (3) r4 = x
+               (4) x = 2      (5) r2 = x     (6) r3 = x
 
 ```
 
@@ -210,8 +210,8 @@ int x;
 volatile int done;
 
 // Thread 1           // Thread 2
-x = 1;                while\(done == 0\) \{ /\* loop \*/ \}
-done = 1;             print\(x\);
+x = 1;                while(done == 0) { /* loop */ }
+done = 1;             print(x);
 
 ```
 
