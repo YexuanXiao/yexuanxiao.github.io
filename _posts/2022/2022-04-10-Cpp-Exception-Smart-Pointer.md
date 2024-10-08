@@ -10,7 +10,9 @@ categories: [blog]
 
 <!-- more -->
 
-目录：
+本文是《C++ 异常》系列第二篇文章。
+
+《C++ 异常》目录：
 
 1. [C++ 异常 - 类和异常](/blog/2022/04/07/Cpp-Exception-Class-and-RAII/)
 2. 本文

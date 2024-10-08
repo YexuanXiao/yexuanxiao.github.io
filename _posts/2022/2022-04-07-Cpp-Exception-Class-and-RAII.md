@@ -10,7 +10,9 @@ categories: [blog]
 
 <!-- more -->
 
-目录：
+本文是《C++ 异常》系列第一篇文章。
+
+《C++ 异常》目录：
 
 1. 本文
 2. [C++ 异常 - 智能指针](/blog/2022/04/08/Cpp-Exception-Smart-Pointer/)

@@ -9,7 +9,9 @@ categories: [blog]
 
 <!-- more -->
 
-目录：
+本文是《C++ 异常》系列第五篇文章。
+
+《C++ 异常》目录：
 
 1. [C++ 异常 - 类和异常](/blog/2022/04/07/Cpp-Exception-Class-and-RAII/)
 2. [C++ 异常 - 智能指针](/blog/2022/04/08/Cpp-Exception-Smart-Pointer/)
@@ -217,7 +219,7 @@ public:
     bool try_lock() noexcept requires requires{ t.try_lock(); }
     {
         assert(!locked_);
-        t.try_lock();
+        return t.try_lock();
     }
     void unlock() noexcept
     {
@@ -267,7 +269,7 @@ public:
     bool try_lock() noexcept requires requires{ tp_->try_lock(); }
     {
         assert(tp_ && !locked_);
-        tp_->try_lock();
+        return tp_->try_lock();
     }
     void unlock() noexcept
     {
@@ -310,23 +312,29 @@ public:
         std::swap(lhs.tp_, rhs.tp_);
         std::swap(lhs.locked_, rhs.locked_);
     }
-    unique_lock& operator=(unique_lock&& rhs) noexcept
+    unique_lock& unique_lock(unique_lock&& rhs) noexcept
     {
+        if (locked_)
+            unlock();
         swap(*this, rhs);
+
+        return *this;
     }
     unique_lock(unique_lock&& rhs) noexcept
     {
         swap(*this, rhs);
     }
+
     ...
 };
 
 ```
 
+注意，锁的类的移动赋值必须先将 `*this` 解锁，这是为了防止 `*this` 被意外的延迟解锁从而阻塞或者死锁，但一般来说，调用该重载时，`*this` 应该处于不持有锁的状态。
+
 既然实现了移动赋值，那么实现一个移动构造也是理所应当。
 
 到现在，不难发现，`unique_lock` 居然也是句柄类！
-
 
 ### allocate_guard
 
@@ -498,6 +506,8 @@ void emplace_(U&& u)
 }
 
 ```
+
+libc++ 的 `std::shared_ptr` 的构造函数就如此使用 `std::unique_ptr`。
 
 基于此，可以扩展该 `allocate_guard`，使其变得更通用：
 

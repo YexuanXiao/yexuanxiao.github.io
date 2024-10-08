@@ -10,7 +10,9 @@ categories: [blog]
 
 <!-- more -->
 
-目录：
+本文是《C++ 异常》系列第四篇文章。
+
+《C++ 异常》目录：
 
 1. [C++ 异常 - 类和异常](/blog/2022/04/07/Cpp-Exception-Class-and-RAII/)
 2. [C++ 异常 - 智能指针](/blog/2022/04/08/Cpp-Exception-Smart-Pointer/)
@@ -147,7 +149,7 @@ void vector<T, A>::destory_elements()
 {
     for (T* p = vb.elem; p!= vb.space; ++p)
         p->~T(); // 显式调用析构函数
-    vb.space = vb.emem;
+    vb.space = vb.elem;
 }
 
 ```
