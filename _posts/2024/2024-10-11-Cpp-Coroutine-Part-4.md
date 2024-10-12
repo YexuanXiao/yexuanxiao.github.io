@@ -26,11 +26,11 @@ categories: [blog]
 
 `operator bool` 用于测试该协程句柄是否为空，也就是是否指代协程。一般来说，只有默认构造的协程为空。不过，实际上也能从后文介绍的 `from_address` 函数构造一个空的协程句柄。
 
-`done` 函数用于协程是否处于 _最终暂停点_，在后文会解释。
+`done` 函数用于检查协程是否处于 _最终暂停点_，在后文会解释。
 
 `operator()` 和 `resume` 函数用于恢复一个 _暂停_ 状态的协程的执行，实际使用哪个看个人习惯。
 
-`destroy` 函数用于销毁处于 _最终暂停点_ 的协程。
+`destroy` 函数用于销毁处于 _暂停_ 状态的协程。
 
 除此之外，还有 `address` 和 `from_address` 两个函数，前者用于将协程句柄转换为 `void*`，后者用于还原为协程句柄。这两个函数用于和 C 风格接口进行交互，例如可以编写：
 
@@ -57,7 +57,7 @@ void create_thread(void(*callback)(void*), void* data);
 
 ## Awaiter
 
-Awaiter 一般被称作等待对象，一个等待对象至少有 3 个公开的非静态成员函数：`await_ready`、`await_suspend` 和 `await_resume`：
+Awaiter 一般被称作等待对象，一个等待对象至少有 3 个公开的成员函数：`await_ready`、`await_suspend` 和 `await_resume`：
 
 ```cpp
 
@@ -250,25 +250,28 @@ struct timer_awaiter
 
 例如 `co_await 1s` 可以自动返回 `timer_awaiter`。
 
-`co_await` 变换顺序如下，假设操作数是 `x`：
+`co_await` 变换步骤如下，假设操作数是 `x`：
 
-1. 首先，查找 Promise 类型是否存在成员函数 `await_transform`：
+1. `x` 是 `initial_susend`、`final_suspend` 的返回值<br>
+   否则，查找 Promise 类型是否存在成员函数 `await_transform`：
     + 如果找到，那么测试 `promise.await_transform(x)` 是否合法
-        + 如果合法则调用它，返回值就是 Awaiter
+        + 如果合法则调用它，`x` 现在是调用结果
         + 如果不合法，则编译错误
     + 如果没找到，进行后续查找
     
 2. 接下来，测试 `x` 的类型是否存在 `operator co_await()` 成员函数
-    + 如果存在，那么调用它，返回值就是 Awaiter
+    + 如果存在，那么调用它，`x` 现在是调用结果
     + 如果不存在，那么进行下一步查找
     
 3. 最后，以无限定查找进行 `operator co_await(x)` 调用。
-    + 如果能调用，调用它，并且返回值就是 Awaiter
-    + 如果不能调用，则编译错误
+    + 如果能调用，则看它是否经过了步骤 2 的变换，
+		+ 未进行变换，则调用它，并且返回值就是 Awaiter
+		+ 进行了变换，则存在歧义，编译错误
+    + 如果不能调用，则 `x` 就作为 Awaiter
 
 如果通过以上三步确定的 Awaiter 没有三个必须的成员函数或者成员函数不满足要求，那么会编译错误。
 
-需要注意的是，如果 `await_transform` 存在，那么任何 `operator co_await` 重载都会被忽略。
+需要注意的是，如果 `await_transform` 存在且在步骤 1 的 `promise.await_transform(x)` 测试中表达式不合法，那么是编译错误。
 
 因此，`apartment_awaiter` 和 `timer_awaiter` 可以成为内部类：
 
