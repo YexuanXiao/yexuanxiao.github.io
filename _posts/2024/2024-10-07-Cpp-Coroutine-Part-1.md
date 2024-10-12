@@ -60,7 +60,7 @@ auto /* awaiter */ operator co_await(context c);
 template <class Rep, class Period>
 auto /* awaiter */ operator co_await(std::chrono::duration<Rep, Period> d);
 
-struct cancellation_token; /* awaiter */
+auto /* awaiter */ get_cancellation_token();
 
 ```
 
