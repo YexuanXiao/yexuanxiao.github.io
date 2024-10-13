@@ -172,7 +172,7 @@ function bra2Full(language) {
 		case 'php':
 			return 'PHP'
 		case 'plaintext':
-			return 'PlainText'
+			return 'Plain Text'
 		case 'powershell':
 			return 'PowerShell'
 		case 'sql':
@@ -192,7 +192,7 @@ function bra2Full(language) {
 		case 'yml':
 			return 'YML'
 		default:
-			return language
+			return language.toUpperCase()
 	}
 }
 

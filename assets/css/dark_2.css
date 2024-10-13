@@ -46,6 +46,10 @@ span.tag, a.tag, span.tag:visited, a.tag:visited {
 .content h1, .content p, .content span, .content time, .content h2, .content h3, .content h4, .content h5, .content li, .content del, .content em, .content s, .content strong, .content table, .content th {
 	color: #d3d3d3!important
 }
+/* fix code block titile */
+.post-text .message-header>span {
+    color: #fff !important;
+}
 
 /* post-text */
 

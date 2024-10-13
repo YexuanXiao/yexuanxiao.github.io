@@ -8,9 +8,9 @@ categories: [blog]
 
 协程中最主要的两个概念是 Awaiter 和 Promise，Awaiter 用于协程切换，而 Promise 用于储存用户定义的协程状态信息以及结果。此外，协程还需要一个用于管理协程以及获得协程结果的 Task。
 
-一个返回 Task，函数体内有 `co_await`、`co_yield` 表达式或 `co_return` 语句，且通过 `std::coroutine_traits<Task>` 能获得满足 Promise 要求的类类型的函数（包括成员函数）是协程。
-
 <!-- more -->
+
+一个返回 Task，函数体内有 `co_await`、`co_yield` 表达式或 `co_return` 语句，且通过 `std::coroutine_traits<Task>` 能获得满足 Promise 要求的类类型的函数（包括成员函数）是协程。`co_await` 表达式用于同步一个 Awaiter 或者一个 Task 的执行，`co_yield` 表达式用于从协程中获取一个值，`co_return` 语句用于在协程返回时输出一个结果。
 
 ## 协程句柄和无操作协程
 
@@ -252,7 +252,7 @@ struct timer_awaiter
 
 `co_await` 变换步骤如下，假设操作数是 `x`：
 
-1. `x` 是 `initial_susend`、`final_suspend` 的返回值<br>
+1. `x` 是 `initial_susend` 或 `final_suspend` 的返回值<br>
    否则，查找 Promise 类型是否存在成员函数 `await_transform`：
 	+ 如果找到，那么测试 `promise.await_transform(x)` 是否合法
 		+ 如果合法则调用它，`x` 现在是调用结果
@@ -264,7 +264,7 @@ struct timer_awaiter
 	+ 如果不存在，那么进行下一步查找
 	
 3. 最后，以无限定查找进行 `operator co_await(x)` 调用
-	+ 如果能调用，则看它是否经过了步骤 2 的变换，
+	+ 如果能调用，则看它是否经过了步骤 2 的变换
 		+ 未进行变换，则调用它，并且返回值就是 Awaiter
 		+ 进行了变换，则存在歧义，编译错误
 	+ 如果不能调用，则 `x` 就作为 Awaiter
@@ -279,14 +279,14 @@ struct timer_awaiter
 
 auto operator co_await(thread_pool::context c)
 {
-	struct apartment_awaiter { /*... */ };
+	struct apartment_awaiter { /* ... */ };
 	return apartment_awaiter{ c };
 }
 
 template <class Rep, class Period> // breakline
 auto operator co_await(std::chrono::duration<Rep, Period> d)
 {
-	struct timer_awaiter { /*... */ };
+	struct timer_awaiter { /* ... */ };
 	return timer_awaiter{ std::chrono::duration_cast<std::chrono::milliseconds>(d) };
 }
 
@@ -298,7 +298,7 @@ auto operator co_await(std::chrono::duration<Rep, Period> d)
 
 `std::coroutine_traits` 在非用户提供特化的前提下，其 `promise_type` 等于 `Task::promise_type`，如果用户提供了特化，那么该特化就必须提供成员类型 `promise_type`。
 
-`promise_type` 必须有 `get_return_object`、`initial_suspend`、`final_suspend` 和 `unhandled_exception` 四个成员函数。如果任务（Task）是无值的，也就是 `co_return` 不需要返回值时，Promise 有 `return_void` 函数，如果有值，那么 Promise 有 `return_value` 函数。不满足以上要求的 Promise 不正确。
+`promise_type` 必须有 `get_return_object`、`initial_suspend`、`final_suspend` 和 `unhandled_exception` 四个成员函数。如果任务（Task）是无值的，也就是 `co_return` 不需要返回值时，Promise 有 `return_void` 函数，如果有值，那么 Promise 有 `return_value` 函数。如果协程不返回，那么不需要这两个函数。不满足以上要求的 Promise 不正确。
 
 ```cpp
 
@@ -308,12 +308,12 @@ struct promise_type
 	auto initial_suspend();
 	auto final_suspend();
 	void return_void();
-	void unhandled_exception();
+	void unhandled_exception() noexcept;
 };
 
 ```
 
-当一个协程被创造（函数被调用）时，首先会检查是否能将函数的所有参数传递给 `promise_type` 的构造函数，如果能，那么依此构造 `promise_type`，改设计是为了让 `promise_type` 有自己储存并且操纵和感知协程参数的能力，如果不能这样构造，那么默认构造 `promise_type`。
+当一个协程被创造（函数被调用）时，首先会检查是否能将函数的所有参数传递给 `promise_type` 的构造函数，如果能，那么依此构造 `promise_type`，该设计是为了让 `promise_type` 有自己储存并且操纵和感知协程参数的能力，如果不能这样构造，那么默认构造 `promise_type`。
 
 然后，调用 `promise.get_return_object()`，返回 Task，此时需要协程的返回值类型 Task 和该函数的返回值类型相匹配，返回的 Task 就是协程作为函数，被调用时候的返回值。
 
@@ -415,7 +415,7 @@ struct fire_and_forget
 
 发后不理的协程永不暂停，不返回值，所以是 `return_void`，也不允许有人等待它完成，因此所有提供 Awaiter 的地方都是 `suspend_never`。
 
-当一个协程具有返回值时，`co_return x;` 会改写为 `promise.return_value(x)`，这代表者需要在 `promise` 中储存返回值；而协程不具有返回值时，`co_return;` 会改写为 `promise.return_void()`。
+当一个协程具有返回值时，`co_return x;` 会改写为 `promise.return_value(x);`，这代表者需要在 `promise` 中储存返回值；而协程不具有返回值时，`co_return;` 会改写为 `promise.return_void()`。
 
 当协程执行完 `co_return` 语句后，会执行 `co_await promise.final_suspend();`，如果返回的 Awaiter 暂停了协程，那么此时协程就处于 _最终暂停点_。处于 _最终暂停点_ 的协程可以使用 `done` 来测试，并且使用 `destroy` 进行销毁。如果返回的 Awaiter 没有暂停协程，那么当 Awaiter 的 `await_resume` 返回后，协程会被立即销毁。
 
@@ -452,14 +452,14 @@ fire_and_forget main_coro()
 
 ```
 
-以下起止点间可能发生的执行流程：
+以下是起止点间可能发生的执行流程：
 
 ```
 
 主协程（初始运行在主线程）         异步执行线程
 // 起
 // 调用async_task开始异步任务
-auro frame = new coro_frame();
+auto frame = new coro_frame();
 auto& promise = frame->promise;
 promise.constructor();
 promise.get_return_object();
@@ -472,7 +472,7 @@ do_something_sync2();            do_something_sync1();
 co_await t;                      ...
 // 主协程暂停                     ...
 // 同步主协程和异步任务 ---------> ...
-                                 ...
+// 主线程被释放                   ...
                                  promise.return_void();
                                  co_await promise.final_suspend();
                                  // 恢复主协程执行
