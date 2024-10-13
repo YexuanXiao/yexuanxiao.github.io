@@ -398,12 +398,15 @@ class context
 		: tid_(tid)
 	{
 	}
-	bool operator==(std::thread::id tid)
+	bool operator==(std::thread::id tid) const noexcept
 	{
 		return tid_ == tid;
 	}
 public:
-	bool operator==(const context& c) const noexcept = default;
+	context() = default;
+	context(const context&) = default;
+	context& operator=(const context&) = default;
+	bool operator==(const context& c) const = default;
 };
 // 仅能在线程池线程中调用
 static context capture_context() noexcept
@@ -436,8 +439,6 @@ void run_after(std::coroutine_handle<> callback, std::chrono::milliseconds durat
 }
 void run_in(std::coroutine_handle<> callback, context ctx)
 {
-	if (ctx.tid_ == std::thread::id{})
-		return;
 	for (auto& i : work_threads_)
 	{
 		if (i == ctx.tid_)

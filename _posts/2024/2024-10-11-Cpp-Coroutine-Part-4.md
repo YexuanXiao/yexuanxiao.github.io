@@ -205,7 +205,7 @@ struct apartment_awaiter
 	thread_pool::context c;
 	bool await_ready() const noexcept
 	{
-		return thread_pool::capture_context() == c;
+		return thread_pool::capture_context() == c || c == thread_pool::context{};
 	}
 	void await_suspend(std::coroutine_handle<> handle)
 	{
