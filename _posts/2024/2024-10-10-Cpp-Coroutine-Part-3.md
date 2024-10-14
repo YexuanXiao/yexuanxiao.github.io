@@ -40,10 +40,11 @@ class thread_pool
 
 class wthread
 {
-	counting_semaphore<> s_{ 0z }; // 信号量暂停线程
-	jthread t_{};                  // 运行线程
-	vector w_{};                   // 待执行队列
-	mutex m_{};                    // 保护队列的锁
+	using vector = std::vector<std::coroutine_handle<>>;
+	std::counting_semaphore<> s_{ 0z }; // 信号量暂停线程
+	std::jthread t_{};                  // 运行线程
+	vector w_{};                        // 待执行队列
+	mutex m_{};                         // 保护队列的锁
 }
 
 ```
