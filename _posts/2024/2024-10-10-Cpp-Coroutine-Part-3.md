@@ -1,6 +1,6 @@
 ---
 layout: post
-title: C++ 协程 - 实现线程池
+title: C++ 协程 - 线程池
 date: "2024-10-10 20:56:00"
 tags: [C++]
 categories: [blog]
@@ -16,18 +16,18 @@ categories: [blog]
 
 class thread_pool
 {
-    bool exit_flag_{};                             // 线程池结束标记
-    vector<wthread> work_threads_;                 // 工作线程储存容器
-    vector<wthread*> pending_list_;                // 空闲工作线程列表
-    mutex pending_mutex_;                          // 保护空闲列表的锁
-    priority_queue<lazy_task> lazy_queue_;         // 延迟任务的队列
-    priority_queue<priority_task> dispatch_queue_; // 具有优先级的任务队列
-    counting_semaphore<> lazy_waiter_{ 0z };       // 延迟任务的等待器
-    counting_semaphore<> priority_waiter_{ 0z };   // 优先级任务的等待器
-    jthread lazy_thread_;                          // 延迟任务的派发线程
-    jthread priority_thread_;                      // 优先级任务的派发线程
-    mutex lazy_mutex_;                             // 保护延迟任务的锁
-    mutex priority_mutex_;                         // 保护优先级任务的锁
+    bool exit_flag_{};                                  // 线程池结束标记
+    std::vector<wthread> work_threads_;                 // 工作线程储存容器
+    std::vector<wthread*> pending_list_;                // 空闲工作线程列表
+    mutex pending_mutex_;                               // 保护空闲列表的锁
+    std::priority_queue<lazy_task> lazy_queue_;         // 延迟任务的队列
+    std::priority_queue<priority_task> dispatch_queue_; // 具有优先级的任务队列
+    std::counting_semaphore<> lazy_waiter_{ 0z };       // 延迟任务的等待器
+    std::counting_semaphore<> priority_waiter_{ 0z };   // 优先级任务的等待器
+    std::jthread lazy_thread_;                          // 延迟任务的派发线程
+    std::jthread priority_thread_;                      // 优先级任务的派发线程
+    mutex lazy_mutex_;                                  // 保护延迟任务的锁
+    mutex priority_mutex_;                              // 保护优先级任务的锁
 }
 
 ```
@@ -104,7 +104,7 @@ void consume(thread_pool& pool) noexcept
 
 `consume` 中的所有函数都不会失败，`t` 作为协程句柄，调用运算符也是不抛出的，因此锁定和解锁可以直接使用成员函数而不需要使用 `unique_lock`。注意在调用 `t` 之前需要解锁，否则会变成阻塞执行。
 
-由于我们严格保证一个任务 `release()` 一次，因此不需要判断任务队列是否为空。一个特殊情况是当线程池要退出时，需要额外唤醒一次工作线程，但我们（在后文）会保证先让退出标记为真，再发起通知，因此在 在 `s_.acquire()` 返回后，直接检查线程池是否退出就能保证不会访问到空队列。
+由于严格保证一个任务 `release()` 一次，因此不需要判断任务队列是否为空。一个特殊情况是当线程池要退出时，需要额外唤醒一次工作线程，（在后文）实现时会保证先让退出标记为真，再发起通知，因此在 在 `s_.acquire()` 返回后，直接检查线程池是否退出就能保证不会访问到空队列。
 
 然后实现线程启动：
 
@@ -222,7 +222,7 @@ public:
 + 前者是在指定线程运行任务时使用的，这是线程池的功能，在这种情况下任务会无条件的被送入该工作线程的队列，而不需要关心该线程是否已就绪，这也是为什么工作线程储存任务要使用一个队列而不是一个 `std::coroutine_handle<>` 的原因。
 + 后者在延迟任务队列以及优先级任务队列在出队时使用
 
-然后，让我们给线程池类添加上使用该就序列表的函数：
+然后，给线程池类添加上使用该就序列表的函数：
 
 ```cpp
 
