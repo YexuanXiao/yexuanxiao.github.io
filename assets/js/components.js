@@ -125,8 +125,8 @@ document.body.addEventListener('click', (event) => {
 		const processValue = ((halfWindow + scrollTopReal - articleTop) / articleHeight) * 100
 
 		if (scrollTopReal > scrollTopExp) {
-			navbar.style.paddingLeft = `${conMargin}px`
-			navbar.style.paddingRight = `${conMargin}px`
+			navbar.style.paddingLeft = `${conMargin}px!important`
+			navbar.style.paddingRight = `${conMargin}px!important`
 			navbar.style.position = 'fixed'
 			container.style.paddingTop = `${topoffset}px`
 			topProcess.style.width = (processValue > 100) ? `${100}%` : `${processValue}%`

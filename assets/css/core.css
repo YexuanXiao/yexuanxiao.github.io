@@ -1,10 +1,4 @@
 /* define page layouts*/
-
-/* don't delete, will cause mouse wheel can't scroll page when hover on <code>, to replace the default behavior by bulma */
-html {
-	overflow-x: initial;
-	overflow-y: initial
-}
 body {
 	max-width: 100%;
 	user-select: none;
@@ -35,7 +29,6 @@ body, button, input, optgroup, select, textarea {
 }
 
 /* fix pagination styles */
-
 .is-hidden-tablet.pagination-previous, .is-hidden-tablet.pagination-next {
 	flex-basis: 0;
 	border-radius: 6px;
@@ -48,7 +41,6 @@ body, button, input, optgroup, select, textarea {
 }
 
 /* fix navbar overflow for bulma */
-
 .main-container>.is-ancestor {
 	margin: -.5rem
 }
@@ -59,25 +51,21 @@ body, button, input, optgroup, select, textarea {
 }
 
 /* add .box:hover, .card:hover box-shadow for bulma */
-
 .box:hover, .card:hover {
 	box-shadow: 4px 12px 12px rgba(7, 17, 27, 0.15)
 }
 
 /* add .widget .card's border radius for bulma */
-
 .widget .card {
 	border-radius: 6px
 }
 
 /* fix list for bulma */
-
 .content li+li {
 	margin-top: 0
 }
 
 /* navbar */
-
 #navbar {
 	top: 0px;
 	left: 0px;
@@ -91,8 +79,10 @@ body, button, input, optgroup, select, textarea {
 @media screen and (max-width:1023px) {
 	#navbar-menu>span {
 		width: 100vw;
-		padding: 0 2em 0 2em;
 		display: block
+	}
+	#navbar-menu>span>a {
+		padding: .5rem 2em
 	}
 	#navbar-menu {
 		border-radius: 0 0 6px 6px;
@@ -102,7 +92,6 @@ body, button, input, optgroup, select, textarea {
 }
 
 /* search */
-
 #search-panel {
 	white-space: nowrap;
 	position: relative
@@ -111,23 +100,14 @@ body, button, input, optgroup, select, textarea {
 	top: 2.7em;
 	position: absolute
 }
-@media screen and (max-width:768px) {
-	#search-panel {
-		position: inherit
-	}
-	#search-panel>div {
-		border-radius: 0 0 6px 6px;
-		top: 3.2em;
-		left: 0;
-		right: 0
-	}
+#search-panel>input:hover, #search-panel>input:focus {
+    width: 15em
 }
 #search-panel>input {
 	border-radius: 6px
 }
 
 /* Valine */
-
 .vempty {
 	display: none!important
 }
@@ -145,7 +125,6 @@ body, button, input, optgroup, select, textarea {
 }
 
 /* process bar */
-
 #progress {
 	position: fixed;
 	left: 0px;
@@ -155,7 +134,6 @@ body, button, input, optgroup, select, textarea {
 }
 
 /* site page */
-
 .site-page ul {
 	margin-left: 1em;
 	list-style: none
@@ -167,7 +145,6 @@ body, button, input, optgroup, select, textarea {
 }
 
 /* segoeui and fontawesome */
-
 @font-face {
 	font-family: "segoeweb";
 	src: url("/assets/fonts/segoeweb.woff2") format("woff2");
