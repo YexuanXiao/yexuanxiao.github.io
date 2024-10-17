@@ -3,16 +3,6 @@
 ---
 'use strict';
 // Copyright 2021 YexuanXiao under the MIT license
-// add dynamic menu button on vertical device form bulma official site
-for (const element of document.querySelectorAll('.navbar-burger')) {
-	element.classList.remove('is-hidden')
-	element.addEventListener('click', () => {
-		const target = element.dataset.target
-		const $target = document.getElementById(target)
-		element.classList.toggle('is-active')
-		$target.classList.toggle('is-active')
-	})
-}
 
 // for the random quote in the title
 {
@@ -81,6 +71,18 @@ function closeMenu(x) {
 	}
 }
 
+// add dynamic menu button on vertical device form bulma official site
+for (const element of document.querySelectorAll('.navbar-burger')) {
+	element.classList.remove('is-hidden')
+	element.addEventListener('click', () => {
+		const target = element.dataset.target
+		const $target = document.getElementById(target)
+		element.classList.toggle('is-active')
+		$target.classList.toggle('is-active')
+		closeMenu(0)
+	})
+}
+
 // check search bar value to display search-menu
 function checkInput() {
 	closeMenu(2)
@@ -125,15 +127,11 @@ document.body.addEventListener('click', (event) => {
 		const processValue = ((halfWindow + scrollTopReal - articleTop) / articleHeight) * 100
 
 		if (scrollTopReal > scrollTopExp) {
-			navbar.style.paddingLeft = `${conMargin}px!important`
-			navbar.style.paddingRight = `${conMargin}px!important`
 			navbar.style.position = 'fixed'
 			container.style.paddingTop = `${topoffset}px`
 			topProcess.style.width = (processValue > 100) ? `${100}%` : `${processValue}%`
 			topProcess.classList.remove('is-hidden')
 		} else {
-			navbar.style.paddingLeft = 'unset'
-			navbar.style.paddingRight = 'unset'
 			navbar.style.position = 'relative'
 			container.style.paddingTop = 'unset'
 			topProcess.classList.add('is-hidden')
@@ -277,5 +275,5 @@ for (const element of document.body.querySelectorAll('.post-text img')) {
 }
 
 // output logo to console
-console.info('\n▄██╗   ███╗   ▄██████╗   ▄███████╗\n████╗ ████║   ██╔══██║   ██╔═══██║\n██╔████╔██║   ██████╔╝   ██║   ██║\n██║╚██╔╝██║   ██╔═══╝    ██║   ██║\n██║ ╚═╝ ██║██╗██║     ██╗███████╔╝██╗\n╚═╝     ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝\n       © 2016 - 2022 M.P.O.')
+console.info('\n▄██╗   ███╗   ▄██████╗   ▄███████╗\n████╗ ████║   ██╔══██║   ██╔═══██║\n██╔████╔██║   ██████╔╝   ██║   ██║\n██║╚██╔╝██║   ██╔═══╝    ██║   ██║\n██║ ╚═╝ ██║██╗██║     ██╗███████╔╝██╗\n╚═╝     ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝\n       © 2016 - 2024 M.P.O.')
 console.info('%c M.P.O. %c https://mysteriouspreserve.com ', 'color: #fff; margin: 1em 0; padding: 5px 0; background: #3298dc;', 'margin: 1em 0; padding: 5px 0; background: #efefef;')

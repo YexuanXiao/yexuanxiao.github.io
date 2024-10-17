@@ -16,9 +16,9 @@
 				</div>
 			</div>
 		</section>
-		<div class="main-container px-1 mx-auto">
-			<div class="tile is-ancestor is-vertical">
-				<nav class="navbar px-1" id="navbar">
+		<div class="main-container mx-auto">
+			<div class="tile is-vertical">
+				<nav class="navbar" id="navbar">
 					<span class="navbar-start is-flex px-2">
 						<a class="icon-font px-3 is-align-content-center" title="{% if site.i18n.icon.home %}{{ site.i18n.icon.home }}{% else %}Home{% endif %}" href="{{ site.alternateurl }}/">
 							<span class="sw sw-home is-size-4"></span>
@@ -61,9 +61,9 @@
 						</span>
 					</span>
 				</nav>
-				<div class="tile is-parent">
+				<div class="tile is-parent px-2">
 					<div class="tile is-8 is-child main">
-						<div class="content p-3">
+						<div class="content py-3">
 							{{ content }}
 						</div>
 					</div>
