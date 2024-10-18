@@ -59,13 +59,14 @@ function closeMenu(x) {
 	const navbarBurger = document.body.querySelector('#navbar>span>.navbar-burger')
 	const navbarToggle = document.body.querySelector('#navbar-menu')
 	try {
-		if (x === 0)
+		if (x === 0) {
 			searchMenu.classList.add('is-hidden')
-		else if (x === 1)
+		} else if (x === 1) {
 			searchMenu.classList.remove('is-hidden')
-        // else
-		navbarBurger.classList.remove('is-active')
-		navbarToggle.classList.remove('is-active')
+		} else {
+			navbarBurger.classList.remove('is-active')
+			navbarToggle.classList.remove('is-active')
+		}
 	} catch (err) {
 		console.warn('Element is not ready.')
 	}
@@ -73,7 +74,6 @@ function closeMenu(x) {
 
 // add dynamic menu button on vertical device form bulma official site
 for (const element of document.querySelectorAll('.navbar-burger')) {
-	element.classList.remove('is-hidden')
 	element.addEventListener('click', () => {
 		const target = element.dataset.target
 		const $target = document.getElementById(target)

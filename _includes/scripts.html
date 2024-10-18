@@ -19,6 +19,10 @@
 	function render(text) {
 		window.Noire ? window.Noire.Message(text) : console.error("Doesn't exist Noire!");
 	}
+	{
+		const navbarBurger = document.body.querySelector('#navbar>span>.navbar-burger')
+		navbarBurger.classList.remove('is-hidden')
+	}
 </script>
 <script defer src="/assets/js/components.js">
 </script>
@@ -35,12 +39,12 @@
 		    {% if site.i18n.search.empty %} noResultsText: '{{ site.i18n.search.empty }}', {% endif %}
 	        debounceTime: 750,
 		    json: '{{ site.alternateurl }}/assets/search.json'
-	});
-	panel.querySelector('input').addEventListener('input', () => {
-		checkInput();
-	})
-	panel.classList.remove('is-hidden');
-}
+		})
+		panel.querySelector('input').addEventListener('input', () => {
+			checkInput();
+		})
+		panel.classList.remove('is-hidden');
+	}
 </script>
 <script type="module">
 	// music box

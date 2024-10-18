@@ -62,6 +62,9 @@ body, button, input, optgroup, select, textarea {
 	right: 0px;
 	z-index: 2
 }
+#navbar>span.navbar-start {
+	height: 3.25em
+}
 #navbar-menu>span {
 	display: flex;
 	width: 22em
