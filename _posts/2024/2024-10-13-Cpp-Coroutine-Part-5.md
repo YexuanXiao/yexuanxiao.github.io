@@ -313,7 +313,7 @@ class task<void>
 		}
 		task get_return_object() noexcept
 		{
-			return { decltype(handle)::from_promise(*this) };
+			return { decltype(handle_)::from_promise(*this) };
 		}
 		void return_void() const noexcept
 		{
@@ -419,7 +419,7 @@ public:
 	}
 	auto cancel_async() noexcept
 	{
-		struct cancellation_awaiter : public std::suspend_always
+		struct cancel_awaiter : public std::suspend_always
 		{
 			cancelable_promise_base& p_;
 			bool await_suspend(std::coroutine_handle<> handle)
@@ -428,7 +428,7 @@ public:
 				return p_.cancel();
 			}
 		};
-		return cancellation_awaiter{ .p_ = *this };
+		return cancel_awaiter{ .p_ = *this };
 	}
 	bool is_done() const noexcept
 	{
@@ -494,6 +494,12 @@ public:
 
 ```cpp
 
+template <typename T>
+	requires std::derived_from<T, cancelable_promise_base>
+auto to_cancelable(std::coroutine_handle<T> h) noexcept
+{
+	return std::coroutine_handle<cancelable_promise_base>::from_address(h.address());
+}
 struct cancellation_awaiter : std::suspend_always
 {
 private:
@@ -557,13 +563,6 @@ task<> ExplicitCancelationAsync()
 当然，不光能在协程体内主动检测取消，还可以在 Awaiter 中自动取消，例如上例使用的以及之前实现过的 `timer_awaiter`，可以通过对其添加重载的方式使得 `await_suspend` 中可以检测协程是否暂停：
 
 ```cpp
-
-template <typename T>
-	requires std::derived_from<T, cancelable_promise_base>
-auto to_cancelable(std::coroutine_handle<T> h) noexcept
-{
-	return std::coroutine_handle<cancelable_promise_base>::from_address(h.address());
-}
 
 struct timer_awaiter : public std::suspend_always
 {
