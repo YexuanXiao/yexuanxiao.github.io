@@ -379,7 +379,7 @@ class cancelable_promise_base
 	};
 	std::atomic<unsigned int> rfcnt_{ 1u };
 	std::atomic<status> st_;
-	std::atomic<std::coroutine_handle<>> next_;
+	std::coroutine_handle<> next_;
 	std::exception_ptr exc_;
 public:
 	// 积极启动
@@ -419,16 +419,21 @@ public:
 	}
 	auto cancel_async() noexcept
 	{
-		struct cancel_awaiter : public std::suspend_always
+		struct cancellation_awaiter : public std::suspend_always
 		{
 			cancelable_promise_base& p_;
 			bool await_suspend(std::coroutine_handle<> handle)
 			{
-				p_.next_.store(handle, std::memory_order::relaxed);
-				return p_.cancel();
+				p_.next_ = handle;
+				auto st = status::ready;
+				if (p_.st_.compare_exchange_strong(st, status::canceled, std::memory_order::acq_rel))
+					return true;
+				assert(st != status::canceled); // 不允许任务被取消两次
+				assert(st != status::next);     // 不允许同一任务被两次等待
+				return false;
 			}
 		};
-		return cancel_awaiter{ .p_ = *this };
+		return cancellation_awaiter{ .p_ = *this };
 	}
 	bool is_done() const noexcept
 	{
@@ -438,7 +443,7 @@ public:
 	// 返回false代表可以直接执行当前协程，也就是await_suspend返回false
 	bool next(std::coroutine_handle<> handle) noexcept
 	{
-		next_.store(handle, std::memory_order::relaxed);
+		next_ = handle;
 		// 只有ready状态才可以被替换为next
 		auto st = status::ready;
 		if (st_.compare_exchange_strong(st, status::next, std::memory_order::acq_rel))
@@ -452,7 +457,7 @@ public:
 		// 优先抛出协程体的异常
 		if (exc_)
 			std::rethrow_exception(exc_);
-		auto s = st_.load(std::memory_order::acquire);
+		auto s = st_.load(std::memory_order::relaxed);
 		// 然后测试协程是否被取消
 		if (s == status::canceled)
 			throw canceled_coroutine{};
@@ -472,7 +477,7 @@ public:
 				auto st = status::ready;
 				p_.st_.compare_exchange_strong(st, status::done, std::memory_order::acq_rel);
 				// 立即执行或者发送到线程池
-				if (auto next = p_.next_.load(std::memory_order::relaxed))
+				if (auto next = p_.next_)
 					next();
 				// 恢复协程或销毁
 				return !p_.zero();
@@ -486,9 +491,10 @@ public:
 
 关键点有以下几个：
 
-1. `std::exception_ptr` 不需要用原子，因为无论抛出异常还是使用 `unhandled_exception` 捕获异常都是在当前协程内部进行的，不存在竞争。而当协程被调用者同步时，协程实际上已经在 `final_suspend` 中进行了同步，保证能观测到抛出的异常。
-2. 用于同步调用者和异步任务的 `next` 函数返回 `bool`，该函数会被 `task_awaiter::await_suspend` 直接调用并返回，如果 `next` 返回 `false` 说明异步任务已经执行完成，从而不需要等待即可获得结果。
-3. 取消了的协程也可以被调用者进行同步，也就是可以等待协程真正取消完成时，恢复调用者的执行。
+1. `std::exception_ptr` 不需要用原子，因为无论抛出异常还是使用 `unhandled_exception` 捕获异常都是在当前协程内部进行的，不存在竞争。而当协程被调用者同步时，协程实际上已经在 `final_suspend` 中进行了同步，保证能观测到抛出的异常
+2. 先无条件设置 `next_` 为新的值再用 CAS 建立同步关系
+3. 用于同步调用者和异步任务的 `next` 函数返回 `bool`，该函数会被 `task_awaiter::await_suspend` 直接调用并返回，如果 `next` 返回 `false` 说明异步任务已经执行完成，从而不需要等待即可获得结果。
+4. 取消了的协程也可以被调用者进行同步，也就是可以等待协程真正取消完成时，恢复调用者的执行。注意由于 `next_` 只有一个位置，因此只有一个等待者会被通知，所以禁止多次等待，这点和 C++/WinRT 一致
 
 通过设计一个在被取消协程中进行调用的取消令牌，可以实现主动观察协程是否取消：
 

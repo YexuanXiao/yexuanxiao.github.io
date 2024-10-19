@@ -16,7 +16,7 @@ categories: [blog]
 
 `std::coroutine_handle<T>` 是一个类模板，指向一个协程，换句话说，是协程的句柄。
 
-当前所有实现都保证它的所有特化都是可默认构造、平凡复制且 `std::atomic<std::coroutine_handle<T>>` 是免锁的，在这些典型实现中，它都只储存一个指针。
+当前所有实现都保证它的所有特化都是可默认构造且平凡复制的，在这些典型实现中，它都只储存一个指针。
 
 有两个确定的特化 `std::coroutine_handle<void>`、`std::coroutine_handle <std::noop_coroutine_promise>` 以及交给用户的特化。用户定义的特化可以隐式转换为 `std::coroutine_handle<void>`。
 
