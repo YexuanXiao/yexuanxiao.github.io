@@ -28,7 +28,7 @@ categories: [blog]
 
 `done` 函数用于检查协程是否处于 _最终暂停点_，在后文会解释。
 
-`operator()` 和 `resume` 函数用于恢复一个 _暂停_ 状态的协程的执行，实际使用哪个看个人习惯。
+`operator()` 和 `resume` 函数用于恢复一个 _暂停_ 状态的协程的执行，实际使用哪个看个人习惯。一个例外是处于 _最终暂停点_ 的协程不能这两个函数被恢复。
 
 `destroy` 函数用于销毁处于 _暂停_ 状态的协程。
 
@@ -70,13 +70,15 @@ struct awaiter
 
 ```
 
-`K` 必须为 `void`、`bool` 或者 `std::coroutine_handle<T>`；`D` 则通常为 `void` 以及 `T`。
+`K` 必须为 `void`、`bool` 或者 `std::coroutine_handle<T>`；`D` 则通常为 `void` 以及 `U`。
 
 Awaiter 在协程中被作为 `co_await` 的操作数，而 `D` 是 `co_await` 表达式的结果类型。
 
 在 `co_await x` 时，如果 `x` 的 `await_ready` 函数返回 `true`，那么就会立即执行 `x` 的 `await_resume`，并且 `await_resume` 的返回值就是表达式的结果。
 
 如果 `await_ready` 函数返回 `false`，那么将当前协程（当前函数）的句柄作为参数，调用 `x` 的 `await_suspend` 函数，此时协程处于 _暂停_ 状态。
+
+`await_suspend` 可以有多个重载，可以根据当前协程的 `promise_type` 定制不同的行为。
 
 在 `await_suspend` 中，可以使用 `operator()` 或者 `resume`恢复协程执行。或者不恢复协程的执行，使得协程一直处于 _暂停_ 状态。
 
@@ -433,7 +435,42 @@ struct fire_and_forget
 
 如何编写 Task 是一个较为复杂的话题，脱离实际使用场景并不能得出任何有用的结论，因此在下一章中，将会实现完整的利用了线程池的 Task 类以及其 Promise。
 
-## 协程控制流和生存期
+## 协程执行流程和生存期
+
+协程的整体执行流程如下：
+
+1. 分配协程帧内存，储存协程状态以及 Promise
+2. 默认构造 Promise 或转发函数的参数构造 Promise
+3. 调用 `get_return_object` 构造 Task 为函数返回值 
+4. 调用 `initial_suspend` 获得 Awaiter
+    1. 调用 `await_ready`
+    2. 调用 `await_suspend`，为 _初始暂停点_
+	3. 调用 `await_resume`
+5. 执行函数体
+    + 执行 `co_await` 表达式获得 Awaiter
+	    1. 调用 `await_ready`
+        2. 调用 `await_suspend`，为 _暂停点_
+		3. 调用 `await_resume`
+6. 返回时调用 `return_void` 或者 `return_value`
+7. 销毁 `co_return` 时需要销毁的变量
+8. 如果 4-6 期间发生异常，销毁当前自动储存期变量，调用 `unhandled_exception`
+9. 调用 `final_suspend` 获得 Awaiter
+    1. 调用 `await_ready`
+    2. 调用 `await_suspend`，为 _最终暂停点_
+	3. 调用 `await_resume`
+10. `await_resume` 返回或者调用 `destroy` 后<br> 
+   销毁参数，Promise 和分配的内存
+
+许传奇的教程提供了一个完整的表现协程执行流程的例子。
+
+协程在每个暂停点都有机会转移控制权给调用者（暂停协程并且不会自动恢复时），调用者必须对暂停的协程进行恢复或者手动销毁以避免泄漏。
+
+对于同步协程，调用时首先执行 1 到 4.1，在 _初始暂停点_ 暂停，然后在 Task 被调用者（同步者）co_await 时恢复，执行 4.2 到 9.2，在 _最终暂停点_ 暂停，并恢复暂停了的调用者，当调用者执行完成后执行 9.3 到 10。
+
+对于异步协程，调用时执行 1 到 9.2
++ 当协程被有效同步时，在  _最终暂停点_ 暂停并恢复调用者，当调用者执行完成后执行 9.3 到 10 被自己销毁。
++ 当协程快速执行完成时，在 _最终暂停点_ 暂停，并被调用者通过 Task 的析构函数执行 10 销毁。
++ 当协程不被同步并且调用者先行死亡时，协程在 _最终暂停点_ 立即返回并且恢复协程，执行 9.3 到 10 被自己销毁。
 
 以下是一个异步协程的伪代码：
 
@@ -492,4 +529,4 @@ co_await t;                      ...
 
 当然，对于发后不理的任务，不需要也不想等待它的结果，也没有任务需要和它同步，因此通常要么禁止对它进行 `co_await`，要么如同上面的实现一样等待它等于 `co_await never_suspend{};`。
 
-由于积极启动的协程的生存期不内嵌于调用者（例如 `fire_and_forget`），因此对于此类协程，必须在堆中分配内存以储存 Promise 以及协程状态，而对于惰性启动的协程，由于其生存期内嵌于调用者，编译器有机会对其进行优化以减少内存分配。无论哪种协程，只要编写合适，都能互相进行同步。协程如何实现同步会在下一章进行讲解。
+由于积极启动的协程的生存期不内嵌于调用者（例如 `fire_and_forget`），因此对于此类协程，必须在堆中分配内存以储存 Promise 以及协程状态，而对于惰性启动的协程，由于其生存期内嵌于调用者，编译器有机会对其进行优化以减少内存分配（[Heap Allocation eLision Optimization](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0981r0.html)）。无论哪种协程，只要编写合适，都能互相进行同步。协程如何实现同步会在下一章进行讲解。

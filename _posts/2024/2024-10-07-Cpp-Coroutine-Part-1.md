@@ -80,7 +80,8 @@ auto /* awaiter */ get_cancellation_token();
 template <typename T>
 class task;
 
-template<> class task<void>;
+template<>
+class task<void>;
 
 template <typename T, typename U>
 class task_with_progress;
@@ -91,3 +92,5 @@ class task_with_progress<void, U>;
 ```
 
 这些 API 来自 C++/WinRT，读者可以在[使用 C++/WinRT 执行并发和异步操作](https://learn.microsoft.com/zh-cn/windows/uwp/cpp-and-winrt-apis/concurrency)和[通过 C++/WinRT 实现高级并发和异步](https://learn.microsoft.com/zh-cn/windows/uwp/cpp-and-winrt-apis/concurrency-2)找到，但注意我对它们进行了一些修改。
+
+最后，感谢 [@aleck099](https://github.com/aleck099) 在前期给予的帮助，[@frederick-vs-ja](https://github.com/frederick-vs-ja) 提供的技术支持以及 [@zwuiz](https://github.com/) 审查了第五章的内容指出了等待器变换中存在的问题。

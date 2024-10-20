@@ -327,7 +327,7 @@ class task<void>
 		}
 		auto final_suspend() noexcept
 		{
-			struct awaiter
+			struct final_awaiter
 			{
 				promise_type& p_;
 			public:
@@ -344,7 +344,7 @@ class task<void>
 				{
 				}
 			};
-			return awaiter{ *this };
+			return final_awaiter{ *this };
 		}
 	};
 	task(promise_type& p) noexcept
@@ -419,7 +419,7 @@ public:
 	}
 	auto cancel_async() noexcept
 	{
-		struct cancellation_awaiter : public std::suspend_always
+		struct cancel_awaiter : public std::suspend_always
 		{
 			cancelable_promise_base& p_;
 			bool await_suspend(std::coroutine_handle<> handle)
@@ -433,7 +433,7 @@ public:
 				return false;
 			}
 		};
-		return cancellation_awaiter{ .p_ = *this };
+		return cancel_awaiter{ .p_ = *this };
 	}
 	bool is_done() const noexcept
 	{
@@ -464,12 +464,12 @@ public:
 	}
 	auto final_suspend() noexcept
 	{
-		class awaiter : public std::suspend_always
+		class final_awaiter : public std::suspend_always
 		{
 			cancelable_promise_base& p_;
 			friend cancelable_promise_base;
 		public:
-			awaiter(cancelable_promise_base& p) noexcept : p_(p)
+			final_awaiter(cancelable_promise_base& p) noexcept : p_(p)
 			{
 			}
 			bool await_suspend(std::coroutine_handle<>) const noexcept
@@ -483,7 +483,7 @@ public:
 				return !p_.zero();
 			}
 		};
-		return awaiter{ *this };
+		return final_awaiter{ *this };
 	}
 };
 
