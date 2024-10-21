@@ -57,7 +57,7 @@ void create_thread(void(*callback)(void*), void* data) noexcept;
 
 ## Awaiter
 
-Awaiter 一般被称作等待对象，一个等待对象至少有 3 个公开的成员函数：`await_ready`、`await_suspend` 和 `await_resume`：
+Awaiter 是 `co_await` 运算符的操作数，被称作等待对象，一个等待对象至少有 3 个公开的成员函数：`await_ready`、`await_suspend` 和 `await_resume`：
 
 ```cpp
 
