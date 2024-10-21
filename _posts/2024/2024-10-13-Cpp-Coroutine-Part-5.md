@@ -40,8 +40,6 @@ fire_and_forget main_coro()
 
 由于同步协程的生存期完全内嵌于调用者，因此实际上不需要关心该问题，让协程在最终暂停点不暂停使协程自然销毁即可。
 
-由于协程中抛出的异常是储存在 Promise 中的，因此 Promise 需要有一个非静态成员 `std::exception_ptr` 来储存该异常。
-
 为了简便起见，该任务是当前是无值的，暂且只能返回 `void`，随后会补充它。
 
 由于同步协程的执行在同步点发起（恢复），因此需要为 `sync_task` 编写 `operator co_await` 来调用协程并且恢复到调用者。
@@ -63,7 +61,6 @@ struct sync_task<>
 	struct promise_type
 	{
 		std::coroutine_handle<> next;
-		std::exception_ptr exc;
 	public:
 		promise_type() noexcept
 		{
@@ -78,19 +75,12 @@ struct sync_task<>
 		}
 		auto final_suspend() noexcept
 		{
-			struct final_awaiter
+			struct final_awaiter: public std::suspend_always
 			{
 				promise_type& promise;
-				bool await_ready() const noxcept
-				{
-					return bool(promise.next);
-				}
 				std::coroutine_handle<> await_suspend() const noexcept
 				{
-					return promise.next;
-				}
-				void await_resume() const noexcept
-				{
+					return next;
 				}
 			};
 			return final_awaiter{ *this };
@@ -98,33 +88,27 @@ struct sync_task<>
 		void return_void() const noexcept
 		{
 		}
-		void unhandled_exception() noexcept
+		void unhandled_exception() const
 		{
-			exc = std::current_exception();
+			throw;
 		}
 	};
 	auto operator co_await() noexcept
 	{
-		struct sync_awaiter
+		struct sync_awaiter: public std::suspend_always
 		{
 			std::coroutine_handle<promise_type> handle;
-			bool await_ready() noexcept
-			{
-				return false;
-			}
 			std::coroutine_handle<> await_suspend(std::coroutine_handle<> next) noexcept
 			{
 				handle.promise().next = next;
 				return handle;
 			}
-			void await_resume() const
-			{
-				auto& exc = handle.promise().exc;
-				if (exc)
-					std::rethrow_exception(exc);
-			}
 		};
 		return sync_awaiter{ handle };
+	}
+	~task()
+	{
+		handle.destroy();
 	}
 };
 
@@ -193,7 +177,7 @@ void await_suspend() noexcept
 
 实现协程同步的第二个秘密在于 `operator co_await` 返回的 `sync_awaiter`，`sync_awaiter` 的作用是将自己变为 `next`，同时恢复在初始暂停点暂停的协程。
 
-当 `co_await switch_to_thread_pool();` 使协程恢复的时候，`await_resume` 负责发布结果并且在存在异常时抛出异常。
+当 `co_await switch_to_thread_pool();` 使协程恢复的时候，`await_resume` 负责发布结果。
 
 现在，可以很容易的扩展无值的任务为有值的：
 
@@ -207,7 +191,6 @@ struct sync_task
 	struct promise_type
 	{
 		std::coroutine_handle<> next;
-		std::exception_ptr exc;
 		std::optional<T> res;
 	public:
 		promise_type() noexcept
@@ -223,19 +206,12 @@ struct sync_task
 		}
 		auto final_suspend() noexcept
 		{
-			struct final_awaiter
+			struct final_awaiter: public std::suspend_always
 			{
 				promise_type& promise;
-				bool await_ready() noxcept
-				{
-					return bool(promise.next);
-				}
 				std::coroutine_handle<> await_suspend() noexcept
 				{
-					return promise.next;
-				}
-				void await_resume() noexcept
-				{
+					return next;
 				}
 			};
 			return final_awaiter{ *this };
@@ -245,20 +221,16 @@ struct sync_task
 		{
 			res = std::forward<T>(t);
 		}
-		void unhandled_exception() noexcept
+		void unhandled_exception()
 		{
-			exc = std::current_exception();
+			throw;
 		}
 	};
 	auto operator co_await() noexcept
 	{
-		struct sync_awaiter
+		struct sync_awaiter: public std::suspend_always
 		{
 			std::coroutine_handle<promise_type> handle;
-			bool await_ready() noexcept
-			{
-				return false;
-			}
 			std::coroutine_handle<> await_suspend(std::coroutine_handle<> next) noexcept
 			{
 				handle.promise().next = next;
@@ -267,13 +239,14 @@ struct sync_task
 			T await_resume()
 			{
 				auto& promise = handle.promise();
-				auto& exc = promise.exc;
-				if (exc)
-					std::rethrow_exception(exc);
 				return std::move(promise.res.value());
 			}
 		};
 		return sync_awaiter{ handle };
+	}
+	~task()
+	{
+		handle.destroy();
 	}
 };
 
@@ -491,10 +464,11 @@ public:
 
 关键点有以下几个：
 
-1. `std::exception_ptr` 不需要用原子，因为无论抛出异常还是使用 `unhandled_exception` 捕获异常都是在当前协程内部进行的，不存在竞争。而当协程被调用者同步时，协程实际上已经在 `final_suspend` 中进行了同步，保证能观测到抛出的异常
-2. 先无条件设置 `next_` 为新的值再用 CAS 建立同步关系
-3. 用于同步调用者和异步任务的 `next` 函数返回 `bool`，该函数会被 `task_awaiter::await_suspend` 直接调用并返回，如果 `next` 返回 `false` 说明异步任务已经执行完成，从而不需要等待即可获得结果。
-4. 取消了的协程也可以被调用者进行同步，也就是可以等待协程真正取消完成时，恢复调用者的执行。注意由于 `next_` 只有一个位置，因此只有一个等待者会被通知，所以禁止多次等待，这点和 C++/WinRT 一致
++ 异步任务调用者（等待者）和恢复者不是同一个，恢复者是异步运行时，所以异常不能抛出给恢复者（无法处理），需要使用 `std::exception_ptr` 储存异常并且被调用者主动抛出
++ `std::exception_ptr` 不需要用原子，因为无论抛出异常还是使用 `unhandled_exception` 捕获异常都是在当前协程内部进行的，不存在竞争。而当协程被调用者同步时，协程实际上已经在 `final_suspend` 中进行了同步，保证能观测到抛出的异常
++ 先无条件设置 `next_` 为新的值再用 CAS 建立同步关系
++ 用于同步调用者和异步任务的 `next` 函数返回 `bool`，该函数会被 `task_awaiter::await_suspend` 直接调用并返回，如果 `next` 返回 `false` 说明异步任务已经执行完成，从而不需要等待即可获得结果。
++ 取消了的协程也可以被调用者进行同步，也就是可以等待协程真正取消完成时，恢复调用者的执行。注意由于 `next_` 只有一个位置，因此只有一个等待者会被唤醒，所以禁止多次等待，这点和 C++/WinRT 一致
 
 通过设计一个在被取消协程中进行调用的取消令牌，可以实现主动观察协程是否取消：
 

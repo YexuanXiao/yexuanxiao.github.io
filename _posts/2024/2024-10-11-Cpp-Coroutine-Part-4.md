@@ -30,7 +30,7 @@ categories: [blog]
 
 `operator()` 和 `resume` 函数用于恢复一个 _暂停_ 状态的协程的执行，实际使用哪个看个人习惯。一个例外是处于 _最终暂停点_ 的协程不能这两个函数被恢复。
 
-`destroy` 函数用于销毁处于 _暂停_ 状态的协程。
+`destroy` 函数用于销毁处于 _暂停_ 状态或者处于 _异常_ 的协程。
 
 除此之外，还有 `address` 和 `from_address` 两个函数，前者用于将协程句柄转换为 `void*`，后者用于还原为协程句柄。这两个函数用于和 C 风格接口进行交互，例如可以编写：
 
@@ -319,9 +319,9 @@ struct promise_type
 
 当一个协程被创造（函数被调用）时，首先会检查是否能将函数的所有参数传递给 `promise_type` 的构造函数，如果能，那么依此构造 `promise_type`，该设计是为了让 `promise_type` 有自己储存并且操纵和感知协程参数的能力，如果不能这样构造，那么默认构造 `promise_type`。
 
-然后，调用 `promise.get_return_object()`，返回 Task，此时需要协程的返回值类型 Task 和该函数的返回值类型相匹配，返回的 Task 就是协程作为函数，被调用时候的返回值。
+然后，调用 `get_return_object()`，返回 Task，此时需要协程的返回值类型 Task 和该函数的返回值类型相匹配，返回的 Task 就是协程作为函数，被调用时候的返回值。
 
-随后，在协程体内调用 `co_await initial_suspend()`。一般来说，对于积极启动的协程，`initial_suspend` 会返回 `suspend_never`，立即执行协程体，而延迟启动的协程会返回 `suspend_always`，使得协程处于 _暂停_ 状态。
+随后，在协程体内调用 `co_await promise.initial_suspend()`。一般来说，对于积极启动的协程，`initial_suspend` 会返回 `suspend_never`，立即执行协程体，而延迟启动的协程会返回 `suspend_always`，使得协程处于 _暂停_ 状态。
 
 上文讲过，返回 `suspend_always` 会使得协程被真正的暂停，此时如果外部不能获得协程句柄以手动恢复协程，那么该协程会发生内存泄漏，因此通常 Task 需要储存当前协程的句柄以提供恢复和销毁协程的能力。
 
@@ -378,7 +378,9 @@ void unhandled_exception() noexcept
 
 `std::current_exception` 返回的是 `std::exception_ptr`，它以值的方式被传递和储存。同步该协程时，可以使用 `std::rethrow_exception` 来重新抛出该异常。
 
-`unhandled_exception` 函数不能抛出异常，因此通常的做法是在 `promise_type` 中储存 `std::exception_ptr`，并且通过 Task 获取它。
+`unhandled_exception` 如果抛出异常，会传播异常给调用者，同时处于 _异常_ 状态。处于 _异常_ 状态的协程不能被恢复，只能被销毁。
+
+因此通常的做法是使得 `unhandled_exception` 不抛出异常，在 `promise_type` 中储存 `std::exception_ptr`，并且通过 Task 获取它。
 
 如果 Task 不需要被同步或者被另一个协程异步的等待，那么就不需要储存该异常，此时得到了 `fire_and_forget`（发后不理）：
 
@@ -392,26 +394,26 @@ struct fire_and_forget
 		promise_type() noexcept
 		{
 		}
-		fire_and_forget get_return_object()
+		fire_and_forget get_return_object() const noexcept
 		{
 			return {};
 		}
-		std::suspend_never initial_suspend()
+		std::suspend_never initial_suspend() const noexcept
 		{
 			return {};
 		}
-		std::suspend_never final_suspend()
+		std::suspend_never final_suspend() const noexcept
 		{
 			return {};
 		}
-		void return_void()
+		void return_void() const noexcept
 		{
 		}
-		void unhandled_exception() noexcept
+		void unhandled_exception() const noexcept
 		{
 		}
 	};
-	auto operator co_await()
+	auto operator co_await() const noexcept
 	{
 		return std::suspend_never{};
 	}
@@ -451,14 +453,14 @@ struct fire_and_forget
 	    1. 调用 `await_ready`
         2. 调用 `await_suspend`，为 _暂停点_
 		3. 调用 `await_resume`
-6. 返回时调用 `return_void` 或者 `return_value`
-7. 销毁 `co_return` 时需要销毁的变量
+6. `co_return` 调用 `return_void` 或者 `return_value`
+7. 销毁 `co_return` 后需要销毁的变量
 8. 如果 4-6 期间发生异常，销毁当前自动储存期变量，调用 `unhandled_exception`
 9. 调用 `final_suspend` 获得 Awaiter
     1. 调用 `await_ready`
     2. 调用 `await_suspend`，为 _最终暂停点_
 	3. 调用 `await_resume`
-10. `await_resume` 返回或者调用 `destroy` 后<br> 
+10. `await_resume` 返回或者调用 `destroy` 后<br>
    销毁参数，Promise 和分配的内存
 
 许传奇的教程提供了一个完整的表现协程执行流程的例子。
