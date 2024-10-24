@@ -10,6 +10,7 @@
 	<link href="http://gmpg.org/xfn/11" rel="profile">
 	<link href="{{ site.alternateurl }}/assets/manifest.webmanifest" rel="manifest">
 	{% comment %} style sheets {% endcomment %}
+	{% include viewport.html %}
 	{% include darkmode.html %}
 	{% comment %} use jsDelivr CDN instead of local files {% endcomment %}
 	<link rel="stylesheet preload" as="style" href="//static.mysteriouspreserve.com/Single/normalize.min.css">
@@ -36,5 +37,4 @@
 	<title>
 		{% if page.title == 'Home Page' %}{{ site.description }} | {{ site.tagline }}{% else %}{{ page.title }} | {{ site.description }}{% endif %}
 	</title>
-	{% if page.layout == 'post' %}{% if page.math == 'true' %}{% include math-tex.html %}{% endif %}{% endif %}
 </head>
