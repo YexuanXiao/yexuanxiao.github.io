@@ -2,7 +2,7 @@
 layout: post
 date: "2020-07-13 01:05"
 title: 刀剑神域III
-categories: [by-talk]
+category: by-talk
 tags: [anime,jottings]
 ---
 昨天刀剑神域 III第二部分的第二部分终于开始放送。

@@ -3,7 +3,7 @@ layout: post
 title: UWP 应用使用代理服务器
 date: "2020-07-16 18:33:00"
 tags: [Windows,UWP,docs]
-categories: [blog]
+category: blog
 ---
 微软在 Windows 8 开始推出了新一代应用架构 UWP，由于为了保证安全性， UWP 大多运行在沙盒中，所以 UWP 默认无法使用系统代理，不过微软提供了开关。
 

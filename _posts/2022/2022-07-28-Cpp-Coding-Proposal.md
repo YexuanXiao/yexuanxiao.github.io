@@ -3,7 +3,7 @@ layout: post
 title: C++ 代码编写建议
 date: "2022-07-28 07:33:00"
 tags: [C++]
-categories: [blog]
+category: blog
 permalink: /proposal/
 ---
 这是一份 C++ 的代码编写建议书，本建议书类似于 Google C++ Style Guide，但更倾向于推广现代 C++。不同于 C++ Core Guidelines，本建议更为细致。本建议书具有强烈的个人倾向，也会参考其他建议。如果建议在 C 中也可行，则同时对 C 也适用。

@@ -2,7 +2,7 @@
 date: "2020-05-21 21:27"
 layout: post
 title: 关于种族歧视
-categories: [by-talk]
+category: by-talk
 tags: [nation,society]
 description:
 ---

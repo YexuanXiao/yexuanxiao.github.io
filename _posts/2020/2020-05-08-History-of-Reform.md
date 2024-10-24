@@ -2,7 +2,7 @@
 date: "2020-05-08 21:19"
 layout: post
 title: 记改革开放历史
-categories: [by-talk]
+category: by-talk
 tags: [society]
 ---
 文｜梁衡（人民日报原副总编），北京日报

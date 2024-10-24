@@ -3,7 +3,7 @@ layout: post
 title: TypeScript 手册指北 Part3
 date: "2022-10-18 15:33:00"
 tags: [TypeScript,Web]
-categories: [blog]
+category: blog
 ---
 TypeScript 手册指北 第三部分，第二部分在 [TypeScript 手册指北 Part2](/blog/2022/10/14/TypeScript-Handbook-Tutorial-2/)，记录了本人阅读 TypeScript 官方手册的一些想法，包含 Classes 的内容。
 

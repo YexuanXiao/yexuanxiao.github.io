@@ -3,7 +3,7 @@ layout: post
 title: 把你的 Windows 10 电脑变成蓝牙音箱
 date: "2020-11-14 22:37:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 众所周知，Windows 10 的蓝牙和 Android 比就是一个残废，例如不能自动检测是否有文件传入，连接繁琐，操作麻烦等等，但是今天闲来无事逛 Microsoft 商店突然发现了一个软件实现了我这几年一直想要的功能：Bluetooth Audio Receiver
 

@@ -2,7 +2,7 @@
 layout: post
 date: "2020-07-13 23:31"
 title: Princess Connect! Re:Dive
-categories: [by-talk]
+category: by-talk
 tags: [anime,jottings]
 ---
 Princess Connect! Re:Dive 是前年开服的手机游戏，今年被做成了动画。

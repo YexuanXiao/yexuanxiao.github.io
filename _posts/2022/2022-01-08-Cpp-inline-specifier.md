@@ -3,7 +3,7 @@ layout: post
 title: C++ inline 说明符
 date: "2022-01-08 18:00:00"
 tags: [C++,Standard]
-categories: [blog]
+category: blog
 ---
 
 inline 是从 C 继承来的关键字之一，但是 C++ 的 inline 在不断的增强下几乎完全失去了原本的意义，几乎不再有指导编译器内联优化的作用，反而变为了解决标识符重定义的工具。

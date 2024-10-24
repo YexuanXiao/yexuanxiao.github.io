@@ -3,7 +3,7 @@ layout: post
 title: JS 中 Attribute 和 Property
 date: "2020-05-15 09:34:00"
 tags: [JavaScript,docs]
-categories: [blog]
+category: blog
 ---
 
 property 和 attribute 非常容易混淆，网络上常常不区分二者。

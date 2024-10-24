@@ -2,7 +2,7 @@
 date: "2020-02-09 16:31"
 layout: post
 title: B站粉丝自制潘多拉之心手书
-categories: [by-talk]
+category: by-talk
 tags: [manga,anime]
 ---
 

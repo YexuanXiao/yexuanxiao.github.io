@@ -3,7 +3,7 @@ layout: post
 title: 囗囗囗生日快乐
 date: "2019-08-17 02:00:00"
 tags: [memories]
-categories: [by-talk]
+category: by-talk
 ---
 
 今天，是囗囗囗的生日。

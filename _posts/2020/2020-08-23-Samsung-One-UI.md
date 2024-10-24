@@ -3,7 +3,7 @@ layout: post
 title: One UI 功能介绍
 date: "2020-08-23 17:40:00"
 tags: [Android]
-categories: [blog]
+category: blog
 ---
 用了5年三星了，一直认为三星的系统的功能是 Android 手机里最丰富全面的，实际上它也确实当之无愧。
 

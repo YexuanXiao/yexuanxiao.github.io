@@ -2,7 +2,7 @@
 layout: post
 date: "2020-08-25 17:39"
 title: 叛逆的物语 精彩片段
-categories: [by-talk]
+category: by-talk
 tags: [anime,jottings]
 ---
 《魔法少女小圆剧场版 叛逆的物语》晓美焰 VS 巴麻美，论枪械的最炫使用方式精彩片段。

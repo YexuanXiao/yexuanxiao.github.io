@@ -3,7 +3,7 @@ layout: post
 title: C++ 抽象类和虚函数
 date: "2021-03-22 21:38:00"
 tags: [C++,docs]
-categories: [blog]
+category: blog
 ---
 C++ 的抽象类就是所谓的接口，目的在于将相似或者近似数据类型实际应用时的代码统一，并分离不同类型的实现。
 

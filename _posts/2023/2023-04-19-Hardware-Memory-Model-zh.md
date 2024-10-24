@@ -3,7 +3,7 @@ layout: post
 title: 硬件内存模型
 date: "2023-04-19 19:45:00"
 tags: [C++,C]
-categories: [blog]
+category: blog
 ---
 这是 Go 语言现任领队 Russ Cox 在 2021 年写的文章 [Hardware Memory Models](https://research.swtch.com/hwmm) 的翻译，虽然我对 Go 没什么兴趣，但在网上大概没有更好的从软件工程师的角度对多 CPU（现在也叫做多线程，或者多核心）架构并发编程的进行全面总结的文章了，因此在此提供中文版本。
 

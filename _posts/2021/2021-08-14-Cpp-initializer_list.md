@@ -3,7 +3,7 @@ layout: post
 title: C++ initializer_list
 date: "2021-08-14 06:40:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 initializer_list 是 C++11 开始通过标准模板库（STL）提供的一个类模板，它使函数能够非常轻松的使用同类不定长参数。
 

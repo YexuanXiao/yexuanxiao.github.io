@@ -3,7 +3,7 @@ layout: post
 title: 使用 CUDA 加速 FFmpeg 编码 HEVC
 date: "2020-12-06 15:01:00"
 tags: [media,docs,C++]
-categories: [blog]
+category: blog
 permalink: /blog/2020/09/14/FFmpeg-CUDA/
 ---
 CUDA 是建立在 NVIDIA 的 GPUs 上的一个通用并行计算平台和编程模型，基于 CUDA 编程可以利用 GPUs 的并行计算引擎来更加高效地解决比较复杂的问题。

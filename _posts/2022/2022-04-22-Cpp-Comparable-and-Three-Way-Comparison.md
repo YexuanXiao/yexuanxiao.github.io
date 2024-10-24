@@ -3,7 +3,7 @@ layout: post
 title: C++ 可比较性和三路比较
 date: "2022-04-22 16:07:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 三路比较 (Three-Way Comparison) 运算是 C++20 新增的一种支持重载的比较运算，旨在解决以往 C++ 需要写过多的比较运算符重载和多次比较效率问题，三路比较运算符又被称为宇宙飞船运算符。三路比较运算并不返回布尔值，而是返回包装枚举的三类对象：`std::strong_ordering`，`std::weak_ordering` 和 `std::partial_ordering`。三路比较使得有序容器的元素插入最坏情况只需要一次三路比较和两次值判断，使得插入字符串这种线性时间比较类的算法的时间复杂度从 Θ(2n) 降低到了 Θ(n)，和以往相比简化了一次比较过程从而提高了效率。
 

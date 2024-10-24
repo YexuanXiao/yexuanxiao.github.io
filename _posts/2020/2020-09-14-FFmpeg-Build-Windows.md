@@ -3,7 +3,7 @@ layout: post
 title: FFmpeg Windows Build
 date: "2020-09-14 02:19:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 Zeranoe 的 ffmpeg 网站即将关闭，Windows 上 FFmpeg 编译好的文件将去哪里获得呢?
 

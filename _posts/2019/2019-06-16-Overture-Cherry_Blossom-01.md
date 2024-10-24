@@ -3,7 +3,7 @@ layout: post
 title: 神秘保护组织 - 第一章 - 01
 date: "2019-06-16 20:30:00"
 tags: [Overture，Cherry_Blossom,ChapterOne,m.p.o.]
-categories: [novel]
+category: novel
 ---
 
 几分钟前。

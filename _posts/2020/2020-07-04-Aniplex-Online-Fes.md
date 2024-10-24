@@ -2,7 +2,7 @@
 date: "2020-07-04 12:10"
 layout: post
 title: Aniplex Online Fest
-categories: [by-talk]
+category: by-talk
 tags: [anime]
 ---
 

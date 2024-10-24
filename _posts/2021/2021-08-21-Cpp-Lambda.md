@@ -3,7 +3,7 @@ layout: post
 title: C++ Lambda
 date: "2021-08-21 19:08:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++11 开始，C++ 正式支持 Lambda 表达式。Lambda 表达式简单来说就是一个可以获得当前状态的可传递的可调用对象。
 

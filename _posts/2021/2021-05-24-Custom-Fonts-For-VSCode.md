@@ -3,7 +3,7 @@ layout: post
 title: 使用 Operator Mono 作为 VSCode 字体
 date: "2021-05-24 17:38:00"
 tags: [VSCode,docs]
-categories: [blog]
+category: blog
 ---
 
 虽然我挺喜欢微软雅黑的，不过看久了也想找点新奇的东西，于是便有了这篇文章。

@@ -3,7 +3,7 @@ layout: post
 title: C++ constexpr if 和 constexpr lambda
 date: "2021-09-12 15:50:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++17 开始，编译器添加了 constexpr if 用于模板的编译期判断，以及 constexpr lambda 用于常量优化。
 

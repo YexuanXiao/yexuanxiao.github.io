@@ -3,7 +3,7 @@ layout: post
 title: C++ 和双重检查锁定模式（DCLP）的风险
 date: "2021-09-20 00:36:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 本文是 Scott Meyers 和 Andrei Alexandrescu 在 2004 年发表的 [论文](https://www.aristeia.com/Papers/DDJ_Jul_Aug_2004_revised.pdf) 的一篇翻译，由于原译者的 [网站](http://blog.jobbole.com/86392/) 已经无法访问，在此整理留作备份，有改动。
 

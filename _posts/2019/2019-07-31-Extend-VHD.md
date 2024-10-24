@@ -3,7 +3,7 @@ layout: post
 title: 使用 PowerShell 扩展 VHD
 date: "2019-07-31 02:00:00"
 tags: [Windows,VHD,diskpart]
-categories: [blog]
+category: blog
 ---
 
 　 我一直使用 vhd 作为磁盘备份方式，但因为当初设定的容量比目标磁盘小，导致现在没有足够的空间进行备份，于是找来扩展 vhd 的文档，并在此留作备份方便以后查看。

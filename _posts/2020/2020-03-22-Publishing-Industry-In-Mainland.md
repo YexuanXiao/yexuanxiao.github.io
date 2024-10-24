@@ -2,7 +2,7 @@
 date: "2020-03-22 18:55"
 layout: post
 title: 书号收缩下的出版业
-categories: [by-talk]
+category: by-talk
 tags: [society]
 ---
 

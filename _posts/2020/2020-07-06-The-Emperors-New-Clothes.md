@@ -2,7 +2,7 @@
 date: "2020-07-06 19:02"
 layout: post
 title: 皇帝的新衣
-categories: [by-talk]
+category: by-talk
 tags: [society]
 description:
 ---

@@ -2,7 +2,7 @@
 layout: post
 date: "2020-07-12 17:31"
 title: 吐槽一则
-categories: [by-talk]
+category: by-talk
 tags: [anime,jottings]
 ---
 这是一则从去年开始就想吐槽但是直到今天才吐出来的吐槽。

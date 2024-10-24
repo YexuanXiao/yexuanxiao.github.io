@@ -3,7 +3,7 @@ layout: post
 title: 给你的 Jekyll 博客添加评论
 date: "2020-05-18 14:34:00"
 tags: [Jekyll,docs]
-categories: [blog]
+category: blog
 ---
 
 国内的评论服务基本都已经无法使用，disqus 又遭到封锁，我又不喜欢 github 仓库一堆无效 issue，Valine 似乎成为了静态博客评论系统唯一选择 。

@@ -3,7 +3,7 @@ layout: post
 title: 抽象泄漏定律
 date: "2022-09-15 14:58:00"
 tags: [C++,C]
-categories: [blog]
+category: blog
 ---
 所有重要的抽象，在一定程度上，都是有漏洞的。
 

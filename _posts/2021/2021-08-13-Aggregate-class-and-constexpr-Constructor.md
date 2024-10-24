@@ -3,7 +3,7 @@ layout: post
 title: C++ 聚合类，字面值常量类和 constexpr 构造函数
 date: "2021-08-13 04:03:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++ 用 constexpr 关键字设计了一系列辅助编译器优化的特性，此前讲到 constexpr 函数可以在编译期求值，那么自然也可以通过给类设定一个构造函数，使编译器在编译阶段对类求值，进行优化。
 

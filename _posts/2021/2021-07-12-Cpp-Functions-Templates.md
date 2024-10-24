@@ -3,7 +3,7 @@ layout: post
 title: C++ 函数模板
 date: "2021-07-12 13:42:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++ 的很多特性是随着编译器的升级而一同出现的，而模板是其中的一个代表。
 

@@ -3,7 +3,7 @@ layout: post
 title: std::memory_order
 date: "2022-01-16 07:36:00"
 tags: [C++,STL,atomic]
-categories: [blog]
+category: blog
 ---
 `std::memory_order` 是一个枚举类，用于指示编译器进行内存同步所使用的规则，是原子操作的基础。`std::memory_order` 本质上是 C++ 对于内存一致性的同步操作进行的一种抽象，使用不同的 order 代表进行不同的同步操作。
 

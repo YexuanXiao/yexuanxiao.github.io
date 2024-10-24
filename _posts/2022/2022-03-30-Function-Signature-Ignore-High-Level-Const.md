@@ -3,7 +3,7 @@ layout: post
 title: 函数签名忽略顶层 const 属性
 date: "2022-03-30 01:44:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 今天看《C++ 程序设计语言》12.1.3 函数定义部分的时候注意到：`void f(int)` 和 `void f(const int)` 这两个声明对应一个函数，虽然这可能看起来违反“普遍”规则。Bjarne 对此解释为为了兼容 C。

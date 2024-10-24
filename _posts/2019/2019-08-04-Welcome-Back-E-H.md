@@ -3,7 +3,7 @@ layout: post
 title: 欢迎回来，EXH 
 date: "2019-08-04 02:00:00"
 tags: [memories]
-categories: [by-talk]
+category: by-talk
 ---
 
 在昨天，EXH复活了！

@@ -3,7 +3,7 @@ layout: post
 title: C++ 异常 - 守卫
 date: "2024-07-29 19:52:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 前几篇文章讲述了异常的基本概念和如何保证基本的异常安全，本文则综合并且结合最佳实践讲述如何编写正确的 C++ 代码。
 

@@ -3,7 +3,7 @@ layout: post
 title: C++ 命名空间和 using
 date: "2022-04-13 10:05:00"
 tags: [C++,docs]
-categories: [blog]
+category: blog
 ---
 之前的文章 [关于 C++ 类和命名空间作用域的思考](/blog/2022/04/02/Thinking-About-Scope-of-class-and-namespace/) 中简要说明了 `namespace` 的历史。同时 `using` 被发明出来。而 C++11 又由于 `typedef` 存在缺陷，将 `using` 的功能扩展，添加了命名别名的功能。
 

@@ -3,7 +3,7 @@ layout: post
 title: 联合国 75 周年问卷调查
 date: "2020-09-02 01:36:00"
 tags: [Security]
-categories: [blog]
+category: blog
 ---
 <div align="center">
 <p class="large" align="center">世界需要团结，你的贡献不可或缺</p>

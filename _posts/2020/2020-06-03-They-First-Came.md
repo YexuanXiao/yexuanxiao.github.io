@@ -2,7 +2,7 @@
 date: "2020-06-03 21:49"
 layout: post
 title: 《起初他们》--致沉默者
-categories: [by-talk]
+category: by-talk
 tags: [society,nation]
 description:
 ---

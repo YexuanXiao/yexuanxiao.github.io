@@ -2,7 +2,7 @@
 date: "2020-07-14 01:08:00"
 layout: post
 title: 某科学的超电磁炮 T 第XX话
-categories: [by-talk]
+category: by-talk
 tags: [2020一月新番,anime]
 ---
 这是我在 4 月 6 日截的图，由于我的一块西数硬盘挂掉了，所以其他的截图自然也没了（泪）

@@ -3,7 +3,7 @@ layout: post
 title: Galaxy Buds Pro
 date: "2021-02-09 12:20:00"
 tags: [Android]
-categories: [blog]
+category: blog
 ---
 今年三星 Galaxy 发布会上发布了 Galaxy S21 系列和 Galaxy Buds Pro。由于屏幕较小的 S21 和 S21+ 并未使用 3200x1440 的屏幕，所以这次发布会的产品我选择了 带主动降噪的入耳式 TWS 耳机 Galaxy Buds Pro。
 

@@ -3,7 +3,7 @@ layout: post
 title: C++ 转发引用
 date: "2024-08-31 05:07:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 C++ 11 发明右值引用后，结合模板带来了一个优雅的参数传递方案即万能引用。许多教程使用“引用折叠”来描述模板在实例化 `T&&` 的行为（例如之前的文章[右值引用和完美转发](/blog/2021/09/25/Rvalue-References-and-Perfect-Forwarding/)），但实际上这并不准确。作为库作者，可能还需要更接近真相。
 

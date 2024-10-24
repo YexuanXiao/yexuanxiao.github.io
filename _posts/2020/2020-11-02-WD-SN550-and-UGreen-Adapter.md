@@ -3,7 +3,7 @@ layout: post
 title: 西数 SN550 固态硬盘和绿联 C400 硬盘盒开箱评测
 date: "2020-11-02 14:32:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 之前买了西数的 SN550 NVMe 固态硬盘和绿联的 C400 硬盘盒，给 Surface Book 3 补充一下空间。
 

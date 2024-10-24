@@ -3,7 +3,7 @@ layout: post
 title: One exception to rule them all
 date: "2024-01-20 05:03:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 本文简单讨论了不同高级编程语言如何表达以及处理错误，并介绍了 C++ 中新的解决方案。
 

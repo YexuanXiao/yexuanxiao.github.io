@@ -3,7 +3,7 @@ layout: post
 title: Memory Order 再探
 date: "2022-01-17 09:03:00"
 tags: [C++,STL,atomic]
-categories: [blog]
+category: blog
 ---
 
 之前的几篇文章中简单探讨了如何使用 `std::atomic` 及其特化进行编程，但是对于 memory_order 仍存一定疑虑，本文将从代码，编译器，CPU，内存的角度来介绍 `memory_order` 的实质。

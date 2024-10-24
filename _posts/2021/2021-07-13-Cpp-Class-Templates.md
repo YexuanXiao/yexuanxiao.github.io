@@ -3,7 +3,7 @@ layout: post
 title: C++ 类模板
 date: "2021-07-13 15:16:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 类模板和函数模板的基本思想是相同的，都是先声明一个通用数据类型，再使用通用类型代替固定类型，不过由于类本身和函数有很多区别，所以需要分开讨论。
 

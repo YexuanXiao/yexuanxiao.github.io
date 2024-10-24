@@ -3,7 +3,7 @@ layout: post
 title: C++ std::lock 和死锁
 date: "2021-09-05 23:50:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 死锁是多线程同时访问多个共享对象的常见问题，其本质是当两个线程各自持有一份数据，又再次想要各自持有另外的数据，但是这组新的数据又被对方持有，造成相互的资源竞争。
 

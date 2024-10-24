@@ -3,7 +3,7 @@ layout: post
 title: WSL 2 和 VS Code C++ 开发环境
 date: "2021-04-23 18:54:00"
 tags: [Windows,VSCode,C++,GCC,docs,WSL]
-categories: [blog]
+category: blog
 ---
 WSL 2 最近支持在 Explorer 中简单管理文件，并且 WSL 2 还可以自动配置端口转发，正巧我想把博客里的 Liquid 代码整理一下，但 Github Page 不给 Jeklly 解析错误的错误信息，Ruby for Windows 又过于臃肿。
 

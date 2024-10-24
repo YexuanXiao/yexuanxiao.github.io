@@ -3,7 +3,7 @@ layout: post
 title: Surface Book 3 开箱
 date: "2020-09-08 23:10:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 种草 Surface Book 很久了，今年 5 月 Surface Book 3 发后便准备入手，奈何首发价太贵，于是便等到了今天。
 

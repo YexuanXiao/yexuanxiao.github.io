@@ -3,7 +3,7 @@ layout: post
 title: std::string_view
 date: "2022-04-28 00:36:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 C++17 对标准库补充了一些非常使用的容器（C++20 起 std::string_view 就不能叫容器了，因为其不持有对象，准确的叫法是视图），`std::string_view` 就是其中之一，`std::string_view` 是个只读的字符串视图，解决了传统 C 字符串的孱弱和减少了额外的 `std::string` 构造。
 

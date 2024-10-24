@@ -3,7 +3,7 @@ layout: post
 title: Windows 绑定进程到指定核心
 date: "2022-08-08 23:59:00"
 tags: [C++,Windows]
-categories: [blog]
+category: blog
 ---
 闲着没事写了个小工具，让指定进程运行在指定 CPU 核心。比如让某进程只运行在前 4个核心，前 6 个核心。或者屏蔽超线程，让每个线程都运行在独立核心上。原理是先根据可执行文件名获得进程的句柄，然后配合一个 64 位的掩码传给 `SetProcessAffinityMask` 函数即可。需要管理员权限才能运行，另外没有考虑 `OpenProcess` 被 Hook 的情况，有可能 `OpenProcess` 被某些反作弊软件 Hook 导致调用虚假的 `OpenProcess` 而失败。
 

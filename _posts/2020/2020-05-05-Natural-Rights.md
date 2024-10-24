@@ -2,7 +2,7 @@
 date: "2020-05-05 10:27"
 layout: post
 title: 自然权利
-categories: [by-talk]
+category: by-talk
 tags: [philosophy,logic]
 ---
 文｜cute-stone

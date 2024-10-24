@@ -3,7 +3,7 @@ layout: post
 title: 构造函数和 C++ 的哲学
 date: "2022-03-27 20:56:00"
 tags: [C++,Philosophy]
-categories: [blog]
+category: blog
 ---
 
 知乎的一个问题[Go、Rust、Nim等新兴语言，为什么都抛弃了constructor？](https://www.zhihu.com/question/36586808)可能说出了很多人心中的疑惑，Makoto Ruu 的[回答](https://www.zhihu.com/question/36586808/answer/1433329762)可以说是精确说出了 C++ 的构造函数的设计哲学，现将回答转载至此，著作权归原作者所有。

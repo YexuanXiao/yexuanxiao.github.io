@@ -2,7 +2,7 @@
 date: "2020-01-10 23:00"
 layout: post
 title: 地缚少年花子君
-categories: [by-talk]
+category: by-talk
 tags: [2020一月新番,anime]
 ---
 

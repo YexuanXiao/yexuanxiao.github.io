@@ -2,7 +2,7 @@
 layout: post
 date: "2020-07-16 18:45"
 title: 刀剑神域 ExtraEdition
-categories: [by-talk]
+category: by-talk
 tags: [anime,jottings]
 ---
 刀剑神域 Extra Edition 是 刀剑神域在第一季播出后制作的 OVA 动画，一半是回忆，一半是番外。正好最近刀剑 UW 更新，顺带回忆下第一季。

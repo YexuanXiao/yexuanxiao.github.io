@@ -3,7 +3,7 @@ layout: post
 title: 奈奎斯特定理和香农定理
 date: "2020-07-11 01:37:00"
 tags: [signal,introduction,docs]
-categories: [blog]
+category: blog
 ---
 奈奎斯特定理（Nyquist's Theorem）和香农定理（Shannon's Theorem）是信号学中的两个基本定理。
 

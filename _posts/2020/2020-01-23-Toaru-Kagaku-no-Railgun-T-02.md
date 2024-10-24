@@ -2,7 +2,7 @@
 date: "2020-01-23 13:00"
 layout: post
 title: 某科学的超电磁炮 T 第二话
-categories: [by-talk]
+category: by-talk
 tags: [2020一月新番,anime]
 ---
 <!-- more -->

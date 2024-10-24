@@ -3,7 +3,7 @@ layout: post
 title: Valine Admin
 date: "2020-09-13 03:54:00"
 tags: [Windows,UWP,docs]
-categories: [blog]
+category: blog
 ---
 Valine Admin 是 Valine 评论系统的扩展，是一个部署在 Leancloud 的后端系统，支持管理评论，发送邮件提醒。
 

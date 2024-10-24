@@ -3,7 +3,7 @@ layout: post
 title: C++ Memory model 和 bit-field
 date: "2022-01-01 21:54:00"
 tags: [C++,Standard]
-categories: [blog]
+category: blog
 ---
 
 C++ 设计的目的包括尽可能在语法上与 C 兼容，面向底层和上层等等，而内存模型和位域就是 C++ 从 C 继承来的语法和特性之一。

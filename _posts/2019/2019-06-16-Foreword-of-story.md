@@ -3,7 +3,7 @@ layout: post
 title: 神秘保护组织 - 序言
 date: "2019-06-16 10:30:00"
 tags: [m.p.o.]
-categories: [novel]
+category: novel
 ---
 
 1942 年春，德意志帝国，阿尔卑斯山脉北，一荒废城堡地下。

@@ -2,7 +2,7 @@
 date: "2020-01-06 22:04"
 layout: post
 title: 魔法少女小圆外传动画 魔法记录
-categories: [by-talk]
+category: by-talk
 tags: [2020一月新番,anime]
 ---
 

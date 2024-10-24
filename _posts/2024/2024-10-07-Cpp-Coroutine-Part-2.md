@@ -3,7 +3,7 @@ layout: post
 title: C++ 协程 - 并发原语
 date: "2024-10-07 14:57:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 本节内容主要介绍了实现线程池所用的并发原语：原子操作、互斥锁、条件变量以及信号量。

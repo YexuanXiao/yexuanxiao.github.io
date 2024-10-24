@@ -3,7 +3,7 @@ layout: post
 title: 编程语言内存模型
 date: "2023-04-19 19:45:00"
 tags: [C++,C]
-categories: [blog]
+category: blog
 ---
 这是 Go 语言现任领队 Russ Cox 在 2021 年写的文章 [Programming Language Memory Models](https://research.swtch.com/plmm) 的翻译。
 

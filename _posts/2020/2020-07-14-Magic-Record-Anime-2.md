@@ -2,7 +2,7 @@
 date: "2020-07-14 20:50"
 layout: post
 title: 魔法少女小圆外传动画 魔法记录 2
-categories: [by-talk]
+category: by-talk
 tags: [2020一月新番,anime]
 ---
 综合实力非常强的动画，没啥额外说的。等下一季和小圆。

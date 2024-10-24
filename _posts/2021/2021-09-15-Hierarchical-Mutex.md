@@ -3,7 +3,7 @@ layout: post
 title: C++ 分层互斥器技巧防止死锁
 date: "2021-09-15 18:41:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++ 并发编程实战第二版展示了一种 C++ 多线程设计技巧 hierarchical_mutex，由于书中对此解释比较混乱，在此做个笔记。
 

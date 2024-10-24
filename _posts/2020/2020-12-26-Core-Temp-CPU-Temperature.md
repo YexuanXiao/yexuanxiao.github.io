@@ -3,7 +3,7 @@ layout: post
 title: Windows 显示 CPU 温度 Core Temp
 date: "2020-12-26 12:38:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 众所周知，Windows 虽然提供了获得 CPU 温度的各种接口，但是却没有提供现成的显示 CPU 温度的控件。虽然市面上很多软件都可以显示 CPU 温度，但是大多过于臃肿。Core Temp 就是一个非常小巧的软件，可以方便的查看 CPU 温度。
 

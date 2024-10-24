@@ -3,7 +3,7 @@ layout: post
 title: C++ 杂谈
 date: "2023-02-08 09:55:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 本文是我在知乎上的小回答的一个整理，内容比较杂而且语言随意，可能不够严谨。
 

@@ -3,7 +3,7 @@ layout: post
 title: C++ std::reference_wrapper 和 std::ref
 date: "2021-10-29 19:28:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 std::reference_wrapper 是 C++11 开始添加的一个类模板，作用是将引用包装为一般对象，使之可以当作普通对象来储存和传递，std::ref 是通过 std::reference_wrapper 实现的辅助函数，用于自动构建 std::reference_wrapper 临时对象。

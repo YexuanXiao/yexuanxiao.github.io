@@ -3,7 +3,7 @@ layout: post
 title: C++ 协程 - 任务
 date: "2024-10-13 19:14:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 编写协程的 Task 实际上就是解决 4 个问题：协程生存期、异常传播、协程同步和结果发布。实际使用中，Promise 负责存储，Task 负责和外部进行交互。

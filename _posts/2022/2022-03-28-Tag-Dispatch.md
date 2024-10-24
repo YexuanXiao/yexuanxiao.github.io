@@ -3,7 +3,7 @@ layout: post
 title: C++ 模板元编程 - 标签派发
 date: "2022-03-28 20:09:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 标签派发是 C++20 引入 concept 之前模板编程的一个手段：由于 C++ 不支持函数模板的偏特化，所以为了实现“偏特化”而产生的一个技巧。

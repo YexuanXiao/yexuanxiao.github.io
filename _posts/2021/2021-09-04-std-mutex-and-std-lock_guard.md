@@ -3,7 +3,7 @@ layout: post
 title: C++ std::mutex 和 std::lock_guard
 date: "2021-09-04 23:50:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 对于单一对象的单一线程访问，天然就没有线程安全方面的问题，但是对于单一对象的多线程访问，就存在着线程访问顺序甚至指令执行顺序的问题，因此存在一些安全隐患。
 

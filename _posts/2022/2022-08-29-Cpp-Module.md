@@ -3,7 +3,7 @@ layout: post
 title: C++ Module
 date: "2022-08-28 09:30:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 C++20 的一个重要特性是模块，模块是一种全新的源文件组织方式，旨在解决以往使用源文件包含的方式导致翻译单元过大以及模板重复实例化问题，有利于加快编译速度。
 

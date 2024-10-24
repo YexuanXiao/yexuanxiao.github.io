@@ -3,7 +3,7 @@ layout: post
 title: TypeScript 手册指北 Part1
 date: "2022-10-12 15:10:00"
 tags: [TypeScript,Web]
-categories: [blog]
+category: blog
 ---
 之前的 JavaScript 知识本人都是现学现卖，前几天花了点时间粗读了一下 TypeScript 的官方[手册](https://www.typescriptlang.org/docs/handbook)，其中有一部分语法尚未理解。本文是在第二次阅读中对手册的额外的解释。包含从 The Basis 到 Object Types 一共 5 章的内容。
 

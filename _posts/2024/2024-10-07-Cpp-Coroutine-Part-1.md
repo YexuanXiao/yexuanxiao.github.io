@@ -3,7 +3,7 @@ layout: post
 title: C++ 协程 - 综述
 date: "2024-10-07 01:10:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 协程是 C++ 20 标准中新添加的一个重要语言特性，包含了一些新语法和协程支持库，然而，如何使用协程进行编程还是一片蓝海。

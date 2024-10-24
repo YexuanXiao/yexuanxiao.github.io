@@ -2,7 +2,7 @@
 date: "2020-05-06 08:30"
 layout: post
 title: B站的“后浪”出圈很成功，唯独缺了质疑与反叛
-categories: [by-talk]
+category: by-talk
 tags: [society]
 ---
 

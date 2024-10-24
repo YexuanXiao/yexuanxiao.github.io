@@ -3,7 +3,7 @@ layout: post
 title: C++ std::thread 多线程初探
 date: "2021-08-31 23:50:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 C++11 开始正式在语言层面通过标准模板库的方式提供了 std::thread 来进行多线程优化，使用多线程进行并行计算是现代计算机上软件对计算进行加速的最普遍的方式。

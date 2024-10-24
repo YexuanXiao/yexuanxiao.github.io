@@ -3,7 +3,7 @@ layout: post
 title: 波特率和比特率
 date: "2020-07-10 23:58:00"
 tags: [signal,introduction,docs]
-categories: [blog]
+category: blog
 ---
 信号和编码中常常提到波特率和比特率，两者都是各自领域的基本单元。
 

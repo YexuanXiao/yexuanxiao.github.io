@@ -3,7 +3,7 @@ layout: post
 title: C++ 拾遗
 date: "2021-08-04 18:10:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 本文用来记载 C++ 初学者可能会遗漏的一些细节方面的知识，技巧，以及 C 过渡到 C++ 的一些不同，不定期更新。

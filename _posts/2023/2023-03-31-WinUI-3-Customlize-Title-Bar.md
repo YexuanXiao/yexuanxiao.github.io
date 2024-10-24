@@ -3,7 +3,7 @@ layout: post
 title: WinUI 3 自定义标题栏
 date: "2023-03-31 11:15:00"
 tags: [C++,Windows]
-categories: [blog]
+category: blog
 ---
 Windows 自定义标题栏一直是个麻烦问题，WinUI 3 毫不意外的继承了这个性质，由于 WinUI 3 是纯粹的 Win32 应用，因此和所有 Win32 应用一样使用系统窗口，造成了许多问题，这两天踩了许多坑后在此分享一下经验。
 

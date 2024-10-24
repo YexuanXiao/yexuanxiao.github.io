@@ -2,7 +2,7 @@
 date: "2020-01-05 20:31"
 layout: post
 title: B站粉丝自制月姬动画！
-categories: [by-talk]
+category: by-talk
 tags: [type-moon,anime]
 ---
 许久没看bilibili，今天随手点进主页，竟然发现有人做了月姬的自制动画！！！

@@ -3,7 +3,7 @@ layout: post
 title: 学习 C++：实践者的方法
 date: "2021-12-15 00:48:00"
 tags: [C++,philosophy]
-categories: [blog]
+category: blog
 ---
 
 本文转载自 [刘未鹏(pongba)](http://mindhacks.cn/) 14 年前所写文章 [学习 C++：实践者的方法（Beta1）](https://blog.csdn.net/pongba/article/details/1930150)。作者借用自己的经验来给广大 C++ 学习者指明了一条正确的学习方向，本人也和作者同心合意，有过相似的困惑和经历，因此将文章重新排版转载于此，并加入了一些批注和微小的修改。

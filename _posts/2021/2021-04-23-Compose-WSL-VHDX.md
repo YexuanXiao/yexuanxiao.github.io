@@ -3,7 +3,7 @@ layout: post
 title: 减小 WSL 镜像文件占用
 date: "2021-04-23 23:47:00"
 tags: [Windows,VHD,diskpart,docs,WSL]
-categories: [blog]
+category: blog
 ---
 WSL 的 Linux 发行版都是储存在 vhdx 中的，而删除 vhdx 中的文件实际上不会减小 vhdx 的体积，需要手动释放。
 

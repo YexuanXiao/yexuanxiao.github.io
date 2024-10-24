@@ -2,7 +2,7 @@
 date: "2020-06-12 18:48"
 layout: post
 title: 随手拍-华风国际商城
-categories: [by-talk]
+category: by-talk
 tags: [photograph]
 ---
 

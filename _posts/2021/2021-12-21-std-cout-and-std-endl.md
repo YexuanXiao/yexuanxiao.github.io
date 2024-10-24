@@ -3,7 +3,7 @@ layout: post
 title: std::cout 和 std::endl
 date: "2021-12-20 03:43:00"
 tags: [C,C++,STL]
-categories: [blog]
+category: blog
 ---
 
 std::cout 和 std::endl 可以说是学习 C++ 最先接触到的全局对象和操纵符，但是 std::cout 和 std::endl 内部存在复杂的设计，和 C 的 IO 库存在许多差异，导致许多人对 std::cout 和 std::endl 存在非常大的偏见，特别是在某些计算机竞赛环境，或者是某些“大佬”警告后。本文的目的是从标准和语言上理清 std::cout 和 std::endl 的一些设计帮助正确合理使用它们。

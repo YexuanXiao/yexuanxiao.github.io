@@ -3,7 +3,7 @@ layout: post
 title: C++ 异常问题的简单分析
 date: "2022-07-18 07:19:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 长久以来，C++ 的异常都被诟病为性能差，但是仅仅用性能来评价 C++ 的异常是只见云雾不见山，没用抓住问题本质。
 

@@ -3,7 +3,7 @@ layout: post
 title: C++ 可调用对象和 std::invoke
 date: "2021-09-25 00:29:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 C++11 添加了 Lambda 的支持，这使得 C++ 拥有了 5 种可调用对象：函数，函数指针，Lambda，仿函数（Functor）和成员函数。这使在传递可调用对象时不得不对这 5 种方式进行兼容。C++17 引入了 std::invoke 来统一这 5 种可调用对象，大大简化了代码。

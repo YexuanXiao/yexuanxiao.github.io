@@ -2,7 +2,7 @@
 date: "2021-08-06 19:32:00"
 layout: post
 title: 网上购买眼镜指南
-categories: [by-talk]
+category: by-talk
 tags: [life]
 ---
 

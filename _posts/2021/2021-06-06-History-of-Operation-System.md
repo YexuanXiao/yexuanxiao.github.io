@@ -3,7 +3,7 @@ layout: post
 title: 开源 1 - 操作系统历史
 date: "2021-06-06 16:38:00"
 tags: [opensource]
-categories: [blog]
+category: blog
 ---
 
 如果要说出计算机软件领域伟大的思想，那么开源肯定在其中占据重要的一席之地，本篇是讲述开源的第一篇，从操作系统历史讲述开源。

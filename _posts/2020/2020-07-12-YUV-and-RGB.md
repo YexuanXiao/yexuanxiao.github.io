@@ -3,7 +3,7 @@ layout: post
 title: YUV(YCbCr) 与 RGB
 date: "2020-07-12 21:25:00"
 tags: [color,photograph,introduction,docs]
-categories: [blog]
+category: blog
 ---
 ***注意！***本文所涉及的内容皆为 RGB 和 YUV 总述，并没有涉及 10bit 的内容。
 

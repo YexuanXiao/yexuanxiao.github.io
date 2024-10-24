@@ -3,7 +3,7 @@ layout: post
 title: C++ 成员指针
 date: "2022-01-28 06:34:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 C 中存在两种指针：函数指针和对象指针，并且其宽度典型为 CPU 位数。而由于 C++ 引入了类，从而产生了新的指针种类：成员数据指针和成员函数指针。

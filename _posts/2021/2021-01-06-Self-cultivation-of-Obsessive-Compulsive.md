@@ -3,7 +3,7 @@ layout: post
 title: 强迫症的自我修养
 date: "2021-01-06 05:26:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 本文记录 Windows 右键菜单或者其他界面上一些无用控件的清除方法。
 

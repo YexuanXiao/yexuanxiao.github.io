@@ -3,7 +3,7 @@ layout: post
 title: C++ 协程 - 线程池
 date: "2024-10-10 20:56:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 线程池总体分为 3 部分：工作线程，定时器线程以及任务派发线程，每种线程都有对应的锁，队列和信号量。

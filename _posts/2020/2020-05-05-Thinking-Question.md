@@ -2,7 +2,7 @@
 date: "2020-05-05 08:38"
 layout: post
 title: 几个思想实验
-categories: [by-talk]
+category: by-talk
 tags: [philosophy,logic]
 ---
 

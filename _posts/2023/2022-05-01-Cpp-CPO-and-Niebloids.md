@@ -3,7 +3,7 @@ layout: post
 title: C++ 20 CPO 和 Ranges 新算法
 date: "2023-04-18 19:45:00"
 tags: [C++,Windows]
-categories: [blog]
+category: blog
 ---
 在之前的 Ranges 文章中我称 Ranges 为重要改进，不仅仅是因为 Ranges 本身提供了容器无关的抽象，还因为 Ranges 带来了“新的”算法，解决了一些函数查找的历史问题。
 

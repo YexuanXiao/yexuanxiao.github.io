@@ -2,7 +2,7 @@
 date: "2020-07-14 01:30:00"
 layout: post
 title: 潘多拉之心
-categories: [by-talk]
+category: by-talk
 tags: [manga,anime,introduction]
 ---
 我自认为是看过很多漫画的，包括日本的一些热门的和非热门的，以及一小部分国产漫画。

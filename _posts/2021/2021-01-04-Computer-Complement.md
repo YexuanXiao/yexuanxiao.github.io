@@ -3,7 +3,7 @@ layout: post
 title: 计算机反码和补码的意义
 date: "2021-01-04 21:26:00"
 tags: [C,docs]
-categories: [blog]
+category: blog
 ---
 初学二进制的人经常对反码和补码很疑惑，编程语言的书中也并不会过多解释此事，但是理解这个概念还是很有必要的。
 

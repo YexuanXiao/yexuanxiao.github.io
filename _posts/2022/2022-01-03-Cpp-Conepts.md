@@ -3,7 +3,7 @@ layout: post
 title: C++ Concepts
 date: "2022-05-01 18:01:00"
 tags: [C++,STL]
-categories: [blog]
+category: blog
 ---
 
 C++20 的一项重大特性就是概念。虽然 C++98 完成后，概念就作为一个语义出现在 C++ 的用户中，但是直到 2019 年，概念才作为一个完善的特性被加入到标准中。由于 C++ 模板的元编程能力是被发现而不是被发明的，所以模板虽然是图灵完备的，但是作为一种编程语言来说缺乏很多特性，导致其使用非常繁琐。Bjarne Stroustrup 在 2003 年写了一篇文章 [Concept checking – A more abstract complement to type checking](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1510.pdf) 标题就直截了当的阐述了概念的用途：对类型检查的一个更抽象的补充。

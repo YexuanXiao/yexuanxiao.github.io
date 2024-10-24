@@ -2,7 +2,7 @@
 date: "2020-04-17 10:53"
 layout: post
 title: 民族主义
-categories: [by-talk]
+category: by-talk
 tags: [society]
 ---
 文｜cute-stone

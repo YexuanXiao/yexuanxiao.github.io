@@ -3,7 +3,7 @@ layout: post
 title: 指针，智能指针和 observer_ptr
 date: "2022-03-11 18:54:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 本文是 Bjarne Stroustrup 在 2018 年发表的一个 Proposal [Abandon observer_ptr](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1408r0.pdf) (P1408R0) 的翻译。Bjarne 原本在 2014 年尝试设计了一种额外的智能指针 `observe_ptr`，发表于 [N2082](http://open-std.org/JTC1/SC22/WG21/docs/papers/2014/n4282.pdf)，但是，后来 Bjarne 意识到 `observer_ptr` 是愚蠢的，于是就有了这篇文章。虽然 `observer_ptr` 已经被遗弃，但是我想通过 Bjarne 的这篇文章来说明一个问题：`unique_ptr` 和 `shared_ptr` 不能完全代替裸指针。

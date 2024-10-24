@@ -2,7 +2,7 @@
 date: "2020-07-14 21:08"
 layout: post
 title: 暗黑破坏神在身边！
-categories: [by-talk]
+category: by-talk
 tags: [2020一月新番,anime]
 ---
 这部动画主要卖点在搞笑<span class="heimu">沙雕</span>日常，不过动画卖点其实还有声优（真——考哥.jpg）

@@ -3,7 +3,7 @@ layout: post
 title: Windows 禁止应用多实例
 date: "2023-03-27 19:28:00"
 tags: [C++,Windows]
-categories: [blog]
+category: blog
 ---
 “简单”研究了一下 Windows 如何禁止应用开启多实例，实际有两个通用方案：使用 `CreateFileW` 在临时文件夹中创建一个独占的文件实现互斥以及使用 `CreateMutexExW` 创建一个独占的具名互斥锁实现互斥；需要监听端口的程序使用 `bind` 时也自带这种效果，这些方法都能实现原子的互斥。
 

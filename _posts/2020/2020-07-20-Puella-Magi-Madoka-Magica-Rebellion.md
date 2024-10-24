@@ -2,7 +2,7 @@
 layout: post
 date: "2020-07-20 20:45"
 title: 魔法少女小圆剧场版 叛逆的物语
-categories: [by-talk]
+category: by-talk
 tags: [anime,jottings]
 ---
 昨天重温了一遍 魔法少女小圆剧场版 叛逆的物语。

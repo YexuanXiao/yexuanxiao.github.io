@@ -4,7 +4,7 @@ title: 程序设计，C++ 与面向对象
 date: "2022-01-21 06:34:00"
 update: "2022-02-09 04:13:00"
 tags: [C++,philosophy]
-categories: [blog]
+category: blog
 ---
 
 纵观大型软件开发，主流三大操作系统 Linux（发行版），Windows，macOS 的内建应用都广泛使用 C/C++ 作为主要开发语言；Java 和 Go 作为服务器后端开发语言；作为 Native UI 开发使用 C#（.NET），C++（KDE），Swift（iOS），OBJ-C（iOS），Java（Android），Kotlin（Android）。这其中除了 C 语言之外都具备两个特点：静态类型和面向对象。

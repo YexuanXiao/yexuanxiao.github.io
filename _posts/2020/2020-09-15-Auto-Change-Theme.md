@@ -3,7 +3,7 @@ layout: post
 title: JavaScript 监听主题切换动作
 date: "2020-09-15 00:19:00"
 tags: [JavaScript,docs]
-categories: [blog]
+category: blog
 ---
 目前本站支持了新增的暗黑模式特性，并支持手动控制主题，自动检测主题，以及定时开启主题。不过并不能相应浏览器的主题切换。
 

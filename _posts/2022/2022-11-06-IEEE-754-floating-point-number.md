@@ -3,7 +3,7 @@ layout: post
 title: IEEE 754 浮点数表示法
 date: "2022-11-06 23:11:00"
 tags: [Standard,docs]
-categories: [blog]
+category: blog
 ---
 IEEE 754 是最常用的浮点数表示法，在使用浮点数前必须对其原理有详细的了解才可以写出没有精度损失而且安全的代码。
 

@@ -4,7 +4,7 @@ title: C/C++ 取模运算
 date: "2020-09-20 22:00:00"
 updated: "2022-01-30 21:30:00"
 tags: [Windows,C++,C]
-categories: [blog]
+category: blog
 ---
 今天看 《C++ Primer》 时，产生了一些疑问，经过一番研究，弄明白了 C++ 中取模和取余，记录在这里。
 

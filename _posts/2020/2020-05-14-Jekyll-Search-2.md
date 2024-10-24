@@ -3,7 +3,7 @@ layout: post
 title: 给你的 Jekyll 加一个站内搜索 2
 date: "2020-05-14 10:15:00"
 tags: [JavaScript,CSS,Jekyll,docs]
-categories: [blog]
+category: blog
 ---
 
 使用 Simple-Jekyll-Search 为你的 Jekyll 博客添加站内搜索。

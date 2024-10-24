@@ -2,7 +2,7 @@
 layout: post
 date: "2020-01-01 13:31"
 title: 《刺客守则》第四卷观后随笔
-categories: [by-talk]
+category: by-talk
 tags: [assassin's pride,jottings,anime]
 ---
 最近的两周看了刺客守则的小说（目前看到了第四卷），临睡前写下了这个随笔。

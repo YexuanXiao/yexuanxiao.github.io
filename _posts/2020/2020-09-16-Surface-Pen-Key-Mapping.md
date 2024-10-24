@@ -3,7 +3,7 @@ layout: post
 title: Surface Pen 按键映射
 date: "2020-09-16 21:36:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 Surface Book 3 最重要的功能之一是笔和触摸。我买的 Surface Pen 是第五代的，笔身下部有一个按键，顶部有一个按键。按键本身是使用蓝牙来输入的，不过微软并没有提供宏功能，这时候就需要用 VBScript 花式整活。
 

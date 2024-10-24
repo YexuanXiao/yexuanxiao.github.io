@@ -3,7 +3,7 @@ layout: post
 title: Microsoft Build 2020
 date: "2020-05-21 00:00:00"
 tags: [Windows]
-categories: [blog]
+category: blog
 ---
 
 因为 COVID-19，微软的 Build 2020 改成了线上，因而有幸参加这次大会。

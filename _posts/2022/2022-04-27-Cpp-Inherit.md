@@ -3,7 +3,7 @@ layout: post
 title: C++ protected 和 private 继承
 date: "2022-04-27 14:00:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 C++ 的访问权限控制除了用在成员上，也可以用在继承上，但是 `protected` 和 `private` 继承似乎很少被用到，但并不是说  `protected` 和 `private` 继承就没有用。
 

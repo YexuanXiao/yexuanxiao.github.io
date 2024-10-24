@@ -3,7 +3,7 @@ layout: post
 title: Page Test
 date: "2019-03-28 21:38:00"
 tags: [markdown,docs]
-categories: [blog]
+category: blog
 ---
 
 本页用于展示本站支持的所有页内功能，不限于 Markdown 基础功能，以及一些独有扩展。

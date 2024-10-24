@@ -3,7 +3,7 @@ layout: post
 title: 开源 3 - 主流开源协议
 date: "2021-06-06 21:58:00"
 tags: [opensource]
-categories: [blog]
+category: blog
 ---
 
 本文讲述主流开源协议（GNU Public，BSD，MIT，Apache，Lesser GNU Public，Mozilla Public）的内容以及异同。

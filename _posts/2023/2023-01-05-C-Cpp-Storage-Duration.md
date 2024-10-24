@@ -3,7 +3,7 @@ layout: post
 title: C/C++ 储存周期
 date: "2023-01-05 01:00:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 本文是我在知乎上的[回答](https://www.zhihu.com/question/546160803/answer/2830144966)的复制，澄清了 C/C++ 中储存周期的概念，纠正了长久以来网络上对于二进制段和内存区段的混淆以及照本宣科的描述，解释了 `auto`，`register`，`static` 等关键字的历史。
 

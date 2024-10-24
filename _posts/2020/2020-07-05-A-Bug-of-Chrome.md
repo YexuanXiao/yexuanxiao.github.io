@@ -3,7 +3,7 @@ layout: post
 title: 一个 Chrome 的 Bug
 date: "2020-07-05 19:16:00"
 tags: [Chrome,HTML,JavaScript]
-categories: [blog]
+category: blog
 ---
 从任意文章页使用超链接跳转到分类页，使用 `window.getComputedStyle(container, null).getPropertyValue("margin-left");` 获取到默认值 0px。
 

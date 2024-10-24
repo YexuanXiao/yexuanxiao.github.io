@@ -3,7 +3,7 @@ date: "2020-01-14 12:30"
 update: "2020-09-15 01:43"
 layout: post
 title: Markdown 内嵌 HTML
-categories: [blog]
+category: blog
 tags: [markdown,Windows,docs]
 ---
 

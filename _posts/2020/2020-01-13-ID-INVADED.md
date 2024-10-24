@@ -2,7 +2,7 @@
 date: "2020-07-14 22:00"
 layout: post
 title: ID:INVADED
-categories: [by-talk]
+category: by-talk
 tags: [anime]
 ---
 ID:INVADED 算是一月动画中比较优秀的一部，监督青木英也算是很有名的一个监督。不过他之前的一些原创动画也是众所周知的结尾不行，所以这次 ID:INVADED 就只有 12 话。

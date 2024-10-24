@@ -3,7 +3,7 @@ layout: post
 title: C++ std::condition_variable 和 std::this_thread
 date: "2021-10-29 19:27:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 C++11 增加了 std::condition_variable 同步原语和 std::this_thread 的 4 个线程控制函数，其实现为编译器黑魔法，可以对线程进行更复杂的控制，而不是仅仅依靠互斥器。

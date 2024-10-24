@@ -3,7 +3,7 @@ layout: post
 title: TypeScript 手册指北 Part2
 date: "2022-10-14 23:33:00"
 tags: [TypeScript,Web]
-categories: [blog]
+category: blog
 ---
 TypeScript 手册指北 第二部分，第一部分在 [TypeScript 手册指北 Part1](/blog/2022/10/12/TypeScript-Handbook-Tutorial/)，记录了本人阅读 TypeScript 官方手册的一些想法，包含 Type Manipulation 的内容。
 

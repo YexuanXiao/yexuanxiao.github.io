@@ -3,7 +3,7 @@ layout: post
 title: std::atomic_flag
 date: "2022-01-04 01:35:00"
 tags: [C++,STL,atomic,Standard]
-categories: [blog]
+category: blog
 ---
 
 C++11 开始正式加入了多线程库及原子操作，原子操作是无锁并发的基础。所谓原子操作，就是具有原子性的操作：该操作对外不可分割。

@@ -3,7 +3,7 @@ layout: post
 title: C++ 模板的模板参数和别名模板
 date: "2021-08-17 08:02:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++ 的模板是现代 C++ 开发必不可少的一部分。C++11 引入了别名模板的特性，使模板嵌套模板能更加方便。
 

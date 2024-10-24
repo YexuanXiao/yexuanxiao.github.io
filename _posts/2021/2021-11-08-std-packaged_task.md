@@ -3,7 +3,7 @@ layout: post
 title: C++ std::packaged_task
 date: "2021-11-08 18:33:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 std::packaged_task 是 C++11 将任务进行包装的一种容器，类似于 std::async，但是 std::package_task 本身并不负责发起一个并行任务，仅仅将任务与期望包装为一个异步 Provider。

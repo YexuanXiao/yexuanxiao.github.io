@@ -3,7 +3,7 @@ layout: post
 title: 给你的博客添加 Sign With Google 登录按钮 
 date: "2021-06-18 18:40:00"
 tags: [HTML, docs]
-categories: [blog]
+category: blog
 ---
 今天发现第三方网站可以使用 Google 的登录接口，便研究了一下如何接入以自动获取基本信息，在这里介绍一下流程和踩的坑。
 

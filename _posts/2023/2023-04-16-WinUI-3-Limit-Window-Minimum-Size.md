@@ -3,7 +3,7 @@ layout: post
 title: WinUI 3 限制窗口最小宽高
 date: "2023-04-16 19:45:00"
 tags: [C++,Windows]
-categories: [blog]
+category: blog
 ---
 WinUI 3 软件开发中最无语的一件事就是限制窗口大小居然需要自己处理 Win32 消息。。。。。
 

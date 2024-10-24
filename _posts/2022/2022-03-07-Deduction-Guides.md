@@ -3,7 +3,7 @@ layout: post
 title: C++ 推导指引
 date: "2022-03-07 18:54:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 C++17 中，关于模板的一个功能修改是增加了模板参数类型推导指引（Deduction guides），该特性旨在解决 C++ 中模板参数推导缺乏类型转换以及模板参数缺乏灵活的转换方式问题，可以说是模板的一大杀器。

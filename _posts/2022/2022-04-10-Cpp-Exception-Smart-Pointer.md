@@ -3,7 +3,7 @@ layout: post
 title: C++ 异常 - 智能指针 
 date: "2022-04-08 18:28:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 之前的文章[C++ 异常 - 类和异常](/blog/2022/04/07/C++-Exception-class-and-RAII/)讲述了 C++ 的异常机制，但是单纯学会异常处理的概念和语法是完全不够用的，大部分人对于异常的了解就止步于此了。认识的不足会导致对异常存在非常大的误解。本文从异常出发，讲述 C++11 引入的 `std::unique_ptr` 和 `std::shared_ptr` 两种智能指针如何解决一部分的异常安全问题。

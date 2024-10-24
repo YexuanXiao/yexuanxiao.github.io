@@ -3,7 +3,7 @@ layout: post
 title: HDR 浅谈
 date: "2020-07-12 20:53:00"
 tags: [color,monitor,photograph,introduction,docs]
-categories: [blog]
+category: blog
 ---
 最近 HDR（高动态范围） 是一个很流行的词，但是，大部分人对 HDR 都是知其然而不知其所以然，本人对 HDR 在之前也有一些困惑之处，经过一些询问和研究便有了这篇文章。
 

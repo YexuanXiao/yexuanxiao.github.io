@@ -3,7 +3,7 @@ layout: post
 title: MiXplorer 翻译
 date: "2020-07-09 05:16:00"
 tags: [Android,docs]
-categories: [backup]
+category: backup
 ---
 
 MiXplorer 是 Android 最好的文件管理器。

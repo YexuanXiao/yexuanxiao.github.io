@@ -3,7 +3,7 @@ layout: post
 title: HTML5 播放器
 date: "2020-08-03 08:25:00"
 tags: [Windows,UWP,docs]
-categories: [blog]
+category: blog
 ---
 Flash 已经寿终正寝，HTML 5 才是时代潮流。
 

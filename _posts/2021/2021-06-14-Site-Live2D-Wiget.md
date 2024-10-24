@@ -3,7 +3,7 @@ layout: post
 title: 给你的博客加一个看板娘
 date: "2021-06-14 12:30:00"
 tags: [live2d, JavaScript, docs]
-categories: [blog]
+category: blog
 ---
 
 以前就有给博客添加一个 live2d 看板娘的想法，但没有实施，直到发现了好看的模型和项目。

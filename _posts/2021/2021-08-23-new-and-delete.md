@@ -3,7 +3,7 @@ layout: post
 title: C++ new 和 delete
 date: "2021-08-23 17:24:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++ 设计了 new 运算符包装了内存分配和指针转换，delete 运算符用于释放内存或者析构对象。新的语法使 new 和 delete 存在自己的使用技巧。
 

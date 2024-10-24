@@ -3,7 +3,7 @@ layout: post
 title: C++ 类的继承
 date: "2021-02-01 22:00:00"
 tags: [C++,docs]
-categories: [blog]
+category: blog
 ---
 继承是 C++ 类的另一个非常重要的特性。
 

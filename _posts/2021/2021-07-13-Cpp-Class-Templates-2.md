@@ -3,7 +3,7 @@ layout: post
 title: C++ 类模板 2 - 继承，作用域运算和友元
 date: "2021-07-14 01:30:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 本篇文章介绍 C++ 类模板的继承，作用域运算和友元。
 

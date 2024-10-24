@@ -3,7 +3,7 @@ layout: post
 title: C++ 可变参数模板
 date: "2021-08-11 18:44:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C 语言中编译器通过标准 IO 库提供了 printf 和 scanf 两个函数，这两个函数的特点是参数数量可变。而 C++11 增加了可变参数模板的特性以实现函数的参数可变。
 

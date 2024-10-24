@@ -3,7 +3,7 @@ layout: post
 title: Lambda mutable 的慎用及二进制膨胀
 date: "2021-12-30 17:39:00"
 tags: [C++,STL]
-categories: [blog]
+category: blog
 ---
 
 这篇文章的灵感来源于我加入的两个 C++ 律师群，起因分别是滥用 mutable 和关于二进制膨胀的讨论。

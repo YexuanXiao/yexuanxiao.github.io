@@ -3,7 +3,7 @@ layout: post
 title: C++ std::promise
 date: "2021-11-10 16:30:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 由于 std::async 在理论和实现上并不能满足我们的需求，因为我们常常在异步操作后对异步操作的结果进行一个同步，而 std::async 并不能提供这点需求，甚至由于默认发射策略导致 std::async 很有可能退化为单线程顺序运行，所以在 std::async 的基础上提供了 std::promise。

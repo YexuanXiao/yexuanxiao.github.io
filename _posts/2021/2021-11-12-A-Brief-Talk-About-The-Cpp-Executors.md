@@ -3,7 +3,7 @@ layout: post
 title: 浅谈 The C++ Executors
 date: "2021-11-12 02:43:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 
 就在 2021 年 7 月 6 号，Executors 提案又有了亿点点的更新。新的 Paper [P2300R1](http://open-std.org/JTC1/SC22/WG21/docs/papers/2021/p2300r1.html)，正式命名为 `std::execution`，相较于 The Unified Executor for C++，[P0443R14](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p0443r14)，更系统地阐述了 Executors 的设计思路；给出了在实现上更多的说明；删除了 Executor Concept，保留并确立了 Sender/Receiver/Scheduler 模型；给出了库里应有的初始算法集合，并对之前的算法设计有不小的改动；还有更多明确的语义如任务的多发射（multi-shot）和单发射（single-shot），任务的惰性（lazy）与及时（eager）提交，等等。笔者业余时间实践的 Excutors 库也正好实践完成了 [P1879R3](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1897r3.html) 的内容，在  `std::execution` 发布的里程碑，借鄙文与大家简单聊聊 Executors。

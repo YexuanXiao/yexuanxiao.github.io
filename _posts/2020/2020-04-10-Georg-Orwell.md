@@ -2,7 +2,7 @@
 date: "2020-04-10 19:49"
 layout: post
 title: 乔治奥威尔与中国
-categories: [by-talk]
+category: by-talk
 tags: [society]
 ---
 文｜李辉

@@ -3,7 +3,7 @@ layout: post
 title: C++ 非静态成员函数的引用限定修饰
 date: "2022-06-20 09:30:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 本文是对知乎用户[Mick235711](https://www.zhihu.com/people/mick235711)的回答[C++为什么允许给临时对象赋值？](https://www.zhihu.com/question/533946012/answer/2509921643)的回答的整理。
 

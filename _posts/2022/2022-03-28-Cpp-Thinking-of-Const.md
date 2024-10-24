@@ -3,7 +3,7 @@ layout: post
 title: 关于 const 的一个思考
 date: "2022-03-28 09:41:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 
 我在编写代码的过程中曾经注意到 `const` 成员函数、`const` 参数函数，它们于非 `const` 重载版本可以拥有类似但是不同的语义（使用不用的函数定义），产生不同的效果（`const` 与否都可以带来额外性能的提高， **并没有优劣之分** ）。`const` 是由 Bjarne Stroustrup 在 C++ 早期设计引入的：K&R C 中并没有 `const` 的概念，而 Bjarne 发现缺少 `const` 会存在一个实现缺陷以及二个语义缺陷。

@@ -2,7 +2,7 @@
 date: "2020-12-11 15:50:00"
 layout: post
 title: 晓美焰 时间溯行 ver 手办
-categories: [by-talk]
+category: by-talk
 tags: [anime]
 ---
 这个其实是 2014 年剧场版 叛逆的物语 上映后发售的，全新存量应该不多，不过某宝有两个商家有现货，比原价贵 100RMB，定制的盒子 66RMB，还可以。

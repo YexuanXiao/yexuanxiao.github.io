@@ -2,7 +2,7 @@
 date: "2020-03-21 19:28"
 layout: post
 title: 是谁在为举报之花施肥
-categories: [by-talk]
+category: by-talk
 tags: [society]
 ---
 <p class="large">最近关于举报的话题层层叠叠</p>

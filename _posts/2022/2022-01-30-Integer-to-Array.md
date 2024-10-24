@@ -3,7 +3,7 @@ layout: post
 title: 一种泛型 itoa 实现
 date: "2022-01-30 21:04:00"
 tags: [C++,STL]
-categories: [blog]
+category: blog
 ---
 
 之前读到了陈硕在 2010 年写的文章 [带符号整数的除法与余数](https://blog.csdn.net/solstice/article/details/5139302)，其中提到了一种用一个对称的 digits 数组自动解决符号的问题的 itoa 实现，我也在前年写过一篇文章 [C++ 取模运算](https://mysteriouspreserve.com/blog/2020/09/20/Cpp-Modulus-Operation/) 中提到过类似问题。正好陈硕写完文章的 10 年后，C++ 加入了 Concept，弥补了当年 C++ 0x 没有 Concept 的遗憾，于是本篇文章就是用 Concept 和陈硕文章内的 itoa 实现一同设计出一个泛型 itoa。

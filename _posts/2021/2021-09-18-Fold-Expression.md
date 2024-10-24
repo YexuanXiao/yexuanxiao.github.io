@@ -3,7 +3,7 @@ layout: post
 title: C++17 折叠表达式
 date: "2021-09-18 23:15:00"
 tags: [C++, docs]
-categories: [blog]
+category: blog
 ---
 C++17 中对可变参数模板的参数包进行了一项改进，即使用折叠表达式（Fold Expression）来简化递归式的“函数调用”，简化了语法。
 

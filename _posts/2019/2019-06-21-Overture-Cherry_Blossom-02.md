@@ -3,7 +3,7 @@ layout: post
 title: 神秘保护组织 - 第一章 - 02
 date: "2019-06-21 15:30:00"
 tags: [Overture，Cherry_Blossom,ChapterOne,m.p.o.]
-categories: [novel]
+category: novel
 ---
 我接下了监控祝晓彦的任务，距今已过去了三年，而加入执行局则已有了6年。
 

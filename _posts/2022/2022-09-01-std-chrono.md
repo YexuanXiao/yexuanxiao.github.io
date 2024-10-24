@@ -3,7 +3,7 @@ layout: post
 title: std::chrono
 date: "2022-09-01 01:30:00"
 tags: [C++]
-categories: [blog]
+category: blog
 ---
 C++11 开始增加了 `std::chrono` 这个时间库，可以在编译期进行时间换算以及提供计时功能。同时还可以配合 `std::condition_variable` 来实现定时唤醒功能。
 

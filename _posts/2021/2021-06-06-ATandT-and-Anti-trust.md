@@ -3,7 +3,7 @@ layout: post
 title: 开源 2 - AT&T分拆三十年，反垄断的全球历程
 date: "2021-06-06 18:08:00"
 tags: [opensource]
-categories: [blog]
+category: blog
 ---
 
 事实证明，对 AT&T 的肢解，的确达到了消费者福利最大化的目标。然而，美国社会对于反垄断的争论，并未由此终结。

@@ -4,7 +4,7 @@ title: 给你的博客加一个进度条
 date: "2020-07-10 01:00:00"
 update: "2021-06-26 18:57:00"
 tags: [JavaScript, CSS]
-categories: [blog]
+category: blog
 ---
 之前就在其他人的博客上看到了进度条这个功能，由于互联网上并没有可以用的文章，所以我便自己写了一个。
 
