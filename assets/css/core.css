@@ -21,12 +21,6 @@ body, button, input, optgroup, select, textarea {
 	width: calc(20% + 200px);
 	height: auto
 }
-.indent-negative {
-	text-indent: -2em
-}
-.indent-positive {
-	text-indent: 2em
-}
 
 /* fix pagination styles */
 .is-hidden-tablet.pagination-previous, .is-hidden-tablet.pagination-next {
@@ -94,7 +88,7 @@ body, button, input, optgroup, select, textarea {
 	position: absolute
 }
 #search-panel>input:hover, #search-panel>input:focus {
-    width: 15em
+    width: 14em
 }
 #search-panel>input {
 	border-radius: 6px
@@ -106,23 +100,6 @@ body, button, input, optgroup, select, textarea {
 		border-radius: 0;
 		margin-top: .55em
 	}
-}
-
-/* Valine */
-.vempty {
-	display: none!important
-}
-#veditor {
-	background-image: url(//i.postimg.cc/SKhcqTNC/2.png);
-	background-repeat: no-repeat;
-	background-position: right bottom;
-	background-size: 6em 6.5em
-}
-
-/* fix firefox scroll bar */
-
-.aplayer .aplayer-list ol {
-	scrollbar-width: thin
 }
 
 /* process bar */
@@ -143,6 +120,22 @@ body, button, input, optgroup, select, textarea {
 	.site-page ul {
 		margin-left: .5em
 	}
+}
+
+/* Valine */
+.vempty {
+	display: none!important
+}
+#veditor {
+	background-image: url(//i.postimg.cc/SKhcqTNC/2.png);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-size: 6em 6.5em
+}
+
+/* fix firefox scroll bar */
+.aplayer .aplayer-list ol {
+	scrollbar-width: thin
 }
 
 /* segoeui and fontawesome */

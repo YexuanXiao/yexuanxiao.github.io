@@ -1,9 +1,8 @@
 /* © 2020 YexuanXiao LICENSE: mysteriouspreserve.com/LICENSE */
-
 /* define article content styles. */
 
-.post-text>p:not(:has(img)) {
-	text-indent: 2em
+.no-blog>p:not(:has(img)) {
+	text-indent: 2ic
 }
 .post-text pre {
 	margin-bottom: 1em;

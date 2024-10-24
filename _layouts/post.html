@@ -3,7 +3,12 @@ layout: default
 ---
 
 <div class="box">
+	{% assign category = page.categories | first %}
+	{% if category == 'blog' %}
 	<article class="post-text">
+	{% else %}
+	<article class="post-text no-blog">
+	{% endif %}
 		<h1 class="has-text-weight-medium is-size-4">
 			{{ page.title | escape }}
 		</h1>
@@ -15,13 +20,13 @@ layout: default
 		</span>
 		<div class="is-size-7 pr-4 is-justify-content-space-between is-flex">
 			<span>
-				{% if site.i18n.number_of_words %}{{ site.i18n.number_of_words }}{% else %}Number of words: {% endif %}{{ content | number_of_words: "auto" }}
+				{% if site.i18n.number_of_words %}{{ site.i18n.number_of_words }}{% else %}Number of words: {% endif %}{{ content | number_of_words: "auto" | divided_by: 1.2 | floor }}
 			</span>
-			{% for category in page.categories %}
-			<a href="{{ site.alternateurl }}/categories#{{ page.categoriy | uri_escape }}">
-				{{ category }}
+			{% unless page.categories == empty %}
+			<a href="{{ site.alternateurl }}/categories#{{ page.categories | first | uri_escape }}">
+				{{ page.categories | first }}
 			</a>
-			{% endfor %}
+			{% endunless %}
 		</div>
 		<hr>
 		{{ content | replace: "	", "    " | replace: "#include\<", "#include \<" }}
@@ -35,7 +40,8 @@ layout: default
 	{% endif %}
 	<hr>
 	<div class="has-text-centered pt-5">
-		{% for categorie in page.categories %}{% if categorie == 'blog' %}
+		{% assign category = page.categories | first %}
+		{% if category == 'blog' %}
 		<p class="is-size-7">
 			若无特殊声明，本人原创文章以
 			<a href="//creativecommons.org/licenses/by-sa/3.0/deed.zh">
@@ -43,29 +49,25 @@ layout: default
 			</a>
 			提供。
 		</p>
-		{% endif %}{% if categorie == 'by-talk' %}
+		{% else %}
 		<p class="is-size-7">
-			若无特殊声明，本文文本内容著作权归本人所有，请向
+			若无特殊声明，本文著作权归本人所有，请向
 			<a href="mailto:{{ site.author.email }}">
 				{{ site.author.email }}
 			</a>
 			申请许可后转载。
 		</p>
-		{% endif %}{% if categorie == 'novel' %}
-		<p class="is-size-7">
-			本文著作权归本人所有，严禁一切形式的转载。
-		</p>
-		{% endif %}{% endfor %}
-		{% if post.tags %}{% assign tags = post.tags %}{% else %}{% assign tags = page.tags %}
+		{% endif %}
+		{% unless page.tags == empty %}
 		<div>
-			{% for tag in tags %}
+			{% for tag in page.tags %}
 			<a href="{{ site.alternateurl }}/tags#{{ tag | uri_escape }}" class="tag is-medium is-success is-light mb-2">
 				<span class="sw sw-tag mr-1"></span>
 				{{ tag }}
 			</a>
 			{% endfor %}
 		</div>
-		{% endif %}
+		{% endunless %}
 		<p hidden="hidden">
 			本站不欢迎非搜索引擎类，非个人学习类爬虫；严禁将文章直接爬取至其他站点。
 			<br>
