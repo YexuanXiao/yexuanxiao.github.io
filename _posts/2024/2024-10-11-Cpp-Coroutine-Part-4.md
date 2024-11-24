@@ -454,7 +454,7 @@ struct fire_and_forget
         3. 调用 `await_resume`
 6. `co_return` 调用 `return_void` 或者 `return_value`
 7. 销毁 `co_return` 后需要销毁的变量
-8. 如果 4.3-6 期间发生异常，销毁当前自动储存期变量，调用 `unhandled_exception`
+8. 如果 1-3 发生异常，则销毁所有变量，并传播异常给调用者；如果4.2发生异常，则使得协程处于 _最终暂停点_，并销毁构造完成的 task，传播异常给调用者；如果 4.3-6 期间发生异常，销毁当前自动储存期变量，调用 `unhandled_exception`
 9. 调用 `final_suspend` 获得 Awaiter
     1. 调用 `await_ready`
     2. 调用 `await_suspend`，为 _最终暂停点_
