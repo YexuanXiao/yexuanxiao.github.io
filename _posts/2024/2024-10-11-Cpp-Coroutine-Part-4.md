@@ -21,13 +21,13 @@ category: blog
 
 标准库提供了 `std::noop_coroutine` 函数用于返回一个无操作协程的协程句柄，无操作协程在一些情况下可以用于作为协程句柄的默认值，并且可以如同有操作协程那样被恢复和销毁，但无操作协程的恢复和销毁都是空函数。`std::coroutine_handle <std::noop_coroutine_promise>` 是无操作协程的协程句柄类型。
 
-无论哪个特化，都有 `operator()`、`resume`、`done`、`destroy` 和 `operator bool` 这些非静态成员函数，并且所有的成员函数都是永远成功且不抛出的。
+无论哪个特化，都有 `operator()`、`resume`、`done`、`destroy` 和 `operator bool` 这些非静态成员函数。
 
 `operator bool` 用于测试该协程句柄是否为空，也就是是否指代协程。一般来说，只有默认构造的协程为空。不过，实际上也能从后文介绍的 `from_address` 函数构造一个空的协程句柄。
 
 `done` 函数用于检查协程是否处于 _最终暂停点_，在后文会解释。
 
-`operator()` 和 `resume` 函数用于恢复一个 _暂停_ 状态的协程的执行，实际使用哪个看个人习惯。一个例外是处于 _最终暂停点_ 的协程不能这两个函数被恢复。
+`operator()` 和 `resume` 函数用于恢复一个 _暂停_ 状态的协程的执行，实际使用哪个看个人习惯。一个例外是处于 _最终暂停点_ 的协程不能这两个函数被恢复。该函数是否会抛出异常取决于 Promise。
 
 `destroy` 函数用于销毁处于 _暂停_ 状态或者处于 _异常_ 的协程。
 
@@ -454,7 +454,7 @@ struct fire_and_forget
         3. 调用 `await_resume`
 6. `co_return` 调用 `return_void` 或者 `return_value`
 7. 销毁 `co_return` 后需要销毁的变量
-8. 如果 4-6 期间发生异常，销毁当前自动储存期变量，调用 `unhandled_exception`
+8. 如果 4.3-6 期间发生异常，销毁当前自动储存期变量，调用 `unhandled_exception`
 9. 调用 `final_suspend` 获得 Awaiter
     1. 调用 `await_ready`
     2. 调用 `await_suspend`，为 _最终暂停点_
