@@ -1,0 +1,158 @@
+/* © 2020 YexuanXiao LICENSE: mysteriouspreserve.com/LICENSE */
+/* define article content styles. */
+
+.no-blog>p:not(:has(img)) {
+	text-indent: 2ic
+}
+.post-text pre {
+	margin-bottom: 1em;
+	padding: 0
+}
+.post-text ul div.highlighter-rouge, .post-text ol div.highlighter-rouge {
+	margin: 1em 0 1em -1em
+}
+.post-text .highlight, .post-text blockquote, .post-text code.language-plaintext {
+	border-radius: 6px
+}
+.post-text code {
+	font-family: Operator Mono, Cascadia Code, Noto Sans Mono, Roboto Mono, SFMono-Regular, Liberation Mono, Menlo, Microsoft YaHei UI, SF Pro Text, SF Pro SC, Samsung Sans, Noto Sans, monospace;
+	user-select: text;
+	font-size: .85em
+}
+.post-text code.language-plaintext {
+	user-select: none
+}
+@media screen and (max-width:768px) {
+	.post-text code {
+		font-size: .85em
+	}
+	.post-text table {
+		font-size: .75em
+	}
+}
+.post-text code::selection, .post-text code>span::selection {
+	color: white;
+	background-color: #575757
+}
+.post-text img {
+	vertical-align: text-bottom;
+	margin: .75em 0
+}
+.post-text h2 {
+	font-weight: 650;
+	font-size: 1.7em;
+	margin: 1.5em 0
+}
+.post-text h3 {
+	font-weight: 600;
+	font-size: 1.5rem;
+	margin: 1.25em 0
+}
+.post-text h4 {
+	font-weight: 550;
+	font-size: 1.3em;
+	margin: 1em 0
+}
+.post-text .small {
+	font-size: .9em
+}
+.post-text .little {
+	font-size: .8em
+}
+.post-text .tiny {
+	font-size: .7em
+}
+.post-text .big {
+	font-size: 1.2em
+}
+.post-text .large {
+	font-weight: 700;
+	font-size: 1.5em
+}
+.post-text .right {
+	text-align: right
+}
+.post-text .copyright {
+	margin: 0 1em;
+	color: #999;
+	font-size: .8em;
+	line-height: 2em
+}
+.post-text .center {
+	text-align: center
+}
+.post-text .pic-comment, .post-text pick {
+	min-width: 20%;
+	min-height: 2em;
+	display: block;
+	padding: .6em;
+	margin: 0 auto;
+	border-bottom: 1px solid #eee;
+	font-size: .8em;
+	color: #999;
+	text-align: center
+}
+.post-text blockquote, .post-text q {
+	border-left: .25em solid #ddd;
+	background-color: #fff;
+	color: cadetblue;
+	padding: .5em .5em .5em 1em
+}
+.post-text ul, .post-text ol {
+	font-size: .9em;
+	list-style-type: circle;
+	margin-bottom: .5em;
+	margin-left: 1.5em
+}
+.post-text ul ul {
+	margin-bottom: .5em;
+	list-style-type: none
+}
+.post-text ul ul ul {
+	list-style-type: none
+}
+.post-text li+li {
+    margin-top: .25em;
+}
+.post-text img[title=candark] {
+	filter: invert(0)
+}
+.post-text img[title=canisdark] {
+	filter: invert(1)
+}
+.post-text p>a>img {
+	pointer-events: auto
+}
+.post-text a[id], .post-text li[role=doc-endnote], .post-text sup[role=doc-noteref] {
+	scroll-margin-top: 150px
+}
+.post-text .heimu, .post-text heimu {
+	background-color: #252525;
+	color: #252525;
+	text-shadow: none;
+	-webkit-user-select: text;
+	user-select: text
+}
+.post-text .heimu:hover, .post-text heimu:hover {
+	color: #fff
+}
+.post-text .ref-label {
+	font-size: .85em;
+	color: #727272;
+	font-weight: bold;
+	letter-spacing: .1em;
+	padding: 2em 0 .75em 0
+}
+.post-text .ref-list>* {
+	font-size: .9em;
+	margin: .5em 1em .5em 1em;
+	display: block
+}
+.post-text .footnotes {
+	line-height: 1.25em;
+	font-size: .9em;
+	display: block
+}
+.post-text .reversefootnote {
+	font-family: segoeweb
+}
