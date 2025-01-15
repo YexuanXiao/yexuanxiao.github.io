@@ -1,0 +1,30 @@
+---
+layout: null
+title : RSS Feed
+---
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>{{ site.title | xml_escape }}</title>
+		<description>{{ site.title | xml_escape }} - {{ site.author.name | xml_escape }}</description>
+		<copyright>© {{ site.time | date: '%Y' }} {{ site.copyright }} All rights reserved.</copyright>
+		<language>zh-cn</language>
+		<atom:link href="{{ site.url  }}/rss.xml" rel="self" type="application/rss+xml" />
+		<ttl>3600</ttl>
+		<webMaster>{{ site.author.email }} ({{ site.author.name }})</webMaster>
+		<link>{{ site.url }}</link>
+		<lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+		<pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
+		{% for post in site.posts %}
+		<item>
+				<title>{{ post.title | xml_escape }}</title>
+				<category>{{ post.categories | first }}</category>
+				<description>{{ post.excerpt | strip_html | escape | strip_newlines }}</description>
+				<link>{{ site.url }}{{ post.url }}</link>
+				<guid>{{ post.url }}</guid>
+				<pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+		</item>
+		{% endfor %}
+	</channel>
+</rss>

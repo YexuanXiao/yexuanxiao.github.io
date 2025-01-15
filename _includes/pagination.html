@@ -1,0 +1,69 @@
+<nav class="pagination is-centered mt-5 mb-1">
+	{% comment %} for tablet and mobile {% endcomment %}
+	{% if paginator.previous_page %}
+	<a class="pagination-previous is-hidden-tablet" href="{{ site.alternateurl }}{{ paginator.previous_page_path }}">
+		{% if site.i18n.pagination.previous %}{{ site.i18n.pagination.previous }}{% else %}Previous{% endif %}
+	</a>
+	{% else %}
+	<a class="pagination-previous is-hidden-tablet" href="{{ site.alternateurl }}{{ site.paginate_path | replace: ":num" , paginator.total_pages }}">
+		{% if site.i18n.pagination.last %}{{ site.i18n.pagination.last }}{% else %}Last{% endif %}
+	</a>
+	{% endif %}
+	{% if paginator.page %}
+	<span class="pagination-ellipsis is-flex-grow-1 is-hidden-tablet">
+		{{ paginator.page }} / {{ paginator.total_pages }}
+	</span>
+	{% endif %}
+	{% if paginator.next_page %}
+	<a class="pagination-next is-hidden-tablet" href="{{ site.alternateurl }}{{ paginator.next_page_path }}">
+		{% if site.i18n.pagination.next %}{{ site.i18n.pagination.next }}{% else %}Next{% endif %}
+	</a>
+	{% else %}
+	<a class="pagination-previous is-hidden-tablet" href="{{ site.alternateurl }}/">
+		{% if site.i18n.pagination.home %}{{ site.i18n.pagination.home }}{% else %}Home{% endif %}
+	</a>
+	{% endif %}
+	{% comment %} for desktop {% endcomment %}
+	<span class="pagination-list is-hidden-mobile is-flex mt-5">
+		{% comment %} for front pages {% endcomment %}
+		{% if paginator.page > 2 %}
+		<a class="pagination-link" href="{{ site.alternateurl }}/">
+			1
+		</a>
+		{% endif %}{% if paginator.page > 3 %}
+		<span class="pagination-ellipsis">
+			&hellip;
+		</span>
+		{% endif %}
+		{% comment %} because if page == 1, jekyll will return an inexistence link {% endcomment %}
+		{% if paginator.previous_page == 1 %}
+		<a class="pagination-link" href="{{ site.alternateurl }}/">
+			{{ paginator.previous_page }}
+		</a>
+		{% elsif paginator.previous_page > 1 %}
+		<a class="pagination-link" href="{{ site.alternateurl }}{{ paginator.previous_page_path }}">
+			{{ paginator.previous_page }}
+		</a>
+		{% endif %}
+		{% comment %} for current page {% endcomment %}
+		{% if paginator.total_pages > 1 %}
+		<span class="pagination-link is-current has-background-info-light has-text-info">
+			{{ paginator.page }}
+		</span>
+		{% endif %}
+		{% comment %} for back pages {% endcomment %}
+		{% if paginator.next_page %}
+		<a class="pagination-link" href="{{ site.alternateurl }}{{ paginator.next_page_path }}">
+			{{ paginator.next_page }}
+		</a>
+		{% endif %}{% assign flag = paginator.page | plus: 2 %}{% if flag < paginator.total_pages and paginator.page !=paginator.total_pages %}
+		<span class="pagination-ellipsis">
+			&hellip;
+		</span>
+		{% endif %}{% assign flag1 = paginator.page | plus: 1 %}{% if flag1 < paginator.total_pages %}
+		<a class="pagination-link" href="{{ site.alternateurl }}{{ site.paginate_path | replace: ":num" , paginator.total_pages }}">
+			{{ paginator.total_pages }}
+		</a>
+		{% endif %}
+	</span>
+</nav>
