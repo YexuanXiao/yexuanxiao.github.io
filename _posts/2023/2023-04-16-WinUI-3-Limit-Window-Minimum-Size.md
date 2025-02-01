@@ -21,8 +21,8 @@ std::atomic<uintptr_t> old_proc;
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     auto scaleFactor(::GetDpiForWindow(hWnd));
     if (WM_GETMINMAXINFO == uMsg) {
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = (362 * scaleFactor * 100 + (96 >> 1)) / 9600;
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = (170 * scaleFactor * 100 + (96 >> 1)) / 9600;
+        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = (362 * scaleFactor + (96 >> 1)) / 96;
+        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = (170 * scaleFactor + (96 >> 1)) / 96;
     }
     return ::CallWindowProcW(reinterpret_cast<WNDPROC>(old_proc.load(std::memory_order_acquire)), hWnd, uMsg, wParam, lParam);
 }
