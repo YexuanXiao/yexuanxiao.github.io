@@ -733,7 +733,7 @@ x = 1                 x = 2
 
 在第一个 Java 内存模型诞生 25 年后，经过几个世纪人力的研究工作，我们可能开始能够将整个内存模型正式化。也许，有一天，我们也会完全理解他们。
 
-本系列的下一篇文章是 “[更新 Go 内存模型](https://research.swtch.com/gomm)。”
+本系列的下一篇文章是 “[更新 Go 内存模型](https://research.swtch.com/gomm)”。
 
 ## 致谢 {#acknowledgements}
 
