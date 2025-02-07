@@ -66,7 +66,7 @@ C 语言中，变量的类型决定于变量的声明，因为 `b` 是 `int` 类
 #include <string.h>
 #include <stdio.h>
 
-size_t long_of_str(char *char_str){//计算字符串长度
+size_t length_of_str(char *char_str){//计算字符串长度
     size_t i = 0;
     while (*char_str != '\0') {
         char_str++;//注意这点
@@ -85,10 +85,10 @@ char char_of_str(char *char_str, size_t offset){//得到字符串中某个字符
 int main(void){
     char str[] = {"Hello world!"};//str 是一个指针而不是数组
     char str1[1] = {'a'};
-    printf("%d\n",long_of_str(str));
+    printf("%d\n",length_of_str(str));
     printf("%c\n",char_of_str(str,1));
 
-    printf("%d\n",long_of_str(str1));//第三个打印
+    printf("%d\n",length_of_str(str1));//第三个打印
     printf("%c\n",char_of_str(str1,2));
 }
 
@@ -98,15 +98,15 @@ int main(void){
 
 根据函数声明的 `char *char_str` 知道，`char_str` 是一个 **指向字符的指针** ，但是却可以使用下标运算符！
 
-**你是否注意到 long_of_str 是一个危险函数呢？**
+**你是否注意到 length_of_str 是一个危险函数呢？**
 
 请注意第三个打印语句，第三个打印语句作用是打印出 `str1` 的长度，而对于上面的程序，打印结果永远是 13！
 
-而 `str1` 是只有一个字符的数组，内容是 `a`，为什么 `long_of_str` 打印出了 13 呢，因为
+而 `str1` 是只有一个字符的数组，内容是 `a`，为什么 `length_of_str` 打印出了 13 呢，因为
 
 **C 语言中字符串的判断依赖于 '\0' 。而不是其他任何东西。**
 
-所以即使 `str1` 这个数组只有一个字符，但是 `long_of_str` 依然会在内存中去寻找 `'\0'`。此时就会发生一个严重问题：明明传递给 `long_of_str` 函数的是 `str1`，但是 **函数却访问到非 str1 中的内容了** ！
+所以即使 `str1` 这个数组只有一个字符，但是 `length_of_str` 依然会在内存中去寻找 `'\0'`。此时就会发生一个严重问题：明明传递给 `length_of_str` 函数的是 `str1`，但是 **函数却访问到非 str1 中的内容了** ！
 
 C 语言中对于字符串进行处理的库函数都存在此问题，不过由于库函数考虑了内存对齐等技术，在这种情况下结果是不能直接预测的。比如我使用 GCC 在 Windows 10 Build 21359 上执行 `strlen(str1)` 的结果是 0。
 
@@ -114,7 +114,7 @@ C 语言中对于字符串进行处理的库函数都存在此问题，不过由
 
 为什么呢？因为 **直接声明的变量，实际上都是在一个栈中储存的，这个栈储存数据的方向和实际上数据声明的顺序是反的** ，换句话说，`str1` 会储存到 `str` 前面，即内存中实际是  `aHello world!` 和一个 `'\0'`。
 
-由于 `Hello world!` 后面有一个 `'\0'`，所以，调用 `long_of_str(str1)` 实际上算出的是 `aHello world!` 的长度。
+由于 `Hello world!` 后面有一个 `'\0'`，所以，调用 `length_of_str(str1)` 实际上算出的是 `aHello world!` 的长度。
 
 这点可以由第四个打印得到，第四个打印是得到 `str1` 的第二个字符，而结果为 `H`，即 `Hello` 的 `H`。
 

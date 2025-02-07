@@ -202,6 +202,38 @@ void algo(Seq& s);
 
 `template<C T>` 意味着 `template<typename T> requires C<T>`。
 
+```cpp
+
+auto copy(auto begin, auto end, auto dest)
+{
+
+	static_assert(std::input_iterator<decltype(begin)>
+		&& std::sentinel_for<decltype(begin), decltype(end)>
+		&& std::output_iterator<decltype(dest), typename std::iterator_traits<decltype(begin)>::value_type>);
+
+	if constexpr (std::contiguous_iterator<decltype(begin)>
+		&& std::contiguous_iterator<decltype(end)>
+		&& std::contiguous_iterator<decltype(dest)>
+		&& std::same_as<typename std::iterator_traits<decltype(begin)>::value_type, typename std::iterator_traits<decltype(dest)>::value_type>
+		&& std::is_trivially_copyable_v<typename std::iterator_traits<decltype(begin)>::value_type>
+		)
+	{
+		if (end == begin)
+			return;
+
+		std::memcpy(std::to_address(dest), std::to_address(begin), end - begin);
+	}
+	else
+	{
+		for (; begin != end; (void)++begin, (void)++dest)
+			*dest = *begin;
+	}
+
+	return dest;
+}
+
+```
+
 <div class="ref-label">参考：</div>
 <div class="ref-list">
 <a href="https://devblogs.microsoft.com/cppblog/abbreviated-function-templates-and-constrained-auto/">
