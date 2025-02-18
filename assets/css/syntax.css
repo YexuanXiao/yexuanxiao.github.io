@@ -1,0 +1,38 @@
+/* define code highlights*/
+.highlight,pre.highlight{color:#437ae1 !important}
+.highlight .hll{background:#282c34 !important}
+.highlight .c{color:#5c6370 !important;font-style:italic !important}
+.highlight .err{color:#ff4ead !important;background-color:#21001224 !important}
+.highlight .k{color:#ca15ff !important}.highlight .l{color:#60d70a !important}
+.highlight .n{color:#437ae1 !important}.highlight .o{color:#437ae1 !important}
+.highlight .p{color:#437ae1 !important}.highlight .cm{color:#5c6370 !important;font-style:italic !important}
+.highlight .cp{color:#5c6370 !important;font-style:italic !important}
+.highlight .c1{color:#5c6370 !important;font-style:italic !important}
+.highlight .cs{color:#5c6370 !important;font-style:italic !important}
+.highlight .ge{font-style:italic !important}
+.highlight .gs{font-weight:700 !important}.highlight .kc{color:#ca15ff !important}
+.highlight .kd{color:#ca15ff !important}.highlight .kn{color:#ca15ff !important}
+.highlight .kp{color:#ca15ff !important}.highlight .kr{color:#ca15ff !important}
+.highlight .kt{color:#ca15ff !important}.highlight .ld{color:#60d70a !important}
+.highlight .m{color:#d19a66 !important}.highlight .s{color:#60d70a !important}
+.highlight .na{color:#d19a66 !important}.highlight .nb{color:#ff7c00 !important}
+.highlight .nc{color:#ff7c00 !important}.highlight .no{color:#ff7c00 !important}
+.highlight .nd{color:#ff7c00 !important}.highlight .ni{color:#ff7c00 !important}
+.highlight .ne{color:#ff7c00 !important}.highlight .nf{color:#437ae1 !important}
+.highlight .nl{color:#ff7c00 !important}.highlight .nn{color:#437ae1 !important}
+.highlight .nx{color:#437ae1 !important}.highlight .py{color:#ff7c00 !important}
+.highlight .nt{color:#e06c75 !important}.highlight .nv{color:#ff7c00 !important}
+.highlight .ow{font-weight:700 !important}.highlight .w{color:#72723a !important}
+.highlight .mf{color:#d19a66 !important}.highlight .mh{color:#d19a66 !important}
+.highlight .mi{color:#d19a66 !important}.highlight .mo{color:#d19a66 !important}
+.highlight .sb{color:#60d70a !important}.highlight .sc{color:#60d70a !important}
+.highlight .sd{color:#60d70a !important}.highlight .s2{color:#60d70a !important}
+.highlight .se{color:#60d70a !important}.highlight .sh{color:#60d70a !important}
+.highlight .si{color:#60d70a !important}.highlight .sx{color:#60d70a !important}
+.highlight .sr{color:#56b6c2 !important}.highlight .s1{color:#60d70a !important}
+.highlight .ss{color:#56b6c2 !important}.highlight .bp{color:#ff7c00 !important}
+.highlight .vc{color:#ff7c00 !important}.highlight .vg{color:#ff7c00 !important}
+.highlight .vi{color:#e06c75 !important}.highlight .il{color:#d19a66 !important}
+.highlight .gu{color:#75715e !important}.highlight .gd{color:#f92672 !important}
+.highlight .gi{color:#a6e22e !important}
+pre{border:0 solid #000 !important;color:#437ae1 !important}
