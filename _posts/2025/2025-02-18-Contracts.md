@@ -1,6 +1,6 @@
 ---
 title: Contracts
-date: "2025-02-17 13:06:00"
+date: "2025-02-18 13:06:00"
 tags: [C++, docs]
 category: blog
 ---
