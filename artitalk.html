@@ -1,0 +1,30 @@
+---
+layout: page
+title: Artitalk
+permalink: /artitalk
+---
+
+<div id="artitalk_main"></div>
+<script src="//cdn.jsdelivr.net/npm/artitalk/artitalk.js">
+</script>
+<script>
+	new Artitalk({
+		appId: '{{ site.valine.appid }}',
+		appKey: '{{ site.valine.appkey }}',
+		shuoPla: '在此处留下你的说说。',
+	})
+</script>
+<style>
+	#top-navbar {
+		z-index: 2
+	}
+	#artitalk_main {
+		margin: 0 -1rem
+	}
+	#artitalk_main .power {
+		margin-right: 1rem
+	}
+	#shuoshuo_content p {
+		color: #000
+	}
+</style>
