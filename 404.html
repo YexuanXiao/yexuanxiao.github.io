@@ -14,23 +14,21 @@ permalink: /404
 	</head>
 	<body>
 		<style>
-			body { font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,
-			Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif; background-color: #363636}
-			a { text-decoration: none } body { background: #fff } .container
-			{ display: flex; margin-top: 180px; justify-content: center } @media (max-width:768px)
-			{ .container { margin: 30vw 4vw; align-items: center; flex-direction: column-reverse; } }
-			.subtitle,.title { color: #646464; line-height: 1.4 } .title { font-size: 20vw;
-                        font-weight: bold; margin: 0;} .subtitle { font-size: 28px;}
-			.text { display: flex; min-width: 384px; align-items: flex-start; flex-direction: column;
-			justify-content: center } @media (max-width:768px) { .text { min-width: auto;
-			align-items: center } } .button { background: 0 0; text-align: center; font-size: 14px;
+			body { font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,
+			Ubuntu,Cantarell, Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+			background-color: #363636} a { text-decoration: none } body { background: #fff }
+			.container { display: flex; margin-top: 20vh; justify-content: center }
+			.subtitle,.title { color: #646464; line-height: 1.4 } .title { font-size: 10vw;
+                        font-weight: bold; margin: 0 } .subtitle { font-size: 28px; margin: 5vw }
+			.text { display: flex; align-items: center; flex-direction: column;
+			justify-content: center } @media (max-width:768px) { .subtitle { font-size: 16px } }
+			.button { background: 0 0; text-align: center; font-size: 14px;
 			cursor: pointer; padding: 0 16px; border: 1px solid; border-radius: 3px; line-height: 32px;
 			border-color: #08F; background-color: #08F; color: #fff; margin-top: 20px }
 			.button:focus { outline: 0; box-shadow: 0 0 0 2px #fff,0 0 0 4px rgba(0,132,255,.3);
 			transition: box-shadow .3s } .button:hover { border-color: #0077e6; background-color:
 			#0077e6 } .backto { display: flex; margin-top: 20px; color: #08F; font-weight: 600;
-			font-size: 14px; align-items: center } body { -moz-user-select: none;
-			-webkit-user-select: none; -ms-user-select: none; user-select: none } h3 {color: #646464;
+			font-size: 14px; align-items: center } body { user-select: none } h3 {color: #646464;
 			position:relative; text-align: center }
 		</style>
 		<div class="container">
@@ -43,15 +41,13 @@ permalink: /404
 					<span id="second">10</span>
 					<span>&#8196;seconds.</span>
 				</div>
+				<h4>
+					Contact us :
+					<a href="mailto:bizwen@nykz.org?subject=Feedback&body=Type%20your%20question,%20provide%20error%20or%20feedback%20wrong%20here." style="color:#08F">
+						bizwen@nykz.org
+					</a>
+				</h4>
 			</div>
-		</div>
-		<div class="container">
-			<h3>
-				Contact us :
-				<a href="mailto:{{ site.author.email }}?subject=Feedback&body=Type%20your%20question,%20provide%20error%20or%20feedback%20wrong%20here." style="color:#08F">
-					{{ site.author.email }}
-				</a>
-			</h3>
 		</div>
 		<script>
 			document.body.addEventListener('dragstart', () => {})
