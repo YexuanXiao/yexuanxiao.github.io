@@ -16,20 +16,21 @@ permalink: /404
 		<style>
 			body { font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,
 			Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
-			background-color: #363636} a { text-decoration: none } body { background: #fff }
+			background: #fff; user-select: none} a { text-decoration: none }
+			@media (prefers-color-scheme: dark) { body { background: #363636 } }
+			@media (max-width:768px) { .subtitle { font-size: 16px } }
 			.container { display: flex; margin-top: 20vh; justify-content: center }
-			.subtitle,.title { color: #646464; line-height: 1.4 } .title { font-size: 10vw;
-                        font-weight: bold; margin: 0 } .subtitle { font-size: 28px; margin: 5vw }
-			.text { display: flex; align-items: center; flex-direction: column;
-			justify-content: center } @media (max-width:768px) { .subtitle { font-size: 16px } }
-			.button { background: 0 0; text-align: center; font-size: 14px;
-			cursor: pointer; padding: 0 16px; border: 1px solid; border-radius: 3px; line-height: 32px;
-			border-color: #08F; background-color: #08F; color: #fff; margin-top: 20px }
-			.button:focus { outline: 0; box-shadow: 0 0 0 2px #fff,0 0 0 4px rgba(0,132,255,.3);
-			transition: box-shadow .3s } .button:hover { border-color: #0077e6; background-color:
-			#0077e6 } .backto { display: flex; margin-top: 20px; color: #08F; font-weight: 600;
-			font-size: 14px; align-items: center } body { user-select: none } h3 {color: #646464;
-			position:relative; text-align: center }
+			.subtitle,.title { color: #646464; line-height: 1.4 } 
+			.title { font-size: 10vw; font-weight: bold; margin: 0 }
+			.subtitle { font-size: 28px; margin: 5vw } h4 {color: #646464 }
+			.text { display: flex; align-items: center; flex-direction: column } 
+			.button { background: 0 0; text-align: center; font-size: 14px; cursor: pointer;
+			padding: 0 16px; border: 1px solid; border-radius: 3px; line-height: 32px;
+			border-color: #08F; background: #08F; color: #fff; margin-top: 20px }
+			.button:focus { box-shadow: 0 0 0 2px #fff,0 0 0 4px rgba(0,132,255,.3);
+			outline: 0; transition: box-shadow .3s }
+			.button:hover { background: #0077e6; border-color: #0077e6 } 
+			.backto { margin: 20px; color: #08F; font-weight: 600; font-size: 14px }
 		</style>
 		<div class="container">
 			<div class="text">
@@ -37,9 +38,9 @@ permalink: /404
 				<p class="subtitle">Whoops, that page is gone.</p>
 				<input class="button" type="button" value="Home">
 				<div class="backto">
-					<span>or return in&#8196;</span>
+					<span>or return in</span>
 					<span id="second">10</span>
-					<span>&#8196;seconds.</span>
+					<span>seconds.</span>
 				</div>
 				<h4>
 					Contact us :
@@ -55,7 +56,7 @@ permalink: /404
 				location.replace('/')
 			})
 			let num = document.getElementById('second')
-			var count = 10
+			let count = 10
 			setInterval(()=>{
 				num.textContent = count
 				if (count === 0) {
