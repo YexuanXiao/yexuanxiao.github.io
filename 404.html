@@ -55,9 +55,9 @@ permalink: /404
 			document.body.querySelector('.button').addEventListener('click', () => {
 				location.replace('/')
 			})
-			let num = document.getElementById('second')
+			const num = document.getElementById('second')
 			let count = 10
-			setInterval(()=>{
+			let id = setInterval(()=>{
 				num.textContent = count
 				if (count === 0) {
 					if (history.length > 1) {
@@ -66,6 +66,7 @@ permalink: /404
 						history.replaceState(null, '', '/')
 						history.go(0)
 					}
+					clearInterval(id)
 					return
 				}
 				--count
