@@ -24,7 +24,7 @@ function changeTheme() {
 		sessionStorage.setItem('darktheme', 'true')
 		render('{% if site.i18n.l2dmessage.dark %}{{ site.i18n.l2dmessage.dark }}{% else %}Change to darkmode!{% endif %}')
 	} else {
-		darkmodeCss.rel = 'alternate stylesheet'
+		darkmodeCss.rel = ''
 		sessionStorage.setItem('darktheme', 'false')
 		render('{% if site.i18n.l2dmessage.light %}{{ site.i18n.l2dmessage.light }}{% else %}Change to lightmode!{% endif %}')
 	}
@@ -49,19 +49,15 @@ function changeTheme() {
 // 2 for close navbar-menu
 function closeMenu(x) {
 	const searchMenu = document.body.querySelector('#search-panel>div')
-	const navbarBurger = document.body.querySelector('#navbar>span>.navbar-burger')
+	const navbarBurger = document.body.querySelector('#navbar>div>.navbar-burger')
 	const navbarToggle = document.body.querySelector('#navbar-menu')
-	try {
-		if (x === 0) {
-			searchMenu.classList.add('is-hidden')
-		} else if (x === 1) {
-			searchMenu.classList.remove('is-hidden')
-		} else {
-			navbarBurger.classList.remove('is-active')
-			navbarToggle.classList.remove('is-active')
-		}
-	} catch (err) {
-		console.warn('Element is not ready.')
+	if (x === 0) {
+		searchMenu.classList.add('is-hidden')
+	} else if (x === 1) {
+		searchMenu.classList.remove('is-hidden')
+	} else {
+		navbarBurger.classList.remove('is-active')
+		navbarToggle.classList.remove('is-active')
 	}
 }
 

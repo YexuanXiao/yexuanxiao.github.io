@@ -19,7 +19,7 @@
 		Noire ? Noire.Message(text) : console.warn("Noire doesn't exist!")
 	}
 	{
-		const navbarBurger = document.body.querySelector('#navbar>span>.navbar-burger')
+		const navbarBurger = document.body.querySelector('#navbar>div>.navbar-burger')
 		navbarBurger.classList.remove('is-hidden')
 	}
 	document.currentScript.remove()
@@ -107,18 +107,19 @@
 						changeGiscusTheme()
 					}
 					document.querySelector('#btn-container>input').addEventListener('click', () => { changeGiscusTheme() })
-					observer.disconnect()
+
 				})
+				observer.disconnect()
 			}
 		})
-		observer.observe(element, { childList: true, subtree: true })
+		observer.observe(element, { childList: true, subtree: true, attributes: true })
 	}
 	document.currentScript.remove()
 </script>
-<script src="https://giscus.app/client.js" data-repo="{{ site.giscus.data_repo }}"
+<script src="https://giscus.app/client.js" data-repo="{{ site.giscus.data_repo }}" data-strict="1"
 	data-repo-id="{{ site.giscus.data_repo_id }}" data-category="{{ site.giscus.data_category }}"
-	data-category-id="{{ site.giscus.data_category_id }}" data-mapping="title" data-strict="1"
-	data-reactions-enabled="0" data-emit-metadata="0" data-input-position="top" data-theme="https://static.nykz.org/blog/light.css"
-	data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+	data-category-id="{{ site.giscus.data_category_id }}" data-mapping="title" data-loading="lazy"
+	data-reactions-enabled="0" data-emit-metadata="0" data-input-position="top" data-lang="zh-CN"
+	data-theme="https://static.nykz.org/blog/light.css"	crossorigin="anonymous" async>
 </script>
 {% endif %}
