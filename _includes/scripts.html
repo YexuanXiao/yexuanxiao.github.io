@@ -88,7 +88,7 @@
 		page.appendChild(element)
 		const darkmodeCss = document.getElementById('darkmode-css')
 		function changeGiscusTheme() {
-			const theme = darkmodeCss.rel === 'stylesheet' ? 'noborder_dark' : 'noborder_light'
+			const theme = darkmodeCss.rel === 'stylesheet' ? 'https://static.nykz.org/blog/dark.css' : 'https://static.nykz.org/blog/light.css'
 			const iframe = document.querySelector('iframe.giscus-frame')
 			if (iframe === undefined) return
 			iframe.contentWindow.postMessage({
@@ -118,7 +118,7 @@
 <script src="https://giscus.app/client.js" data-repo="{{ site.giscus.data_repo }}"
 	data-repo-id="{{ site.giscus.data_repo_id }}" data-category="{{ site.giscus.data_category }}"
 	data-category-id="{{ site.giscus.data_category_id }}" data-mapping="title" data-strict="1"
-	data-reactions-enabled="0" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light"
+	data-reactions-enabled="0" data-emit-metadata="0" data-input-position="top" data-theme="https://static.nykz.org/blog/light.css"
 	data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
 {% endif %}

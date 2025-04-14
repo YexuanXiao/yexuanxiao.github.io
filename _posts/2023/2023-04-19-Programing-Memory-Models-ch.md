@@ -95,7 +95,7 @@ y = 1                 r2 = x
 
 例如，这里描述了一个程序在两个线程上的短暂执行；像往常一样，假设每个都位于其自己的专用处理器上：
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-4.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-4.png "candark")
 
 我们在上一篇文章中也看到了这个程序。线程1和线程2执行同步指令 S\(a\)。在程序的这个特定执行中，两条 S\(a\) 指令建立了从线程 1 到线程 2 的 happens-before 关系，因此线程 1 中的 W\(x\) 先发生于线程 2 的 R\(x\)。
 

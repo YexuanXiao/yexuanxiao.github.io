@@ -87,13 +87,13 @@ y = 1                 r2 = x
 
 如果这个 litmus 测试的执行是顺序一致的，那么只有六种可能的交错：
 
-![](//static.nykz.org/pictures/mem-order/mem-litmus.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-litmus.png "candark")
 
 由于没有一种交错能够以 `r1` = `1`, `r2` = `0` 结束，所以这种结果是不允许的。也就是说，在顺序一致的硬件上，对 litmus 测试的答案——这个程序能否看到 `r1` = `1`, `r2` = `0`？——是 _否_。
 
 一个关于顺序一致性的好的心智模型是想象所有的处理器直接连接到同一个共享内存，它一次只能为一个线程的读或写请求提供服务。没有缓存涉及，所以每次一个处理器需要从内存读取或写入数据，那个请求都会到达共享内存。单次使用的共享内存对所有内存访问的执行强加了一个顺序：顺序一致性。
 
-![](//static.nykz.org/pictures/mem-order/mem-sc.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-sc.png "candark")
 
 （本文中的三个内存模型硬件图表改编自 Maranget 等人的 “[ARM 和 POWER 宽松内存模型简介](https://www.cl.cam.ac.uk/~pes20/ppc-supplemental/test7.pdf)”。）
 
@@ -105,7 +105,7 @@ y = 1                 r2 = x
 
 现代x86系统的内存模型对应于这个硬件图：
 
-![](//static.nykz.org/pictures/mem-order/mem-tso.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-tso.png "candark")
 
 所有的处理器仍然连接到一个单一的共享内存，但每个处理器将写操作排队到一个本地写队列中。处理器在写操作传送到共享内存的同时继续执行新的指令。一个处理器在访问主内存之前会先检查本地写队列，但它不能看到其他处理器的写队列。这样的效果是，一个处理器比其他处理器更早地看到自己的写操作。但是——这一点非常重要——所有的处理器都同意写操作（存储）到达共享内存的（总）顺序，这也是这种模型的名字：_完全存储顺序_，或者 TSO。在一个写操作到达共享内存的那一刻，任何处理器上的未来读操作都会看到它并使用那个值（直到它被后来的写操作覆盖，或者可能被另一个处理器的缓冲写操作覆盖）。
 
@@ -265,7 +265,7 @@ r1 = x         r2 = x
 
 ARM 和 POWER 系统的概念模型是每个处理器从其自己的完整的内存副本中读取和写入，每个写入都独立地传播到其他处理器，允许在写入传播时重新排序。
 
-![](//static.nykz.org/pictures/mem-order/mem-weak.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-weak.png "candark")
 
 在这里，没有完全的存储顺序。没有描述出来的是，每个处理器也允许推迟一个读取，直到它需要结果：一个读取可以被延迟到一个后面的写入之后。在这个宽松的模型中，我们迄今为止看到的每个 litmus 测试的答案都是“是的，那真的可能发生。”
 
@@ -413,33 +413,33 @@ Adve 和 Hill 提出了一个同步模型，他们称之为 _无数据竞争（D
 
 让我们看一些例子，这些例子来自 Adve 和 Hill 的论文（为了展示而重绘）。这里有一个单线程的程序，它执行了对变量 `x` 的写入，然后读取了同一个变量。
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-1.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-1.png "candark")
 
 垂直的箭头标记了单个线程内的执行顺序：先写入，然后读取。这个程序没有竞争，因为所有的操作都在一个线程内。
 
 相比之下，这个两线程的程序有竞争：
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-2.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-2.png "candark")
 
 这里，线程 2 写入 `x` 而没有与线程 1 协调。线程 2 的写入与线程 1 的写入和读取 _竞争_。如果线程 2 是读取 `x` 而不是写入它，那么程序只有一个竞争，就是线程 1 的写入和线程 2 的读取之间的竞争。每个竞争都涉及至少一个写入：两个未协调的读取不会彼此竞争。
 
 为了避免竞争，我们必须添加同步操作，它们强制在不同线程之间共享一个同步变量的操作之间有一个顺序。如果同步 S\(a\)（在变量 a 上同步，用虚线箭头标记）强制线程 2 的写入在线程 1 完成后发生，那么竞争就被消除了：
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-3.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-3.png "candark")
 
 现在线程 2 的写入不能与线程 1 的操作同时发生。
 
 如果线程 2 只是读取，我们只需要与线程 1 的写入同步。两个读取仍然可以并发进行：
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-4.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-4.png "candark")
 
 线程可以通过一系列的同步来排序，甚至使用一个中间的线程。这个程序没有竞争：
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-5.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-5.png "candark")
 
 另一方面，使用同步变量本身并不能消除竞争：有可能使用它们不正确。这个程序有竞争：
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-6.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-6.png "candark")
 
 线程 2 的读取与其他线程的写入正确地同步了——它肯定是在两者之后发生的——但是两个写入本身没有同步。这个程序 _不是_ 无数据竞争的。
 

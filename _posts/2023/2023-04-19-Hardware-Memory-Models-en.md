@@ -87,13 +87,13 @@ This kind of question about execution results for a sample program is called a _
 
 If the execution of this litmus test is sequentially consistent, there are only six possible interleavings:
 
-![](//static.nykz.org/pictures/mem-order/mem-litmus.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-litmus.png "candark")
 
 Since no interleaving ends with `r1` `=` `1`, `r2` `=` `0`, that result is disallowed. That is, on sequentially consistent hardware, the answer to the litmus test—can this program see `r1` `=` `1`, `r2` `=` `0`?—is _no_.
 
 A good mental model for sequential consistency is to imagine all the processors connected directly to the same shared memory, which can serve a read or write request from one thread at a time. There are no caches involved, so every time a processor needs to read from or write to memory, that request goes to the shared memory. The single-use-at-a-time shared memory imposes a sequential order on the execution of all the memory accesses: sequential consistency.
 
-![](//static.nykz.org/pictures/mem-order/mem-sc.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-sc.png "candark")
 
 \(The three memory model hardware diagrams in this post are adapted from Maranget _et_ _al_., “[A Tutorial Introduction to the ARM and POWER Relaxed Memory Models](https://www.cl.cam.ac.uk/~pes20/ppc-supplemental/test7.pdf).”\)
 
@@ -105,7 +105,7 @@ Unfortunately for us as programmers, giving up strict sequential consistency can
 
 The memory model for modern x86 systems corresponds to this hardware diagram:
 
-![](//static.nykz.org/pictures/mem-order/mem-tso.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-tso.png "candark")
 
 All the processors are still connected to a single shared memory, but each processor queues writes to that memory in a local write queue. The processor continues executing new instructions while the writes make their way out to the shared memory. A memory read on one processor consults the local write queue before consulting main memory, but it cannot see the write queues on other processors. The effect is that a processor sees its own writes before others do. But—and this is very important—all processors do agree on the \(total\) order in which writes \(stores\) reach the shared memory, giving the model its name: _total store order_, or TSO. At the moment that a write reaches shared memory, any future read on any processor will see it and use that value \(until it is overwritten by a later write, or perhaps by a buffered write from another processor\).
 
@@ -265,7 +265,7 @@ Now let's look at an even more relaxed memory model, the one found on ARM and PO
 
 The conceptual model for ARM and POWER systems is that each processor reads from and writes to its own complete copy of memory, and each write propagates to the other processors independently, with reordering allowed as the writes propagate.
 
-![](//static.nykz.org/pictures/mem-order/mem-weak.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-weak.png "candark")
 
 Here, there is no total store order. Not depicted, each processor is also allowed to postpone a read until it needs the result: a read can be delayed until after a later write. In this relaxed model, the answer to every litmus test we’ve seen so far is “yes, that really can happen.”
 
@@ -413,33 +413,33 @@ Adve and Hill propose one synchronization model, which they call _data-race-free
 
 Let’s look at some examples, taken from Adve and Hill's paper \(redrawn for presentation\). Here is a single thread that executes a write of variable `x` followed by a read of the same variable.
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-1.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-1.png "candark")
 
 The vertical arrow marks the order of execution within a single thread: the write happens, then the read. There is no race in this program, since everything is in a single thread.
 
 In contrast, there is a race in this two-thread program:
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-2.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-2.png "candark")
 
 Here, thread 2 writes to x without coordinating with thread 1. Thread 2's write _races_ with both the write and the read by thread 1. If thread 2 were reading x instead of writing it, the program would have only one race, between the write in thread 1 and the read in thread 2. Every race involves at least one write: two uncoordinated reads do not race with each other.
 
 To avoid races, we must add synchronization operations, which force an order between operations on different threads sharing a synchronization variable. If the synchronization S\(a\) \(synchronizing on variable a, marked by the dashed arrow\) forces thread 2's write to happen after thread 1 is done, the race is eliminated:
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-3.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-3.png "candark")
 
 Now the write by thread 2 cannot happen at the same time as thread 1's operations.
 
 If thread 2 were only reading, we would only need to synchronize with thread 1's write. The two reads can still proceed concurrently:
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-4.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-4.png "candark")
 
 Threads can be ordered by a sequence of synchronizations, even using an intermediate thread. This program has no race:
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-5.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-5.png "candark")
 
 On the other hand, the use of synchronization variables does not by itself eliminate races: it is possible to use them incorrectly. This program does have a race:
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-6.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-6.png "candark")
 
 Thread 2's read is properly synchronized with the writes in the other threads—it definitely happens after both—but the two writes are not themselves synchronized. This program is _not_ data-race-free.
 

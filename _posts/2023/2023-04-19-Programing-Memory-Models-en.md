@@ -95,7 +95,7 @@ Instead of guaranteeing sequential consistency, as we mentioned earlier, today's
 
 For example, here is a depiction of a short execution of a program on two threads; as usual, each is assumed to be on its own dedicated processor:
 
-![](//static.nykz.org/pictures/mem-order/mem-adve-4.png "candark")
+![](//static.nykz.org/blog/images/mem-order/mem-adve-4.png "candark")
 
 We saw this program in the previous post too. Thread 1 and thread 2 execute a synchronizing instruction S\(a\). In this particular execution of the program, the two S\(a\) instructions establish a happens-before relationship from thread 1 to thread 2, so the W\(x\) in thread 1 happens before the R\(x\) in thread 2.
 
