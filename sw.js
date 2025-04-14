@@ -82,28 +82,11 @@ workbox.routing.registerRoute(
 	})
 );
 
-// Static Libraries
+// Live2d and other Resources
 workbox.routing.registerRoute(
-	/^https:\/\/cdn\.jsdelivr\.net/,
+	/^https:\/\/static\.nykz\.org/,
 	new workbox.strategies.StaleWhileRevalidate({
-		cacheName: 'static-libs',
-		plugins: [
-			new workbox.expiration.ExpirationPlugin({
-				maxEntries: 1000,
-				maxAgeSeconds: 60 * 60 * 24 * 7
-			}),
-			new workbox.cacheableResponse.CacheableResponsePlugin({
-				statuses: [0, 200]
-			})
-		]
-	})
-);
-
-// Live2d Resources
-workbox.routing.registerRoute(
-	/^https:\/\/nykz-static\.pages\.dev/,
-	new workbox.strategies.StaleWhileRevalidate({
-		cacheName: 'live2d-resources',
+		cacheName: 'static-nykz',
 		plugins: [
 			new workbox.expiration.ExpirationPlugin({
 				maxEntries: 1000,
