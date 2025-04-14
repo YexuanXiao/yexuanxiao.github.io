@@ -1,0 +1,35 @@
+---
+layout: page
+title: Tags
+permalink: /tags
+---
+
+<div class="field is-grouped is-grouped-multiline my-5">
+{% for tag in site.tags %}
+	<div class="control">
+		<div class="tags has-addons">
+			<a href="#{{ tag | first }}" class="tag is-light is-info"><span class="sw sw-tag"> {{ tag | first }}</a>
+			<span class="tag is-light is-primary">{{ tag | last | size }}</span>
+		</div>
+	</div>
+{% endfor %}
+</div>
+{% for tag in site.tags %}
+<h2 id="{{ tag | first }}">
+	{{ tag | first }}
+</h2>
+<ul class="menu-list mx-0">
+	{% for posts in tag %}{% for post in posts %}{% if post.title != null %}
+	<li itemscope>
+		<a href="{{ site.alternateurl }}{{ post.url }}">
+			<span class="mr-3">
+				<time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">
+					{{ post.date | date: "%Y/%m/%d" }}
+				</time>
+			</span>
+			{{ post.title }}
+		</a>
+	</li>
+	{% endif %}{% endfor %}{% endfor %}
+</ul>
+{% endfor %}

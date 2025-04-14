@@ -1,0 +1,124 @@
+<script>
+	function loadStyles(url) {
+		const head = document.querySelector('head')
+		const link = document.createElement('link')
+		link.type = 'text/css'
+		link.rel = 'stylesheet preload'
+		link.as = 'style'
+		link.href = url
+		head.appendChild(link)
+	}
+	function loadScript(url) {
+		const script = document.createElement('script')
+		script.src = url
+		script.async = false
+		document.body.appendChild(script)
+	}
+	// render live2D dialog
+	function render(text) {
+		Noire ? Noire.Message(text) : console.warn("Noire doesn't exist!")
+	}
+	{
+		const navbarBurger = document.body.querySelector('#navbar>span>.navbar-burger')
+		navbarBurger.classList.remove('is-hidden')
+	}
+	document.currentScript.remove()
+</script>
+<script src="/assets/js/core.js">
+</script>
+<script type="module">
+	// search
+	import SimpleJekyllSearch from '//static.nykz.org/Single/Search.js'
+	{
+		const panel = document.getElementById('search-panel')
+		window.Search = new SimpleJekyllSearch({
+			searchInput: panel.querySelector('input'),
+			resultsContainer: panel.querySelector('ul'),
+			searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+			limit: 15,
+		    {% if site.i18n.search.empty %} noResultsText: '{{ site.i18n.search.empty }}', {% endif %}
+			debounceTime: 750,
+			json: '{{ site.alternateurl }}/assets/search.json'
+		})
+		panel.querySelector('input').addEventListener('input', () => {
+			checkInput()
+		})
+		panel.classList.remove('is-hidden')
+	}
+</script>
+<script type="module">
+	// music box
+	import MetingJSElement from '//static.nykz.org/Single/Meting.js'
+	loadStyles('//static.nykz.org/Single/APlayer.min.css')
+	{
+		if (customElements && !customElements.get('meting-js')) {
+			customElements.define('meting-js', MetingJSElement)
+		}
+		const element = document.getElementById('musicbox')
+		const observer = new MutationObserver(() => {
+			element.classList.remove('is-hidden')
+			observer.disconnect()
+		})
+		observer.observe(element, { childList: true, subtree: true })
+	}
+</script>
+<script>
+	// service worker
+	if ('serviceWorker' in navigator) {
+		if (navigator.serviceWorker.controller) {
+			navigator.serviceWorker.addEventListener('controllerchange', () => {
+				showNotification()
+			})
+		}
+		navigator.serviceWorker.register('{{ site.alternateurl }}/sw.js')
+	}
+	document.currentScript.remove()
+</script>
+{% if site.live2d.enable == true %}
+<script type="module" src="{{ site.alternateurl }}/assets/js/live2d.js">
+</script>
+{% endif %}
+{% if site.giscus.enable == true and page.layout == 'post' %}
+<script>
+	{
+		const page = document.body.querySelector('article.post-text').parentElement
+		page.appendChild(document.createElement('hr'))
+		const element = document.createElement('div')
+		element.className = 'giscus'
+		page.appendChild(element)
+		const darkmodeCss = document.getElementById('darkmode-css')
+		function changeGiscusTheme() {
+			const theme = darkmodeCss.rel === 'stylesheet' ? 'noborder_dark' : 'noborder_light'
+			const iframe = document.querySelector('iframe.giscus-frame')
+			if (iframe === undefined) return
+			iframe.contentWindow.postMessage({
+				giscus: {
+					setConfig: {
+						theme: theme
+					}
+				}
+			}, 'https://giscus.app')
+		}
+		const observer = new MutationObserver((mutationsList, observer) => {
+			for (const record of mutationsList) {
+				if (record.type !== 'childList') continue
+				record.addedNodes[0].addEventListener('load', () => {
+					if (darkmodeCss.rel === 'stylesheet') {
+						changeGiscusTheme()
+					}
+					document.querySelector('#btn-container>input').addEventListener('click', () => { changeGiscusTheme() })
+					observer.disconnect()
+				})
+			}
+		})
+		observer.observe(element, { childList: true, subtree: true })
+	}
+	document.currentScript.remove()
+</script>
+<script src="https://giscus.app/client.js" data-repo="{{ site.giscus.data_repo }}"
+	data-repo-id="{{ site.giscus.data_repo_id }}" data-category="{{ site.giscus.data_category }}"
+	data-category-id="{{ site.giscus.data_category_id }}" data-mapping="title" data-strict="1"
+	data-reactions-enabled="0" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light"
+	data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+{% endif %}

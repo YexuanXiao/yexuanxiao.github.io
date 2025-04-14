@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="3630px" height="860px" viewBox="0 0 3630 860" xml:space="preserve">
+	<path fill="#545454" d="M2070,45v419.5L1942,555h-292v260h-170V135.5L1608,45H2070L2070,45z M1650,415h250V185h-250" />
+	<path fill="#545454" d="M470,220v595H300V135.5L428,45h182l80,535l80-535h310v691l-68,79H910l0,0V220L810,770H570l0,0" />
+	<path fill="#545454" d="M3060,713.076V45h-462l-128,90.5V815h462 M2640,215h250v430h-250" />
+	<polygon fill="#545454" points="1350,645 1350,736 1282,815 1180,815 1180,645" />
+	<polygon fill="#545454" points="2340,645 2340,736 2272,815 2170,815 2170,645" />
+	<polygon fill="#545454" points="3330,645 3330,736 3262,815 3160,815 3160,645" />
+</svg>

@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<!-- LICENCE:{{ site.url }}/LICENSE -->
+<html lang="zh-hans">
+{% include head.html %}
+	<body>
+		<section class="hero is-dark">
+			<div class="hero-body">
+				<div class="has-text-centered py-6">
+					<img id="logo" class="my-4" src="{{ site.alternateurl }}/assets/images/svgs/mpo.svg" alt="M.P.O." ondrag>
+					<p class="has-text-weight-semibold is-size-6 has-text-info">
+						Non-Profit, International
+					</p>
+					<p class="pt-5 is-size-7" id="quote">
+						Spirit unsterblich.
+					</p>
+				</div>
+			</div>
+		</section>
+		<div class="main-container mx-auto">
+			<div class="tile is-vertical">
+				<nav class="navbar" id="navbar">
+					<span class="navbar-start px-2 is-flex">
+						<a class="icon-font px-3 my-auto" title="{% if site.i18n.icon.home %}{{ site.i18n.icon.home }}{% else %}Home{% endif %}" href="{{ site.alternateurl }}/">
+							<span class="sw sw-home is-size-4"></span>
+						</a>
+						<a class="icon-font px-3 my-auto" title="Github" href="//github.com/{{ site.author.github }}">
+							<span class="sw sw-github is-size-4"></span>
+						</a>
+						<span id="search-panel" class="control px-3 my-auto is-hidden">
+							<input class="input is-small is-info is-inline" type="search" placeholder="{% if site.i18n.search.placeholder %}{{ site.i18n.search.placeholder }}{% else %}Find articles{% endif %}">
+							<div class="box is-block is-hidden">
+								<div class="menu-lebal">
+									<ul class="menu-list">
+									</ul>
+								</div>
+							</div>
+						</span>
+						<span class="navbar-end navbar-burger my-auto is-hidden " data-target="navbar-menu">
+							<span>
+							</span>
+							<span>
+							</span>
+							<span>
+							</span>
+						</span>
+					</span>
+					<span id="navbar-menu" class="navbar-end navbar-menu">
+						<span class="has-text-info">
+							<a href="{{ site.alternateurl }}/archive" class="navbar-item is-flex-grow-1 is-justify-content-center">
+								{% if site.i18n.nav.archive %}{{ site.i18n.nav.archive }}{% else %}Archive{% endif %}
+							</a>
+							<a href="{{ site.alternateurl }}/categories" class="navbar-item is-flex-grow-1 is-justify-content-center">
+								{% if site.i18n.nav.categories %}{{ site.i18n.nav.categories }}{% else %}Categories{% endif %}
+							</a>
+							<a href="{{ site.alternateurl }}/tags" class="navbar-item is-flex-grow-1 is-justify-content-center">
+								{% if site.i18n.nav.tags %}{{ site.i18n.nav.tags }}{% else %}Tags{% endif %}
+							</a>
+							<a href="{{ site.alternateurl }}/about" class="navbar-item is-flex-grow-1 is-justify-content-center">
+								{% if site.i18n.nav.about %}{{ site.i18n.nav.about }}{% else %}About{% endif %}
+							</a>
+						</span>
+					</span>
+				</nav>
+				<div class="tile is-parent">
+					<div class="tile is-8 is-child main">
+						<div class="content py-3">
+							{{ content }}
+						</div>
+					</div>
+					<div class="tile is-4 is-child">
+						<div class="tile is-parent is-vertical sidebar">
+							{% if page.title == 'Home Page' or page.title == 'About' %}
+							<div class="tile is-child widget" id="author">
+								<div class="card">
+									<header class="card-header">
+										<p class="card-header-title is-size-5 has-text-weight-normal">
+											<a href="//github.com/{{ site.author.github }}">
+												{% if site.i18n.sidebox.author %}{{ site.i18n.sidebox.author }}{% else %}Author{% endif %}
+											</a>
+										</p>
+									</header>
+									<div class="card-content">
+										<div class="content has-text-centered">
+											<figure class="is-64x64 image m-auto">
+												<img class="is-rounded" src="{{ site.alternateurl }}/assets/images/head.png" alt="head">
+											</figure>
+											<p class="pt-3">
+												{{ site.author.name | slugize }}
+											</p>
+											<div class="is-size-7">
+												<span class="sw sw-email"></span>
+												<a href="mailto:{{ site.author.email }}">
+													{{ site.author.email }}
+												</a>
+												<hr class="my-3">
+												<p>
+													{{ site.author.title }}
+												</p>
+												<hr class="my-3">
+												<p>
+													{{ site.author.comment }}
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}{% if page.layout != 'default' %}
+							<div class="tile is-child widget" id="postbox">
+								<div class="card">
+									<header class="card-header">
+										<p class="card-header-title is-size-5 has-text-weight-normal">
+											<a href="{{ site.alternateurl }}/archive">
+												{% if site.i18n.sidebox.recent %}{{ site.i18n.sidebox.recent }}{% else %}Recent Posts{% endif %}
+											</a>
+										</p>
+									</header>
+									<div class="card-content p-4">
+										<div class="content has-text-weight-medium">
+											<div class="menu-list">
+												{% for post in site.posts limit:8 %}
+												<a href="{{ site.alternateurl }}{{ post.url }}"
+													class="has-text-info">
+													<span class="sw sw-link mr-1"></span>
+													{{ post.title }}
+												</a>
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}{% if page.title != 'Tags' %}
+							<div class="tile is-child widget" id="tagbox">
+								<div class="card">
+									<header class="card-header">
+										<p class="card-header-title is-size-5 has-text-weight-normal">
+											<a href="{{ site.alternateurl }}/tags">
+												{% if site.i18n.nav.tags %}{{ site.i18n.nav.tags }}{% else %}Tags{% endif %}
+											</a>
+										</p>
+									</header>
+									<div class="card-content p-4">
+										<div class="content has-text-weight-medium">
+											<div class="tags">
+												{% for tag in site.tags limit:15 %}
+												<a href="{{ site.alternateurl }}/tags#{{ tag | first | uri_escape }}" class="tag is-info is-light">
+													<span class="sw sw-tag mr-1"> </span>
+													{{ tag | first }}
+												</a>
+												{% endfor %}
+												<a href="{{ site.alternateurl }}/tags" class="tag is-info is-light">
+													{% if site.i18n.sidebox.more %}{{ site.i18n.sidebox.more }}{% else %}More...{% endif %}
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							<div class="tile is-child widget">
+								<div class="card is-hidden" id="musicbox">
+									<div class="card-content p-2">
+										<meting-js server="netease" type="album" id="86273" preload="none">
+										</meting-js>
+									</div>
+								</div>
+							</div>
+							<div class="tile is-child widget" id="friends">
+								<div class="card">
+									<header class="card-header">
+										<p class="keep-dark card-header-title is-size-5 has-text-weight-normal">
+											{% if site.i18n.sidebox.friends %}{{ site.i18n.sidebox.friends }}{% else %}Friendly Links{% endif %}
+										</p>
+									</header>
+									<div class="card-content p-4">
+										<div class="content has-text-weight-medium">
+											<div class="menu-list">
+												<a href="//un.org" class="has-text-info">
+													<span class="sw sw-link mr-1"></span>
+													United Nation
+												</a>
+												<a href="//nykz.org" class="has-text-info">
+													<span class="sw sw-link mr-1"></span>
+													Nykz Island
+												</a>
+												<hr class="my-3">
+												<a href="//his2nd.life/" title="他的第二人生" class="has-text-info">
+													<span class="sw sw-link mr-1"></span>
+													His 2nd.Life
+												</a>
+												<a href="//www.citrons.cn/" title="Citrons 博客——年少时不要遇见令你惊艳的人"
+													class="has-text-info">
+													<span class="sw sw-link mr-1"></span>
+													Citrons's Blog
+												</a>
+												<a href="//carameowcookie.github.io" title="一个自由而无用的灵魂"
+													class="has-text-info">
+													<span class="sw sw-link mr-1"></span>
+													CarameowCookie 的碎碎念
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer class="footer mt-6 pb-6 has-text-centered">
+			<p class="icon-font has-text-weight-bold pt-5 pb-4">
+				© 2016 - {{ site.time | date: '%Y' }} {{ site.copyright }} All rights reserved.
+			</p>
+			<p class="is-size-3 pb-5">
+				<a class="icon-font px-1" title="Github" href="//github.com/{{ site.author.github }}">
+					<span class="sw sw-home"></span>
+				</a>
+				<a class="icon-font px-1" title="{% if site.i18n.icon.weibo %}{{ site.i18n.icon.weibo }}{% else %}Weibo{% endif %}" href="//weibo.com/{{ site.author.weibo }}">
+					<span class="sw sw-weibo"></span>
+				</a>
+				<a class="icon-font px-1" title="{% if site.i18n.icon.email %}{{ site.i18n.icon.email }}{% else %}Email{% endif %}" href="mailto:{{ site.author.email }}?subject=Feedback&body=Type%20your%20question,%20provide%20error%20or%20feedback%20wrong%20here.">
+					<sapn class="sw sw-email"></span>
+				</a>
+			</p>
+		</footer>
+	{% include scripts.html %}
+	</body>
+</html>

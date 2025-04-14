@@ -1,0 +1,22 @@
+<link rel="alternate stylesheet preload" as="style" href="{{ site.alternateurl }}/assets/css/dark_2.css"
+	id="darkmode-css">
+<script>
+	// init darkmode
+	{
+		const darkmodeCss = document.getElementById('darkmode-css');
+		const media = matchMedia('(prefers-color-scheme: dark)');
+		const time = new Date().getHours();
+		if (media.matches || ((time > 20 || time < 6) && (sessionStorage.getItem('darktheme') !== 'false'))) {
+			darkmodeCss.rel = 'stylesheet';
+			sessionStorage.setItem('darktheme', 'true');
+		} else if (sessionStorage.getItem('darktheme') === 'true') {
+			darkmodeCss.rel = 'stylesheet';
+		} else {
+			sessionStorage.setItem('darktheme', 'false');
+		}
+		media.addEventListener('change', () => {
+			media.matches ? darkmodeCss.rel = 'stylesheet' : darkmodeCss.rel = 'alternate stylesheet';
+		})
+	}
+	document.currentScript.remove()
+</script>

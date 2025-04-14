@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /tags
+Disallow: /by-talk
+Disallow: /page
+Disallow: /categories
+Disallow: /404
+Disallow: /archive
+Disallow: /about

@@ -1,0 +1,17 @@
+<script>
+    // width: 330 -> 360, 540 -> 540: (width - 330) * (6 / 7) + 360
+    {
+        const mediaQuery = matchMedia('(max-width: 540px)')
+        const handleViewPortChange = (media) => {
+            if (media.matches) {
+                let width = visualViewport.width
+                document.documentElement.style.fontSize = `${56 * width / (3 * width + 270)}px`
+            } else {
+                document.documentElement.style.fontSize = '16px'
+            }
+        }
+        handleViewPortChange(mediaQuery)
+        mediaQuery.addEventListener('change', handleViewPortChange)
+        document.currentScript.remove()
+    }
+</script>

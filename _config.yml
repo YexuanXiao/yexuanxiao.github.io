@@ -1,0 +1,91 @@
+# Copyright (c) 2016 - 2024 YexuanXiao
+
+# Jekyll options
+permalink: pretty
+paginate: 7
+paginate_path: '/page/:num'
+excerpt_separator: '<!-- more -->'
+plugins: [jekyll-paginate]
+
+defaults:
+  -
+    scope:
+      type: "posts"
+    values:
+      layout: "post"
+
+# Custom options
+title: M.P.O.
+tagline: Code, Novel, Philosophy
+
+author:
+  name: 萧叶轩
+  email: bizwen@nykz.org
+  github: YexuanXiao
+  twitter: YexuanXiao
+  github: YexuanXiao
+  weibo: xiaoyexuan
+  title: ACGN 爱好者，C++/C# 工程师
+  comment: 最喜欢<br>漫画：潘多拉之心<br>动画：魔法少女小圆<br>剧场动画：空之境界
+description: M.P.O. Site
+copyright: M.P.O.
+
+# live2d
+# https://github.com/YexuanXiao/Pio
+live2d:
+  enable: true
+  height: 280
+  width: 240
+  modules: ["//static.nykz.org/HyperdimensionNeptunia/noire_swim/index.json", "//static.nykz.org/HyperdimensionNeptunia/noire/index.json", "//static.nykz.org/HyperdimensionNeptunia/noire_classic/index.json", "//static.nykz.org/HyperdimensionNeptunia/noire_santa/index.json"]
+
+# jekyll use url as site.url
+# Most of the time the url is domain + path
+# Meanwhile, most of the time only the path is needed, a.k.a alternateurl
+url: mysteriouspreserve.com
+alternateurl:
+
+# Set timezone (Asia/Shanghai)
+timezone: '+0800'
+
+# Valine
+# You can get your appid and appkey from https://leancloud.app
+# more info please open https://valine.js.org
+giscus:
+  enable: true
+  data_repo: 'YexuanXiao/blog'
+  data_repo_id: 'R_kgDOITyEDw'
+  data_category: 'General'
+  data_category_id: 'DIC_kwDOITyED84CpDoP'
+
+# i18n
+i18n:
+  nav:
+    archive: 归档
+    categories: 分类
+    about: 关于
+    tags: 标签
+  search:
+    placeholder: 在此处搜索文章
+    empty: 没有搜索到结果
+  icon:
+    home: 首页
+    weibo: 微博
+    email: 电子邮件
+  sidebox:
+    author: 作者
+    recent: 最近发布
+    friends: 友情链接
+    more: 更多...
+  l2dmessage:
+    dark: 已经切换为深色主题！
+    light: 已经切换为浅色主题！
+    search: 正在搜索
+    copyok: 已成功复制到剪贴板！
+    copyfail: 复制到剪贴板失败！
+  pagination:
+    last: 尾页
+    previous: 上一页
+    next: 下一页
+    home: 首页
+  number_of_words: 字数统计：
+  last_modified: 最后修改：

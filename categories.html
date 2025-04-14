@@ -1,0 +1,24 @@
+---
+layout: page
+title: Categories
+permalink: /categories
+---
+
+{% for category in site.categories %}
+{% capture category_name %}{{ category | first }}{% endcapture %}
+<h2 id="{{ category_name | slugize }}" class="menu-lebal pt-4">
+	{{ category_name }}
+</h2>
+<ul class="menu-list mx-0">
+	{% for post in site.categories[category_name] %}
+	<li>
+		<a href="{{ site.alternateurl }}{{ post.url }}">
+			<span class="mr-3">
+				{{ post.date | date: "%Y/%m/%d" }}
+			</span>
+			{{ post.title }}
+		</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endfor %}

@@ -1,0 +1,103 @@
+/* copyright 2020 YexuanXiao under the MIT License */
+
+body, hr {
+	background-color: #000!important
+}
+body a:hover, body a:visited {
+	color: #00d3b2!important;
+	background-image: none!important;
+	background-color: rgba(195, 195, 195, 0)!important
+}
+body a {
+	color: #3298dc!important
+}
+.pagination-link.is-current {
+	background-color: #0e1222!important
+}
+.box, .card {
+	background-color: #090909!important;
+	box-shadow: 0 .5em 1em -.125em rgb(245 245 245 / 10%), 0 0 0 1px rgb(245 245 245 / 2%)!important
+}
+.box:hover, .card:hover {
+	box-shadow: 4px 12px 12px rgba(44, 44, 44, .85)!important
+}
+.card-header {
+	box-shadow: 0 .125em .25em rgb(245 245 245 / 10%)!important
+}
+.navbar-burger, .card-header-title {
+	color: #d3d3d3!important
+}
+#navbar, #navbar>*, #navbar-menu, a.navbar-item.is-active, a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover {
+	background-color: #000!important
+}
+.hero.is-dark, #search-panel>input {
+	color: #d3d3d3!important;
+	background-color: #101013!important
+}
+span.tag, a.tag, span.tag:visited, a.tag:visited {
+	background-color: #000!important
+}
+.tile.is-present, footer.footer, span.tag:hover, a.tag:hover {
+	background-color: #101013!important
+}
+#search-panel>input::placeholder {
+	color: #adadad!important
+}
+.content h1, .content p, .content span, .content time, .content h2, .content h3, .content h4, .content h5, .content li, .content del, .content em, .content s, .content strong, .content table, .content th {
+	color: #d3d3d3!important
+}
+/* fix code block titile */
+.post-text .message-header>span {
+    color: #fff !important;
+}
+
+/* post-text */
+
+.post-text blockquote, .post-text q {
+	border-left: .25em solid #444!important;
+	background-color: #000!important
+}
+.post-text code::selection, .post-text code>span::selection {
+	color: black!important;
+	background-color: #a8a8a8!important
+}
+.post-text code, .post-text pre {
+	background-color: #000!important
+}
+.post-text img[title=candark] {
+	filter: invert(1)!important
+}
+.post-text img[title=canisdark] {
+	filter: invert(0)!important
+}
+embed, img, video, .message-header {
+	filter: grayscale(.15) brightness(.75)!important
+}
+
+/* Darkmode moon */
+
+#btn-container>input {
+	color: #ffc93b!important
+}
+
+/* Pio */
+
+.pio-action span, .pio-container .pio-dialog {
+	filter: invert(1)
+}
+
+/* Aplayer */
+
+.aplayer :not(img), .aplayer :not(svg) {
+	filter: invert(1)
+}
+.aplayer {
+	background-color: #000!important;
+	color: #999!important
+}
+.aplayer-pic {
+	background-color: #101013!important
+}
+.aplayer .aplayer-info .aplayer-music .aplayer-author {
+	color: #999!important
+}

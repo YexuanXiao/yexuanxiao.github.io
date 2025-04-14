@@ -1,0 +1,76 @@
+---
+title: Page not found!
+permalink: /404
+---
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<link href="http://gmpg.org/xfn/11" rel="profile">
+		<link href="{{ site.alternateurl }}/assets/manifest.webmanifest" rel="manifest">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>404 - Page not Found</title>
+		<link rel="shortcut icon" href="{{ site.alternateurl }}/assets/images/favicon.png">
+	</head>
+	<body>
+		<style>
+			body { font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,
+			Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+			background: #fff; user-select: none} a { text-decoration: none }
+			@media (prefers-color-scheme: dark) { body { background: #000!important } }
+			.container { display: flex; margin-top: 20vh; justify-content: center }
+			.title { font-size: 10vw; font-weight: bold; margin: 0 }
+			.subtitle { font-size: 28px; margin: 5vw } h4 {color: #646464 }
+			@media (max-width:768px) { .subtitle { font-size: 16px!important }
+			h4 { margin-top: 10vh } } .subtitle,.title { color: #646464; line-height: 1.4 } 
+			.text { display: flex; align-items: center; flex-direction: column } 
+			.button { background: 0 0; text-align: center; font-size: 14px; cursor: pointer;
+			padding: 0 16px; border: 1px solid; border-radius: 3px; line-height: 32px;
+			border-color: #08F; background: #08F; color: #fff; margin-top: 20px }
+			.button:focus { box-shadow: 0 0 0 2px #fff,0 0 0 4px rgba(0,132,255,.3);
+			outline: 0; transition: box-shadow .3s }
+			.button:hover { background: #0077e6; border-color: #0077e6 } 
+			.backto { margin: 20px; color: #08F; font-weight: 600; font-size: 14px }
+		</style>
+		<div class="container">
+			<div class="text">
+				<h1 class="title">404</h1>
+				<p class="subtitle">Whoops, that page is gone.</p>
+				<input class="button" type="button" value="Home">
+				<div class="backto">
+					<span>or return in</span>
+					<span id="second">10</span>
+					<span>seconds.</span>
+				</div>
+				<h4>
+					Contact us:
+					<a href="mailto:bizwen@nykz.org?subject=Feedback&body=Type%20your%20question,%20provide%20error%20or%20feedback%20wrong%20here." style="color:#08F">
+						bizwen@nykz.org
+					</a>
+				</h4>
+			</div>
+		</div>
+		<script>
+			document.body.addEventListener('dragstart', () => {})
+			document.body.querySelector('.button').addEventListener('click', () => {
+				location.replace('/')
+			})
+			const num = document.getElementById('second')
+			let count = 10
+			let id = setInterval(()=>{
+				num.textContent = count
+				if (count === 0) {
+					if (history.length > 1) {
+						history.back()
+					} else {
+						history.replaceState(null, '', '/')
+						history.go(0)
+					}
+					clearInterval(id)
+					return
+				}
+				--count
+			}, 1000)
+		</script>
+	</body>
+</html>

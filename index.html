@@ -1,0 +1,33 @@
+---
+layout: default
+title: Home Page
+---
+
+<article>
+	<ul class="m-0">
+		{% for post in paginator.posts %}
+		<li class="box">
+			<div class="post-text">
+				<a class="has-text-info" href="{{ site.alternateurl }}{{ post.url }}">
+					<h1 class="has-text-weight-medium is-size-4">
+						{{ post.title | escape }}
+					</h1>
+				</a>
+				<div class="is-size-7 is-justify-content-space-between is-flex mb-3">
+					<span>
+						<span class="sw sw-calender mr-1"></span>
+						<time class="date" datetime="{{ post.date | date_to_xmlschema }}">
+							{{ post.date | date: "%B %-d, %Y" }}
+						</time>
+					</span>
+					<span class="mr-4">
+						{% if site.i18n.number_of_words %}{{ site.i18n.number_of_words }}{% else %}Number of words: {% endif %}{{ post.content | number_of_words: "auto" | divided_by: 1.2 | floor }}
+					</span>
+				</div>
+				{{ post.excerpt | strip_newlines | remove: "" | remove: "<p>" | remove: "</p>" }}
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</article>
+{% include pagination.html %}

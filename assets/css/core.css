@@ -1,0 +1,186 @@
+/* define page layouts*/
+body {
+	max-width: 100%;
+	user-select: none;
+	overflow-x: hidden;
+	overscroll-behavior-y: none
+}
+a {
+	color: #3298dc
+}
+img, svg {
+	pointer-events: none
+}
+body, button, input, optgroup, select, textarea {
+	font-family: Segoe UI, Microsoft YaHei UI, SF Pro Text, SF Pro SC, Samsung Sans, Noto Sans, sans-serif
+}
+.main-container {
+	max-width: 1024px
+}
+#logo {
+	width: calc(20% + 200px);
+	height: auto
+}
+
+/* fix pagination styles */
+.is-hidden-tablet.pagination-previous, .is-hidden-tablet.pagination-next {
+	flex-basis: 0;
+	border-radius: 6px;
+	min-width: 8rem
+}
+.pagination-list.is-hidden-mobile>* {
+	border-radius: 6px;
+	max-width: 4.5rem;
+	flex-grow: 1
+}
+
+/* add .box:hover, .card:hover box-shadow for bulma */
+.box:hover, .card:hover {
+	box-shadow: 4px 12px 12px rgba(7, 17, 27, 0.15)
+}
+
+/* add .widget .card's border radius for bulma */
+.widget .card {
+	border-radius: 6px
+}
+
+/* fix list for bulma */
+.content li+li {
+	margin-top: 0
+}
+
+/* navbar */
+#navbar {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 2
+}
+#navbar-menu>span {
+	display: flex;
+	width: 22em
+}
+@media screen and (max-width:1023px) {
+	#navbar-menu>span {
+		width: 100vw;
+		display: block
+	}
+	#navbar-menu>span>a {
+		padding: .5rem 2em
+	}
+	#navbar-menu {
+		border-radius: 0 0 6px 6px;
+		width: inherit;
+		position: absolute
+	}
+}
+
+/* search */
+#search-panel {
+	white-space: nowrap;
+	position: relative
+}
+#search-panel>div {
+	position: absolute
+}
+#search-panel>input:hover, #search-panel>input:focus {
+    width: 14em
+}
+#search-panel>input {
+	border-radius: 6px
+}
+@media screen and (max-width:768px) {
+	#search-panel>div {
+		margin-left: -6.8em;
+		width: 100vw;
+		border-radius: 0;
+		margin-top: .55em
+	}
+}
+
+/* process bar */
+#progress {
+	position: fixed;
+	left: 0px;
+	height: 2px;
+	background: #00D3B2;
+	transition: 100ms
+}
+
+/* site page */
+.site-page ul {
+	margin-left: 1em;
+	list-style: none
+}
+@media screen and (max-width:768px) {
+	.site-page ul {
+		margin-left: .5em
+	}
+}
+
+/* fix firefox scroll bar */
+.aplayer .aplayer-list ol {
+	scrollbar-width: thin
+}
+
+/* segoeui and fontawesome */
+@font-face {
+	font-family: "segoeweb";
+	src: url("/assets/fonts/segoeweb.woff2") format("woff2");
+	unicode-range: U+0009, U+0020, U+003E-002D, U+E000-E00B, U+1F5CE, U+1F313, U+21A9, U+00A9;
+	font-style: normal;
+	font-weight: normal
+}
+.icon-font, .icon-font:visited {
+	color: #545454
+}
+.sw {
+	display: inline-block;
+	font-family: "segoeweb";
+	font-size: .85em;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale
+}
+.sw-document:before {
+	content: "\e001"
+}
+.sw-github:before {
+	content: "\e002"
+}
+.sw-home:before {
+	content: "\e003"
+}
+.sw-rss:before {
+	content: "\e004"
+}
+.sw-weibo:before {
+	content: "\e005"
+}
+.sw-balance:before {
+	content: "\e006"
+}
+.sw-email:before {
+	content: "\e007"
+}
+.sw-tag:before {
+	content: "\e008"
+}
+.sw-tags:before {
+	content: "\e009"
+}
+.sw-search:before {
+	content: "\e00a"
+}
+.sw-twitter:before {
+	content: "\e00b"
+}
+.sw-code:before {
+	content: "\e00c"
+}
+.sw-link:before {
+	content: "\e00d"
+}
+.sw-calender:before {
+	content: "\e00e"
+}

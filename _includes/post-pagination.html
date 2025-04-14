@@ -1,0 +1,17 @@
+<br><hr>
+<nav class="pagination">
+	{% if page.previous.url %}
+	<a class="pagination-previous" href="{{ site.alternateurl }}{{ page.previous.url }}"
+	data-toggle="tooltip" data-placement="top" title="{{ page.previous.title }}">
+		{{ page.previous.title | truncate: 20 }}
+	</a>
+	{% else %}
+	<a class="pagination-previous" href="{{ site.alternateurl }}/">
+		{% if site.i18n.pagination.home %}{{ site.i18n.pagination.home }}{% else %}Home{% endif %}
+	</a>
+	{% endif %}{% if page.next.url %}
+	<a class="pagination-next" href="{{ site.alternateurl }}{{ page.next.url }}" title="{{ page.next.title }}">
+		{{ page.next.title | truncate: 20 }}
+	</a>
+	{% endif %}
+</nav>
